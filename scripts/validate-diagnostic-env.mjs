@@ -31,6 +31,9 @@ for (const variable of ["NEXT_PUBLIC_PRIVACY_POLICY_URL", "NEXT_PUBLIC_SUPABASE_
   const value = process.env[variable]?.trim();
   if (!value) continue;
 
+  // Allow relative paths (e.g. /politica-de-privacidade) for privacy policy URL.
+  if (value.startsWith("/") && variable === "NEXT_PUBLIC_PRIVACY_POLICY_URL") continue;
+
   try {
     const url = new URL(value);
     const local = new Set(["localhost", "127.0.0.1", "::1"]).has(url.hostname);
