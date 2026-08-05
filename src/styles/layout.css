@@ -1,0 +1,200 @@
+.skip-link {
+  position: fixed;
+  z-index: calc(var(--z-dialog) + 1);
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: 0.75rem 1rem;
+  transform: translateY(-200%);
+  background: var(--midnight);
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-header {
+  position: sticky;
+  z-index: var(--z-header);
+  top: 0;
+  min-width: 0;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--white) 94%, transparent);
+  backdrop-filter: blur(0.75rem);
+}
+
+.site-header__inner {
+  display: flex;
+  min-height: var(--header-height);
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.site-header__brand {
+  display: flex;
+  width: 9.6rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  align-items: center;
+  overflow: hidden;
+}
+
+.brand-logo {
+  display: block;
+  width: 9.6rem;
+  height: 5.5rem;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.desktop-navigation {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.8rem, 1.55vw, 1.45rem);
+}
+
+.desktop-navigation a,
+.mobile-navigation a,
+.site-footer a {
+  text-decoration: none;
+}
+
+.desktop-navigation a {
+  position: relative;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: clamp(0.78rem, 0.85vw, 0.88rem);
+  font-weight: 620;
+  white-space: nowrap;
+}
+
+.desktop-navigation a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0.35rem;
+  left: 0;
+  height: 0.125rem;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--cyan);
+  content: "";
+  transition: transform var(--transition);
+}
+
+.desktop-navigation a:hover,
+.desktop-navigation a[data-active="true"] {
+  color: var(--midnight);
+}
+
+.desktop-navigation a[data-active="true"]::after,
+.desktop-navigation a:hover::after {
+  transform: scaleX(1);
+}
+
+.header-cta {
+  flex: 0 0 auto;
+  padding-inline: 1.05rem;
+  font-size: 0.84rem;
+}
+
+.menu-toggle {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 1.1rem;
+  height: 0.0625rem;
+  margin: 0.28rem auto;
+  background: var(--midnight);
+  transition: transform var(--transition);
+}
+
+.menu-toggle[aria-expanded="true"] span:first-child {
+  transform: translateY(0.17rem) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span:last-child {
+  transform: translateY(-0.17rem) rotate(-45deg);
+}
+
+.mobile-navigation {
+  display: none;
+}
+
+.site-footer {
+  padding-top: var(--section-compact);
+  border-top: 1px solid color-mix(in srgb, var(--white) 16%, transparent);
+  background: var(--midnight);
+  color: color-mix(in srgb, var(--white) 72%, transparent);
+}
+
+.site-footer__top {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.2fr) minmax(10rem, 1fr) minmax(15rem, 1fr);
+  gap: var(--space-6);
+  padding-bottom: var(--space-7);
+}
+
+.site-footer__identity a {
+  display: block;
+  width: 9.6rem;
+  height: 2.75rem;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.site-footer__identity p {
+  margin-top: var(--space-3);
+  font-size: var(--small);
+}
+
+.site-footer__navigation {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+}
+
+.site-footer__navigation a {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  font-size: var(--small);
+}
+
+.site-footer__navigation a:hover {
+  color: var(--white);
+}
+
+.site-footer__action {
+  justify-self: end;
+}
+
+.site-footer__action .button--secondary {
+  border-color: color-mix(in srgb, var(--white) 36%, transparent);
+  color: var(--white);
+}
+
+.site-footer__bottom {
+  display: flex;
+  min-height: 4.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--white) 14%, transparent);
+  font-size: var(--caption);
+}

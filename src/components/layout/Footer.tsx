@@ -1,4 +1,5 @@
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { DiagnosticButton } from "@/components/ui/DiagnosticExperience";
 import { primaryNavigation, siteConfig } from "@/config/site";
 
 export function Footer() {
@@ -20,8 +21,11 @@ export function Footer() {
               {item.label}
             </a>
           ))}
-          <a href="#diagnostico">Próximo passo</a>
         </nav>
+
+        <div className="site-footer__action">
+          <DiagnosticButton className="button button--secondary" />
+        </div>
       </div>
 
       <div className="container site-footer__bottom">

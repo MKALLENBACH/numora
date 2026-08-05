@@ -8,9 +8,13 @@ export const siteConfig = {
   title: "NUMORA — Transformação Operacional Inteligente",
   description:
     "A NUMORA transforma processos empresariais por meio de estratégia, Inteligência Artificial, automação e integração, gerando operações mais eficientes e resultados mensuráveis.",
+  ogTitle: "Operações melhores. Resultados mensuráveis.",
+  ogDescription:
+    "Transformação operacional por meio de estratégia, Inteligência Artificial, automação e integração.",
   locale: "pt_BR",
   language: "pt-BR",
   siteUrl: resolvedSiteUrl,
+  basePath: configuredBasePath,
   hasConfiguredSiteUrl: Boolean(configuredSiteUrl),
   logo: `${configuredBasePath}/brand/logo.jpeg`,
   logoUrl: `${assetBaseUrl}/brand/logo.jpeg`,
@@ -23,6 +27,7 @@ export const siteConfig = {
 export const primaryNavigation = [
   { label: "Atuação", href: "#atuacao" },
   { label: "Como trabalhamos", href: "#como-trabalhamos" },
+  { label: "Entregáveis", href: "#entregaveis" },
   { label: "Diferenciais", href: "#diferenciais" },
   { label: "Para quem", href: "#clientes" },
 ] as const;

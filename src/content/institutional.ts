@@ -81,35 +81,43 @@ export const journey = [
 export const capabilities = [
   {
     title: "Diagnóstico operacional",
-    description: "Leitura estruturada da operação, dos objetivos e dos impactos atuais.",
+    description:
+      "Compreensão do processo atual, seus gargalos, riscos, dependências e oportunidades.",
   },
   {
     title: "Mapeamento e redesenho de processos",
-    description: "Clareza sobre fluxos, regras, exceções e oportunidades de evolução.",
+    description:
+      "Documentação, simplificação e reestruturação das atividades que sustentam a operação.",
   },
   {
-    title: "Aplicação estratégica de Inteligência Artificial",
-    description: "IA aplicada quando existe um problema real e um resultado esperado.",
+    title: "Inteligência Artificial aplicada",
+    description:
+      "Uso de IA quando ela contribui para análise, decisão, produtividade ou escala.",
   },
   {
     title: "Automação de tarefas repetitivas",
-    description: "Redução de esforço manual em atividades previsíveis e recorrentes.",
+    description:
+      "Redução de atividades manuais e operacionais que consomem tempo sem gerar valor proporcional.",
   },
   {
     title: "Integração entre sistemas",
-    description: "Informações conectadas para reduzir rupturas e movimentações manuais.",
+    description:
+      "Conexão entre ferramentas e fontes de dados para reduzir retrabalho e fragmentação.",
   },
   {
-    title: "Estruturação de indicadores operacionais",
-    description: "Visibilidade para acompanhar desempenho e sustentar decisões.",
+    title: "Indicadores operacionais",
+    description:
+      "Estruturação de métricas que permitem acompanhar desempenho, capacidade, qualidade e evolução.",
   },
   {
-    title: "Implementação de agentes inteligentes",
-    description: "Capacidades inteligentes incorporadas ao contexto real da operação.",
+    title: "Agentes inteligentes",
+    description:
+      "Aplicação controlada de agentes em tarefas específicas, com regras, limites e supervisão.",
   },
   {
-    title: "Acompanhamento da evolução da operação",
-    description: "Governança, aprendizado e melhoria contínua após a implementação.",
+    title: "Evolução contínua",
+    description:
+      "Acompanhamento da operação para identificar novas oportunidades e sustentar resultados.",
   },
 ] as const;
 
@@ -138,14 +146,78 @@ export const approach = [
   {
     number: "05",
     title: "Priorizar",
-    description:
-      "Organizamos as iniciativas de acordo com valor, viabilidade e urgência.",
+    description: "Organizamos as iniciativas de acordo com valor, viabilidade e urgência.",
   },
   {
     number: "06",
     title: "Implementar",
     description: "Aplicamos a estratégia, o processo e a tecnologia mais adequados.",
   },
+] as const;
+
+export const deliverables = [
+  {
+    number: "01",
+    title: "Diagnóstico do processo atual",
+    description:
+      "Visão estruturada de como a operação funciona hoje, seus participantes, sistemas, dependências e pontos críticos.",
+  },
+  {
+    number: "02",
+    title: "Mapa de gargalos e riscos",
+    description:
+      "Identificação dos pontos que geram atraso, retrabalho, custo, erro ou limitação de crescimento.",
+  },
+  {
+    number: "03",
+    title: "Priorização de oportunidades",
+    description:
+      "Organização das iniciativas de acordo com impacto, urgência, viabilidade e potencial de retorno.",
+  },
+  {
+    number: "04",
+    title: "Estimativa de impacto",
+    description: "Análise do esforço atual, do impacto operacional e dos ganhos potenciais.",
+  },
+  {
+    number: "05",
+    title: "Processo redesenhado",
+    description:
+      "Definição de uma forma mais simples, clara, integrada e escalável de executar a operação.",
+  },
+  {
+    number: "06",
+    title: "Plano de implementação",
+    description:
+      "Sequência de ações, responsabilidades, dependências e critérios para colocar a transformação em prática.",
+  },
+  {
+    number: "07",
+    title: "Soluções aplicadas",
+    description:
+      "Automação, integração, Inteligência Artificial ou melhoria de processo, quando fizerem sentido.",
+  },
+  {
+    number: "08",
+    title: "Indicadores e governança",
+    description:
+      "Definição de métricas, acompanhamento e mecanismos para sustentar a evolução.",
+  },
+] as const;
+
+export const advanceCriteria = [
+  "Existe um problema operacional claro",
+  "O impacto pode ser observado ou medido",
+  "Há pessoas responsáveis pelo processo",
+  "A empresa está aberta a revisar a forma de operar",
+  "A tecnologia contribui para um resultado real",
+] as const;
+
+export const deferCriteria = [
+  "O problema ainda não está compreendido",
+  "A solução foi escolhida antes do diagnóstico",
+  "O processo atual seria apenas automatizado sem revisão",
+  "O investimento não possui impacto esperado definido",
 ] as const;
 
 export const differentials = [
@@ -169,6 +241,11 @@ export const differentials = [
     description:
       "Trabalhamos ao lado das equipes responsáveis para transformar diagnóstico em mudança operacional concreta.",
   },
+  {
+    title: "Evolução contínua",
+    description:
+      "A transformação não termina na implementação. Resultados precisam ser acompanhados, medidos e aprimorados.",
+  },
 ] as const;
 
 export const clientProfiles = [
@@ -188,4 +265,35 @@ export const prioritySectors = [
   "Serviços B2B",
   "Tecnologia",
   "Varejo",
+] as const;
+
+export const decisionMakers = [
+  "CEO",
+  "COO",
+  "CIO",
+  "CTO",
+  "Diretoria de Operações",
+  "Diretoria Financeira",
+  "Diretoria de Transformação",
+  "Lideranças responsáveis por processos críticos",
+] as const;
+
+export const diagnosticSteps = [
+  {
+    number: "01",
+    title: "Você descreve o desafio",
+    description: "Apresente o processo, o problema e os impactos percebidos.",
+  },
+  {
+    number: "02",
+    title: "Organizamos as informações",
+    description:
+      "O diagnóstico estrutura o contexto e identifica os pontos que precisam ser aprofundados.",
+  },
+  {
+    number: "03",
+    title: "Nossa equipe chega preparada",
+    description:
+      "A conversa começa com mais clareza sobre o problema, o processo e os próximos passos.",
+  },
 ] as const;

@@ -32,11 +32,6 @@ export function DiagnosticProvider({ children }: { children: ReactNode }) {
   const openerRef = useRef<HTMLElement | null>(null);
 
   const openDiagnostic = (opener?: HTMLElement | null) => {
-    if (diagnosticConfig.enabled) {
-      window.location.assign(diagnosticConfig.href);
-      return;
-    }
-
     const dialog = dialogRef.current;
     if (!dialog) return;
 
@@ -84,11 +79,8 @@ export function DiagnosticProvider({ children }: { children: ReactNode }) {
           onClose={restoreFocus}
         >
           <div className="diagnostic-dialog__inner">
-            <span className="eyebrow">Próxima experiência</span>
             <h2 id="diagnostic-dialog-title">{diagnosticConfig.dialog.title}</h2>
-            <p id="diagnostic-dialog-description">
-              {diagnosticConfig.dialog.description}
-            </p>
+            <p id="diagnostic-dialog-description">{diagnosticConfig.dialog.description}</p>
             <button className="button button--primary" type="button" onClick={closeDialog}>
               {diagnosticConfig.dialog.closeLabel}
             </button>
@@ -102,17 +94,23 @@ export function DiagnosticProvider({ children }: { children: ReactNode }) {
 type DiagnosticButtonProps = {
   className?: string;
   children?: ReactNode;
+  onActivate?: () => void;
+  getReturnFocus?: () => HTMLElement | null;
+  tabIndex?: number;
 };
 
 export function DiagnosticButton({
   className = "button button--primary",
   children = diagnosticConfig.label,
+  onActivate,
+  getReturnFocus,
+  tabIndex,
 }: DiagnosticButtonProps) {
   const { openDiagnostic } = useDiagnostic();
 
   if (diagnosticConfig.enabled) {
     return (
-      <a className={className} href={diagnosticConfig.href}>
+      <a className={className} href={diagnosticConfig.href} onClick={onActivate} tabIndex={tabIndex}>
         {children}
       </a>
     );
@@ -122,7 +120,12 @@ export function DiagnosticButton({
     <button
       className={className}
       type="button"
-      onClick={(event) => openDiagnostic(event.currentTarget)}
+      tabIndex={tabIndex}
+      onClick={(event) => {
+        const returnFocus = getReturnFocus?.() ?? event.currentTarget;
+        onActivate?.();
+        openDiagnostic(returnFocus);
+      }}
     >
       {children}
     </button>

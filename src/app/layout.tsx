@@ -21,22 +21,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     siteName: siteConfig.name,
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: siteConfig.ogTitle,
+    description: siteConfig.ogDescription,
     url: siteConfig.hasConfiguredSiteUrl ? siteConfig.siteUrl : undefined,
     images: [
       {
         url: siteConfig.socialImageUrl,
-        width: 1731,
-        height: 909,
+        width: 1200,
+        height: 630,
         alt: "NUMORA — Operações melhores. Resultados mensuráveis.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: siteConfig.ogTitle,
+    description: siteConfig.ogDescription,
     images: [siteConfig.socialImageUrl],
   },
   robots: {

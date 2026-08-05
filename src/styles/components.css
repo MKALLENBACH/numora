@@ -1,0 +1,101 @@
+.button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--small);
+  font-weight: 720;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition),
+    color var(--transition), transform var(--transition);
+}
+
+.button:hover {
+  transform: translateY(-0.0625rem);
+}
+
+.button--primary {
+  background: var(--midnight);
+  color: var(--white);
+}
+
+.button--primary:hover {
+  background: color-mix(in srgb, var(--midnight) 88%, var(--white));
+}
+
+.button--secondary {
+  border-color: color-mix(in srgb, var(--midnight) 20%, transparent);
+  background: transparent;
+  color: var(--midnight);
+}
+
+.button--secondary:hover {
+  border-color: var(--midnight);
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--space-4);
+  align-items: start;
+  margin-bottom: clamp(3rem, 5vw, 4.75rem);
+}
+
+.section-header .eyebrow {
+  grid-column: 1 / 4;
+  padding-top: 0.55rem;
+}
+
+.section-header h2 {
+  grid-column: 4 / -1;
+  max-width: 17ch;
+}
+
+.section-header__description {
+  grid-column: 7 / -1;
+  max-width: 42rem;
+  margin-top: var(--space-5);
+  color: var(--text-secondary);
+  font-size: var(--lead);
+  line-height: 1.55;
+}
+
+.diagnostic-dialog {
+  width: min(calc(100% - 2rem), 39rem);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--text);
+}
+
+.diagnostic-dialog::backdrop {
+  background: color-mix(in srgb, var(--midnight) 64%, transparent);
+}
+
+.diagnostic-dialog__inner {
+  display: grid;
+  gap: var(--space-4);
+  padding: clamp(1.75rem, 5vw, 3.25rem);
+}
+
+.diagnostic-dialog h2 {
+  max-width: 11ch;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.diagnostic-dialog p {
+  max-width: 34rem;
+  color: var(--text-secondary);
+}
+
+.diagnostic-dialog .button {
+  justify-self: start;
+  margin-top: var(--space-2);
+}

@@ -1,0 +1,39 @@
+:root {
+  --midnight: #0b1f33;
+  --cyan: #3dd9eb;
+  --white: #ffffff;
+  --neutral: #f7f9fb;
+  --border: #e8edf2;
+  --text: #1a1a1a;
+  --text-secondary: #5b6570;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --h1: clamp(3.7rem, 6.15vw, 5.35rem);
+  --h2: clamp(2.15rem, 4.1vw, 3.85rem);
+  --h3: clamp(1.05rem, 1.35vw, 1.28rem);
+  --lead: clamp(1.12rem, 1.65vw, 1.38rem);
+  --body: clamp(0.98rem, 1.02vw, 1.06rem);
+  --small: 0.9rem;
+  --eyebrow: 0.71rem;
+  --caption: 0.78rem;
+  --space-1: 0.375rem;
+  --space-2: 0.625rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.25rem;
+  --space-8: 5.75rem;
+  --container: 78rem;
+  --reading: 47rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-compact: clamp(3.5rem, 6vw, 5rem);
+  --section-default: clamp(5rem, 8vw, 7rem);
+  --section-highlight: clamp(6rem, 10vw, 8.5rem);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --transition: 180ms ease;
+  --header-height: 4.5rem;
+  --z-header: 50;
+  --z-dialog: 100;
+}

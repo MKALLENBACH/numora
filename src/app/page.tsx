@@ -6,12 +6,18 @@ import {
   DiagnosticProvider,
 } from "@/components/ui/DiagnosticExperience";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { diagnosticConfig } from "@/config/diagnostic";
 import { siteConfig } from "@/config/site";
 import {
+  advanceCriteria,
   approach,
   capabilities,
   challenges,
   clientProfiles,
+  decisionMakers,
+  deferCriteria,
+  deliverables,
+  diagnosticSteps,
   differentials,
   journey,
   prioritySectors,
@@ -49,7 +55,7 @@ export default function Home() {
       <Header />
 
       <main id="conteudo-principal">
-        <section className="hero section" id="inicio" aria-labelledby="hero-title">
+        <section className="hero section section--highlight" id="inicio" aria-labelledby="hero-title">
           <div className="container hero__grid">
             <div className="hero__content">
               <p className="eyebrow">Consultoria de Transformação Operacional</p>
@@ -68,6 +74,11 @@ export default function Home() {
                   Conheça nossa abordagem
                 </a>
               </div>
+              <p className="hero__microcopy">
+                {diagnosticConfig.enabled
+                  ? diagnosticConfig.microcopy.enabled
+                  : diagnosticConfig.microcopy.disabled}
+              </p>
               <p className="hero__statement">
                 Não vendemos software. Entregamos transformação operacional.
               </p>
@@ -77,11 +88,11 @@ export default function Home() {
         </section>
 
         <section
-          className="section positioning"
+          className="section section--default positioning"
           id="posicionamento"
           aria-labelledby="positioning-title"
         >
-          <div className="container">
+          <div className="container positioning__grid">
             <SectionHeader
               eyebrow="Transformação antes da tecnologia"
               id="positioning-title"
@@ -93,15 +104,25 @@ export default function Home() {
               }
               description="A NUMORA estuda a operação, identifica gargalos e redesenha processos antes de definir qualquer solução tecnológica. Inteligência Artificial e automação são aplicadas somente quando contribuem para um resultado real, mensurável e sustentável."
             />
-            <div className="positioning__statement" aria-label="Declaração de posicionamento">
-              <p>Não vendemos software.</p>
-              <p>Não vendemos Inteligência Artificial.</p>
-              <p>Entregamos transformação operacional baseada em resultados.</p>
+            <div>
+              <div className="positioning__statement" aria-label="Declaração de posicionamento">
+                <p>Não vendemos software.</p>
+                <p>Não vendemos Inteligência Artificial.</p>
+                <p>Entregamos transformação operacional baseada em resultados.</p>
+              </div>
+              <p className="positioning__complement">
+                A solução só faz sentido quando melhora o processo, reduz desperdícios,
+                aumenta a capacidade operacional ou melhora a tomada de decisão.
+              </p>
             </div>
           </div>
         </section>
 
-        <section className="section section--neutral" id="desafios" aria-labelledby="challenges-title">
+        <section
+          className="section section--default section--neutral"
+          id="desafios"
+          aria-labelledby="challenges-title"
+        >
           <div className="container">
             <SectionHeader
               eyebrow="Desafios operacionais"
@@ -123,12 +144,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section journey" id="jornada" aria-labelledby="journey-title">
+        <section className="section section--default journey" id="jornada" aria-labelledby="journey-title">
           <div className="container">
             <SectionHeader
               eyebrow="Da descoberta à evolução"
               id="journey-title"
               title="Uma jornada contínua de transformação."
+              description="A NUMORA atua desde a compreensão do problema até a evolução contínua da operação."
             />
             <div className="journey__steps">
               {journey.map((step, index) => (
@@ -150,7 +172,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--neutral" id="atuacao" aria-labelledby="capabilities-title">
+        <section
+          className="section section--default section--neutral"
+          id="atuacao"
+          aria-labelledby="capabilities-title"
+        >
           <div className="container">
             <SectionHeader
               eyebrow="Capacidades"
@@ -171,7 +197,7 @@ export default function Home() {
         </section>
 
         <section
-          className="section approach"
+          className="section section--default approach"
           id="como-trabalhamos"
           aria-labelledby="approach-title"
         >
@@ -185,6 +211,7 @@ export default function Home() {
                   <span>Nós começamos pelo negócio.</span>
                 </>
               }
+              description="Antes de propor uma solução, precisamos compreender como a empresa opera, quais são os impactos e onde está o maior potencial de transformação."
             />
             <ol className="approach__sequence">
               {approach.map((step) => (
@@ -203,7 +230,73 @@ export default function Home() {
         </section>
 
         <section
-          className="section section--neutral"
+          className="section section--default section--neutral deliverables"
+          id="entregaveis"
+          aria-labelledby="deliverables-title"
+        >
+          <div className="container">
+            <SectionHeader
+              eyebrow="Entregáveis"
+              id="deliverables-title"
+              title="O que uma transformação bem estruturada entrega."
+              description="O objetivo não é apenas implementar tecnologia. É criar clareza, melhorar o processo e estabelecer uma base sustentável para a evolução da operação."
+            />
+            <div className="deliverable-list">
+              {deliverables.map((deliverable) => (
+                <article className="deliverable-item" key={deliverable.number}>
+                  <span>{deliverable.number}</span>
+                  <div>
+                    <h3>{deliverable.title}</h3>
+                    <p>{deliverable.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <p className="deliverables__note">
+              A composição de cada projeto depende do contexto, da prioridade e da viabilidade
+              da operação.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="section section--default criteria"
+          id="criterios"
+          aria-labelledby="criteria-title"
+        >
+          <div className="container">
+            <SectionHeader
+              eyebrow="Critérios de decisão"
+              id="criteria-title"
+              title="Nem toda iniciativa deve começar pela implementação."
+              description="O diagnóstico existe para evitar investimento em soluções antes que o problema, o impacto e a viabilidade estejam claros."
+            />
+            <div className="criteria__grid">
+              <article>
+                <h3>Quando uma iniciativa deve avançar</h3>
+                <ul>
+                  {advanceCriteria.map((criterion) => (
+                    <li key={criterion}>{criterion}</li>
+                  ))}
+                </ul>
+              </article>
+              <article>
+                <h3>Quando não recomendamos implementar</h3>
+                <ul>
+                  {deferCriteria.map((criterion) => (
+                    <li key={criterion}>{criterion}</li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+            <p className="criteria__closing">
+              Em alguns casos, a melhor decisão é aprofundar o diagnóstico antes de implementar.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="section section--default section--neutral"
           id="diferenciais"
           aria-labelledby="differentials-title"
         >
@@ -230,7 +323,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section clients" id="clientes" aria-labelledby="clients-title">
+        <section className="section section--default clients" id="clientes" aria-labelledby="clients-title">
           <div className="container">
             <SectionHeader
               eyebrow="Para quem atuamos"
@@ -240,6 +333,7 @@ export default function Home() {
             />
             <div className="clients__grid">
               <article>
+                <p className="clients__index">01</p>
                 <h3>Perfil de operação</h3>
                 <ul className="editorial-list">
                   {clientProfiles.map((profile) => (
@@ -248,6 +342,7 @@ export default function Home() {
                 </ul>
               </article>
               <article>
+                <p className="clients__index">02</p>
                 <h3>Setores prioritários</h3>
                 <ul className="sector-list">
                   {prioritySectors.map((sector) => (
@@ -255,13 +350,26 @@ export default function Home() {
                   ))}
                 </ul>
               </article>
+              <article>
+                <p className="clients__index">03</p>
+                <h3>Decisores frequentes</h3>
+                <ul className="editorial-list">
+                  {decisionMakers.map((decisionMaker) => (
+                    <li key={decisionMaker}>{decisionMaker}</li>
+                  ))}
+                </ul>
+              </article>
             </div>
           </div>
         </section>
 
-        <section className="section manifesto" id="manifesto" aria-labelledby="manifesto-title">
+        <section
+          className="section section--highlight manifesto"
+          id="manifesto"
+          aria-labelledby="manifesto-title"
+        >
           <div className="container manifesto__grid">
-            <p className="eyebrow">Princípios permanecem</p>
+            <p className="eyebrow">Nossa filosofia</p>
             <div className="manifesto__content">
               <h2 id="manifesto-title">
                 Empresas não precisam de mais tecnologia.
@@ -282,24 +390,38 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section diagnostic" id="diagnostico" aria-labelledby="diagnostic-title">
+        <section
+          className="section section--default diagnostic"
+          id="diagnostico"
+          aria-labelledby="diagnostic-title"
+        >
           <div className="container diagnostic__grid">
             <SectionHeader
               eyebrow="Próximo passo"
               id="diagnostic-title"
               title="Qual processo está limitando a sua operação?"
-              description="O diagnóstico inicial da NUMORA ajudará a organizar o contexto, identificar impactos e preparar uma conversa mais produtiva com nossos especialistas."
+              description="O diagnóstico inicial da NUMORA ajuda a organizar o contexto, identificar impactos e preparar uma conversa mais produtiva com nossos especialistas."
             />
             <div className="diagnostic__actions">
               <DiagnosticButton />
               <details className="diagnostic-details">
                 <summary>Entenda como funciona</summary>
                 <ol>
-                  <li>Você descreve o desafio;</li>
-                  <li>Organizamos as informações;</li>
-                  <li>Nossa equipe chega preparada para a conversa.</li>
+                  {diagnosticSteps.map((step) => (
+                    <li key={step.number}>
+                      <span>{step.number}</span>
+                      <div>
+                        <h3>{step.title}</h3>
+                        <p>{step.description}</p>
+                      </div>
+                    </li>
+                  ))}
                 </ol>
               </details>
+              <p className="diagnostic__reassurance">
+                Você descreve o contexto. A NUMORA organiza as informações. Nenhuma solução é
+                presumida antes da análise.
+              </p>
             </div>
           </div>
         </section>
