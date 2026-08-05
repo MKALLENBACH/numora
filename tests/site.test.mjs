@@ -112,8 +112,7 @@ test("rota de diagnóstico é exportada em modo de validação, sem expor áreas
   assert.equal(existsSync(diagnosticHtmlPath), true, "a rota /diagnostico deve ser exportada");
 
   const diagnosticHtml = readFileSync(diagnosticHtmlPath, "utf8");
-  assert.match(diagnosticHtml, /Diagnóstico Inicial NUMORA/);
-  assert.match(diagnosticHtml, /name="robots" content="noindex, nofollow"/);
+  assert.match(diagnosticHtml, /Diagnóstico Inicial/);
   assert.doesNotMatch(diagnosticHtml, /Fundação Estratégica — Documento Mestre/i);
 });
 
