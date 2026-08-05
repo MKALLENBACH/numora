@@ -257,7 +257,8 @@ async function handleConsent(ctx: RequestContext, body: ConsentInput) {
 async function handleIdentification(ctx: RequestContext, body: IdentificationInput) {
   const attempt = await prepareIdempotency(ctx, body.diagnosticId, "identification", "IDENTIFICATION", body.clientRequestId, body);
   if (attempt.replayedState) return attempt.replayedState;
-  const safety = await redactValue({ company: body.company, lead: body.lead }, "identification");
+  const { phone, phoneE164, ...leadRest } = body.lead;
+  const safety = await redactValue({ company: body.company, lead: leadRest }, "identification");
   if (safety.redactions.length) throw new AppError("VALIDATION_ERROR", 422);
   const emailType = classifyEmail(body.lead.email);
   if (emailType === "TEMPORARY") throw new AppError("VALIDATION_ERROR", 422, { email: "Para continuar, precisamos de um endereço de e-mail permanente." });
