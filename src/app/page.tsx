@@ -27,7 +27,7 @@ export default function Home() {
             "@id": `${siteConfig.siteUrl}/#organization`,
             name: siteConfig.name,
             url: siteConfig.siteUrl,
-            logo: `${siteConfig.siteUrl}${siteConfig.logo}`,
+            logo: siteConfig.logoUrl,
           },
           {
             "@type": "WebSite",

@@ -1,4 +1,7 @@
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim().replace(/\/$/, "") || "";
+const resolvedSiteUrl = configuredSiteUrl || "http://localhost:3000";
+const assetBaseUrl = `${new URL(resolvedSiteUrl).origin}${configuredBasePath}`;
 
 export const siteConfig = {
   name: "NUMORA",
@@ -7,10 +10,13 @@ export const siteConfig = {
     "A NUMORA transforma processos empresariais por meio de estratégia, Inteligência Artificial, automação e integração, gerando operações mais eficientes e resultados mensuráveis.",
   locale: "pt_BR",
   language: "pt-BR",
-  siteUrl: configuredSiteUrl || "http://localhost:3000",
+  siteUrl: resolvedSiteUrl,
   hasConfiguredSiteUrl: Boolean(configuredSiteUrl),
-  logo: "/brand/logo.jpeg",
-  favicon: "/brand/favicon.jpeg",
+  logo: `${configuredBasePath}/brand/logo.jpeg`,
+  logoUrl: `${assetBaseUrl}/brand/logo.jpeg`,
+  favicon: `${configuredBasePath}/brand/favicon.jpeg`,
+  socialImage: `${configuredBasePath}/og.png`,
+  socialImageUrl: `${assetBaseUrl}/og.png`,
   legalLinks: [] as ReadonlyArray<{ label: string; href: string }>,
 } as const;
 

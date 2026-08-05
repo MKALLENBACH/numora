@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     url: siteConfig.hasConfiguredSiteUrl ? siteConfig.siteUrl : undefined,
     images: [
       {
-        url: "/og.png",
+        url: siteConfig.socialImageUrl,
         width: 1731,
         height: 909,
         alt: "NUMORA — Operações melhores. Resultados mensuráveis.",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
-    images: ["/og.png"],
+    images: [siteConfig.socialImageUrl],
   },
   robots: {
     index: true,
