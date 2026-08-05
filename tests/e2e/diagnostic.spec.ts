@@ -356,21 +356,16 @@ function sessionNotFound(): EdgeResult {
 }
 
 async function expectNoHorizontalOverflow(page: Page) {
-  await expect
-    .poll(() =>
-      page.evaluate(() => ({
-        viewportWidth: window.innerWidth,
-        documentWidth: document.documentElement.scrollWidth,
-        bodyWidth: document.body.scrollWidth,
-      })),
-    )
-    .toEqual(
-      expect.objectContaining({
-        viewportWidth: await page.evaluate(() => window.innerWidth),
-        documentWidth: await page.evaluate(() => window.innerWidth),
-        bodyWidth: await page.evaluate(() => window.innerWidth),
-      }),
-    );
+  await expect(async () => {
+    const dimensions = await page.evaluate(() => ({
+      viewportWidth: window.innerWidth,
+      documentWidth: document.documentElement.scrollWidth,
+      bodyWidth: document.body.scrollWidth,
+    }));
+    
+    expect(dimensions.documentWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+    expect(dimensions.bodyWidth).toBeLessThanOrEqual(dimensions.viewportWidth);
+  }).toPass();
 }
 
 test.describe("Diagnóstico inicial NUMORA", () => {
@@ -700,4 +695,77 @@ test.describe("Diagnóstico inicial NUMORA", () => {
       }
     });
   }
+
+  test("deve garantir que mensagens de erro de validação tenham associação com aria-describedby (CT-121)", async ({ page }) => {
+    const calls = await mockSupabase(page, async (functionName, body) => {
+      if (functionName === "diagnostic-state") return sessionNotFound();
+      if (functionName === "diagnostic-start") return { data: publicState("PRIVACY_CONSENT") };
+      if (functionName === "diagnostic-consent") {
+        return body.type === "PRIVACY"
+          ? { data: publicState("COMMERCIAL_CONSENT") }
+          : { data: publicState("IDENTIFICATION") };
+      }
+      if (functionName === "diagnostic-identification") {
+        return { data: publicState("IDENTIFICATION") };
+      }
+      throw new Error(`Unexpected Edge Function: ${functionName}`);
+    });
+
+    await page.goto("diagnostico/");
+    await page.getByRole("button", { name: "Começar diagnóstico" }).click();
+    await page.getByRole("checkbox", { name: /Li e concordo/ }).check();
+    await page.getByRole("button", { name: "Continuar" }).click();
+    
+    // Na consentimento comercial, recusa pra avançar pra identificação
+    await page.getByRole("radio", { name: "Não autorizo" }).check();
+    await page.getByRole("button", { name: "Continuar" }).click();
+
+    await expect(page.getByRole("heading", { name: "Conte-nos um pouco sobre você e sua empresa" })).toBeVisible();
+
+    await page.getByRole("button", { name: "Continuar" }).click();
+
+    const nameInput = page.getByLabel("Nome");
+    await expect(nameInput).toBeFocused();
+
+    await expect(nameInput).toHaveAttribute("aria-invalid", "true");
+    const describedBy = await nameInput.getAttribute("aria-describedby");
+    expect(describedBy).toBeTruthy();
+
+    if (describedBy) {
+      const errorElement = page.locator(`id=${describedBy}`);
+      await expect(errorElement).toBeVisible();
+      await expect(errorElement).toHaveText("Precisamos desta informação para continuar.");
+    }
+  });
+
+  test("deve manter dados preenchidos caso a rede caia ao avançar etapa (CT-116)", async ({ page, context }) => {
+    await mockSupabase(page, async (functionName) => {
+      if (functionName === "diagnostic-state") return sessionNotFound();
+      if (functionName === "diagnostic-start") return { data: publicState("PRIVACY_CONSENT") };
+      if (functionName === "diagnostic-consent") return { data: publicState("IDENTIFICATION") };
+      throw new Error(`Unexpected Edge Function: ${functionName}`);
+    });
+
+    await page.goto("diagnostico/");
+    await page.getByRole("button", { name: "Começar diagnóstico" }).click();
+    await page.getByRole("checkbox", { name: /Li e concordo/ }).check();
+    await page.getByRole("button", { name: "Continuar" }).click();
+
+    await expect(page.getByRole("heading", { name: "Conte-nos um pouco sobre você e sua empresa" })).toBeVisible();
+
+    await page.getByLabel("Nome").fill("Usuário de Teste Offline");
+    await page.getByLabel("Cargo ou função").fill("CTO");
+    await page.getByLabel("Empresa", { exact: true }).fill("Tech Offline LTDA");
+
+    await context.setOffline(true);
+
+    // Timeout of 5 seconds to not block the whole test since it's offline and it might hang in real world, but play should just fail to fetch.
+    await page.getByRole("button", { name: "Continuar" }).click();
+
+    await expect(page.getByRole("heading", { name: "Conte-nos um pouco sobre você e sua empresa" })).toBeVisible();
+    await expect(page.getByLabel("Nome")).toHaveValue("Usuário de Teste Offline");
+    await expect(page.getByLabel("Cargo ou função")).toHaveValue("CTO");
+    
+    await context.setOffline(false);
+  });
 });
