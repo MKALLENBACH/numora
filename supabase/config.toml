@@ -1,0 +1,77 @@
+project_id = "numora-diagnostic"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[db.pooler]
+enabled = false
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+[inbucket]
+enabled = false
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000", "http://localhost:3000"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = true
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = false
+enable_confirmations = false
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+inspector_port = 8083
+
+[functions.diagnostic-start]
+verify_jwt = true
+
+[functions.diagnostic-consent]
+verify_jwt = true
+
+[functions.diagnostic-identification]
+verify_jwt = true
+
+[functions.diagnostic-state]
+verify_jwt = true
+
+[functions.diagnostic-submit-answer]
+verify_jwt = true
+
+[functions.diagnostic-next-action]
+verify_jwt = true
+
+[functions.diagnostic-generate-review]
+verify_jwt = true
+
+[functions.diagnostic-update-review]
+verify_jwt = true
+
+[functions.diagnostic-confirm-review]
+verify_jwt = true
+
+[functions.diagnostic-complete]
+verify_jwt = true
+
+[functions.diagnostic-abandon]
+verify_jwt = true

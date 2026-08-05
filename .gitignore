@@ -8,6 +8,14 @@
 # production
 /build
 
+# tests
+/playwright-report/
+/test-results/
+
+# supabase local state
+/supabase/.branches/
+/supabase/.temp/
+
 # local environment
 .env*
 !.env.example

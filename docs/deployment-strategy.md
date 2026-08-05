@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-O site institucional é exportado como HTML estático pelo Next.js e publicado no GitHub Pages. Essa arquitetura é adequada para a experiência pública atual: conteúdo institucional, navegação interna, metadados, imagens e o modal que comunica que o diagnóstico digital ainda está em preparação.
+O site institucional é exportado como HTML estático pelo Next.js e publicado no GitHub Pages. A arquitetura aprovada para o diagnóstico mantém esse frontend estático e adiciona Supabase Auth anônimo, Edge Functions e PostgreSQL como backend externo.
 
 O GitHub Pages serve somente arquivos estáticos. Ele não executa código de servidor, não mantém sessões, não protege segredos de API e não oferece banco de dados ou funções backend. Uma rota de entrevista com IA, autenticação ou persistência não deve colocar chaves e regras privadas no navegador.
 
@@ -40,8 +40,8 @@ Pontos de atenção:
 - O frontend continua público e nunca pode conter segredos;
 - Falhas ou mudanças no backend precisam ser tratadas sem quebrar o site estático.
 
-## Recomendação
+## Decisão aprovada para o MVP
 
-Para a futura entrevista guiada por IA, a recomendação é a Opção A: runtime de servidor integrado. Ela reduz a complexidade operacional e oferece uma fronteira mais clara para segredos, sessões, streaming e regras privadas. A Opção B continua viável se houver um motivo organizacional forte para manter o GitHub Pages.
+A Opção B foi escolhida para o MVP: GitHub Pages com backend Supabase. O Next.js continua sem Route Handlers ou Server Actions dinâmicos. JWT, regras de negócio, score, flags, briefing, service role e IA permanecem nas Edge Functions e no banco.
 
-Nenhuma migração deve ocorrer agora. O GitHub Pages permanece como publicação oficial até a aprovação da arquitetura da entrevista, dos requisitos de dados e do provedor de runtime.
+O CTA institucional só pode ser ativado depois que política de privacidade, Auth anônimo, migrations, RLS, Edge Functions, CORS e testes críticos forem validados no ambiente publicado. O procedimento completo está em `docs/diagnostic-deployment.md`.

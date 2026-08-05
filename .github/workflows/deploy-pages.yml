@@ -42,11 +42,26 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Typecheck Edge Functions
+        run: npm run typecheck:edge
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Verify generated diagnostic runtime
+        run: npm run diagnostic:check-generated
+
       - name: Build static site
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+          NEXT_PUBLIC_PRIVACY_POLICY_URL: ${{ vars.NEXT_PUBLIC_PRIVACY_POLICY_URL }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Static export tests
+        run: npm run test:site
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4

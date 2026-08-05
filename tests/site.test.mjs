@@ -103,10 +103,18 @@ test("logos e ícones da marca são exportados nos formatos corretos", () => {
   assert.match(html, /brand\/apple-touch-icon\.png/);
 });
 
-test("diagnóstico desativado não gera rota pública", () => {
-  for (const route of ["adm", "diagnostico", "private"]) {
+test("rota de diagnóstico é exportada em modo de validação, sem expor áreas privadas", () => {
+  for (const route of ["adm", "private"]) {
     assert.equal(existsSync(join(root, "out", route)), false, `rota /${route} não deveria existir`);
   }
+
+  const diagnosticHtmlPath = join(root, "out", "diagnostico", "index.html");
+  assert.equal(existsSync(diagnosticHtmlPath), true, "a rota /diagnostico deve ser exportada");
+
+  const diagnosticHtml = readFileSync(diagnosticHtmlPath, "utf8");
+  assert.match(diagnosticHtml, /Diagnóstico Inicial NUMORA/);
+  assert.match(diagnosticHtml, /name="robots" content="noindex, nofollow"/);
+  assert.doesNotMatch(diagnosticHtml, /Fundação Estratégica — Documento Mestre/i);
 });
 
 test("documento privado não foi alterado nem exportado", () => {
