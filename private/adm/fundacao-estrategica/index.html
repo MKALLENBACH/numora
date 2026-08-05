@@ -1,0 +1,1875 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Documento institucional interno com os princípios, o posicionamento e as diretrizes estratégicas da NUMORA.">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/jpeg" href="favicon.jpeg?v=20260805-2">
+  <link rel="shortcut icon" type="image/jpeg" href="favicon.jpeg?v=20260805-2">
+  <link rel="apple-touch-icon" href="favicon.jpeg?v=20260805-2">
+  <title>NUMORA — Fundação Estratégica v1.0</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    /* 1. Tokens */
+    :root {
+      --color-midnight: #0B1F33;
+      --color-cyan: #3DD9EB;
+      --color-white: #FFFFFF;
+      --color-neutral: #F7F9FB;
+      --color-border: #E8EDF2;
+      --color-text: #1A1A1A;
+      --color-text-secondary: #5B6570;
+
+      --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --text-display: clamp(3.35rem, 7vw, 6.75rem);
+      --text-h1: clamp(2.55rem, 5vw, 5rem);
+      --text-h2: clamp(2rem, 3.6vw, 3.7rem);
+      --text-h3: clamp(1.05rem, 1.6vw, 1.3rem);
+      --text-lead: clamp(1.2rem, 1.8vw, 1.55rem);
+      --text-body: clamp(1rem, 1vw, 1.075rem);
+      --text-small: 0.875rem;
+      --text-eyebrow: 0.72rem;
+      --text-caption: 0.78rem;
+
+      --space-1: 0.375rem;
+      --space-2: 0.625rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2rem;
+      --space-6: 3rem;
+      --space-7: 4.5rem;
+      --space-8: 6rem;
+      --space-9: 8rem;
+      --space-10: 11rem;
+
+      --page-gutter: clamp(1.25rem, 4vw, 3rem);
+      --page-width: 75rem;
+      --reading-width: 50rem;
+      --radius-small: 0.25rem;
+      --radius-medium: 0.5rem;
+      --transition: 180ms ease;
+    }
+
+    /* 2. Reset */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 6rem;
+    }
+
+    body,
+    h1,
+    h2,
+    h3,
+    p,
+    ul,
+    ol,
+    blockquote {
+      margin: 0;
+    }
+
+    ul,
+    ol {
+      padding: 0;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    /* 3. Base */
+    body {
+      min-width: 20rem;
+      overflow-x: hidden;
+      background: var(--color-white);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: var(--text-body);
+      line-height: 1.72;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--color-cyan);
+      color: var(--color-midnight);
+    }
+
+    a {
+      color: inherit;
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.2em;
+    }
+
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :focus-visible {
+      outline: 0.1875rem solid var(--color-cyan);
+      outline-offset: 0.25rem;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 1000;
+      top: var(--space-3);
+      left: var(--space-3);
+      padding: 0.7rem 1rem;
+      transform: translateY(-200%);
+      border-radius: var(--radius-small);
+      background: var(--color-midnight);
+      color: var(--color-white);
+      font-size: var(--text-small);
+      font-weight: 650;
+      text-decoration: none;
+      transition: transform var(--transition);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    /* 4. Typography */
+    h1,
+    h2,
+    h3 {
+      color: var(--color-midnight);
+      font-weight: 560;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+    }
+
+    h1 {
+      max-width: 10ch;
+      font-size: var(--text-h1);
+    }
+
+    h2 {
+      max-width: 16ch;
+      font-size: var(--text-h2);
+    }
+
+    h3 {
+      font-size: var(--text-h3);
+      letter-spacing: -0.018em;
+      line-height: 1.25;
+    }
+
+    p {
+      max-width: 74ch;
+    }
+
+    .eyebrow {
+      color: var(--color-text-secondary);
+      font-size: var(--text-eyebrow);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      max-width: 37ch;
+      color: var(--color-midnight);
+      font-size: var(--text-lead);
+      font-weight: 430;
+      letter-spacing: -0.018em;
+      line-height: 1.48;
+    }
+
+    .caption {
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+      letter-spacing: 0.02em;
+    }
+
+    /* 5. Layout */
+    .site-shell {
+      display: grid;
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: clamp(3.5rem, 7vw, 7rem);
+      width: min(100%, var(--page-width));
+      margin-inline: auto;
+      padding-inline: var(--page-gutter);
+    }
+
+    .document {
+      min-width: 0;
+    }
+
+    .content-width {
+      width: min(100%, var(--reading-width));
+    }
+
+    .document-section {
+      position: relative;
+      padding-block: var(--space-9);
+      scroll-margin-top: var(--space-6);
+    }
+
+    .document-section + .document-section {
+      border-top: 0.0625rem solid var(--color-border);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 3.25rem minmax(0, 1fr);
+      gap: var(--space-4);
+      align-items: start;
+      margin-bottom: var(--space-6);
+    }
+
+    .section-number {
+      padding-top: 0.4rem;
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .section-kicker {
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+
+    .prose {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .prose + .prose,
+    .section-head + .prose {
+      margin-top: var(--space-5);
+    }
+
+    /* 6. Components */
+    .wordmark {
+      display: block;
+      width: 9rem;
+      aspect-ratio: 7.4 / 1;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .wordmark img,
+    .hero__brand img,
+    .signature__brand img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 49%;
+    }
+
+    .side-rail {
+      align-self: start;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding-block: var(--space-5);
+    }
+
+    .side-rail__inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .side-rail__meta {
+      margin-top: var(--space-3);
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+      line-height: 1.5;
+    }
+
+    .side-nav {
+      margin-block: auto;
+      padding-block: var(--space-5);
+    }
+
+    .side-nav ul,
+    .mobile-nav ul {
+      list-style: none;
+    }
+
+    .side-nav a {
+      display: grid;
+      grid-template-columns: 1.8rem 1fr;
+      gap: var(--space-2);
+      align-items: baseline;
+      padding-block: 0.32rem;
+      color: var(--color-text-secondary);
+      font-size: 0.76rem;
+      line-height: 1.32;
+      text-decoration: none;
+      transition: color var(--transition), transform var(--transition);
+    }
+
+    .side-nav a span:first-child {
+      font-size: 0.64rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.07em;
+    }
+
+    .side-nav a:hover {
+      color: var(--color-midnight);
+      transform: translateX(0.125rem);
+    }
+
+    .side-nav a[aria-current="location"] {
+      color: var(--color-midnight);
+      font-weight: 650;
+    }
+
+    .side-nav a[aria-current="location"] span:first-child {
+      color: var(--color-cyan);
+    }
+
+    .site-header {
+      display: none;
+    }
+
+    .mobile-nav {
+      display: none;
+    }
+
+    .toc {
+      margin-block: var(--space-8) var(--space-7);
+      padding-block: var(--space-6);
+      border-block: 0.0625rem solid var(--color-border);
+    }
+
+    .toc__head {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      align-items: baseline;
+      margin-bottom: var(--space-5);
+    }
+
+    .toc__title {
+      font-size: 1rem;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    .toc ol {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-6);
+      list-style: none;
+    }
+
+    .toc a {
+      display: grid;
+      grid-template-columns: 2.25rem 1fr;
+      gap: var(--space-2);
+      align-items: baseline;
+      min-height: 2.75rem;
+      padding-block: 0.6rem;
+      border-bottom: 0.0625rem solid var(--color-border);
+      color: var(--color-midnight);
+      font-size: var(--text-small);
+      line-height: 1.35;
+      text-decoration: none;
+      transition: color var(--transition), padding-left var(--transition);
+    }
+
+    .toc a:hover {
+      padding-left: 0.2rem;
+      color: var(--color-text-secondary);
+    }
+
+    .toc__number {
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+
+    .statement-stack {
+      display: grid;
+      gap: 0;
+      margin-top: var(--space-6);
+      border-top: 0.0625rem solid var(--color-border);
+    }
+
+    .statement-stack p {
+      max-width: none;
+      padding-block: var(--space-4);
+      border-bottom: 0.0625rem solid var(--color-border);
+      color: var(--color-midnight);
+      font-size: clamp(1.15rem, 2vw, 1.55rem);
+      font-weight: 520;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .statement-stack p:last-child {
+      border-bottom-color: var(--color-cyan);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.0625rem;
+      overflow: hidden;
+      border: 0.0625rem solid var(--color-border);
+      border-radius: var(--radius-medium);
+      background: var(--color-border);
+    }
+
+    .info-card,
+    .value-card {
+      min-width: 0;
+      padding: clamp(1.5rem, 3vw, 2.25rem);
+      background: var(--color-white);
+    }
+
+    .info-card__number {
+      display: block;
+      margin-bottom: var(--space-5);
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.1em;
+    }
+
+    .info-card p,
+    .value-card p {
+      margin-top: var(--space-3);
+      color: var(--color-text-secondary);
+      font-size: var(--text-small);
+      line-height: 1.65;
+    }
+
+    .value-card {
+      min-height: 15rem;
+    }
+
+    .value-card h3::before {
+      display: block;
+      width: 1.75rem;
+      height: 0.125rem;
+      margin-bottom: var(--space-5);
+      background: var(--color-cyan);
+      content: "";
+    }
+
+    .boundary-box {
+      padding: clamp(1.75rem, 4vw, 3rem);
+      border: 0.0625rem solid var(--color-border);
+      border-left: 0.1875rem solid var(--color-midnight);
+      border-radius: 0 var(--radius-small) var(--radius-small) 0;
+      background: var(--color-neutral);
+    }
+
+    .boundary-box h3 {
+      margin-bottom: var(--space-4);
+    }
+
+    .clean-list {
+      display: grid;
+      gap: 0;
+      list-style: none;
+    }
+
+    .clean-list li {
+      position: relative;
+      padding: 0.75rem 0 0.75rem 1.25rem;
+      border-bottom: 0.0625rem solid var(--color-border);
+      line-height: 1.45;
+    }
+
+    .clean-list li::before {
+      position: absolute;
+      top: 1.28rem;
+      left: 0;
+      width: 0.3rem;
+      height: 0.3rem;
+      background: var(--color-cyan);
+      content: "";
+    }
+
+    .clean-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .editorial-block {
+      padding: clamp(2rem, 5vw, 4.5rem);
+      border-left: 0.25rem solid var(--color-cyan);
+      background: var(--color-neutral);
+    }
+
+    .editorial-block p + p {
+      margin-top: var(--space-4);
+    }
+
+    .executive-statement {
+      padding-block: var(--space-7);
+      border-block: 0.0625rem solid var(--color-border);
+    }
+
+    .executive-statement p:first-child {
+      max-width: 24ch;
+      color: var(--color-midnight);
+      font-size: clamp(1.7rem, 3.5vw, 3.15rem);
+      font-weight: 520;
+      letter-spacing: -0.035em;
+      line-height: 1.18;
+    }
+
+    .executive-statement p + p {
+      margin-top: var(--space-5);
+    }
+
+    .sequence {
+      margin-top: var(--space-6);
+      border-top: 0.0625rem solid var(--color-border);
+      list-style: none;
+    }
+
+    .sequence li {
+      display: grid;
+      grid-template-columns: 3rem 7rem 1fr;
+      gap: var(--space-4);
+      align-items: baseline;
+      padding-block: var(--space-4);
+      border-bottom: 0.0625rem solid var(--color-border);
+    }
+
+    .sequence__number {
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.1em;
+    }
+
+    .sequence__verb {
+      color: var(--color-midnight);
+      font-weight: 650;
+    }
+
+    .sequence p {
+      color: var(--color-text-secondary);
+      font-size: var(--text-small);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .profile-card {
+      padding: clamp(1.5rem, 3vw, 2rem);
+      border: 0.0625rem solid var(--color-border);
+      border-radius: var(--radius-small);
+    }
+
+    .profile-card h3 {
+      min-height: 2.8rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .profile-card .clean-list li {
+      padding-block: 0.62rem;
+      padding-left: 1rem;
+      font-size: var(--text-small);
+    }
+
+    .profile-card .clean-list li::before {
+      top: 1.16rem;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .comparison__column {
+      padding: clamp(1.75rem, 4vw, 3rem);
+      border: 0.0625rem solid var(--color-border);
+      border-radius: var(--radius-small);
+    }
+
+    .comparison__column:first-child {
+      border-top-color: var(--color-cyan);
+    }
+
+    .comparison__column:last-child {
+      background: var(--color-neutral);
+    }
+
+    .comparison__label {
+      display: block;
+      margin-bottom: var(--space-4);
+      color: var(--color-midnight);
+      font-size: var(--text-small);
+      font-weight: 700;
+    }
+
+    .editorial-note {
+      margin-top: var(--space-4);
+      padding: var(--space-4);
+      border-left: 0.125rem solid var(--color-cyan);
+      color: var(--color-midnight);
+      font-size: var(--text-small);
+      font-weight: 560;
+    }
+
+    .manifesto {
+      display: grid;
+      gap: var(--space-5);
+      max-width: 44rem;
+      padding-left: clamp(1.5rem, 5vw, 4rem);
+      border-left: 0.0625rem solid var(--color-border);
+    }
+
+    .manifesto p {
+      color: var(--color-midnight);
+      font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+      letter-spacing: -0.02em;
+      line-height: 1.48;
+    }
+
+    .manifesto p:nth-child(3),
+    .manifesto p:nth-child(6) {
+      color: var(--color-text-secondary);
+      font-size: var(--text-body);
+      letter-spacing: 0;
+      line-height: 1.72;
+    }
+
+    .copy-card {
+      position: relative;
+      padding: clamp(2rem, 5vw, 4rem);
+      border: 0.0625rem solid var(--color-border);
+      border-radius: var(--radius-medium);
+      background: var(--color-neutral);
+    }
+
+    .copy-card__action {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+      margin-top: var(--space-5);
+    }
+
+    .copy-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: 0.65rem 1rem;
+      border: 0.0625rem solid var(--color-midnight);
+      border-radius: var(--radius-small);
+      background: var(--color-white);
+      color: var(--color-midnight);
+      cursor: pointer;
+      font-size: var(--text-small);
+      font-weight: 650;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .copy-button:hover {
+      background: var(--color-midnight);
+      color: var(--color-white);
+    }
+
+    .copy-status {
+      min-height: 1.5em;
+      color: var(--color-text-secondary);
+      font-size: var(--text-small);
+    }
+
+    .menu-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3rem;
+      min-height: 3rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .menu-button__icon,
+    .menu-button__icon::before,
+    .menu-button__icon::after {
+      display: block;
+      width: 1.25rem;
+      height: 0.0625rem;
+      background: var(--color-midnight);
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .menu-button__icon {
+      position: relative;
+    }
+
+    .menu-button__icon::before,
+    .menu-button__icon::after {
+      position: absolute;
+      left: 0;
+      content: "";
+    }
+
+    .menu-button__icon::before {
+      top: -0.38rem;
+    }
+
+    .menu-button__icon::after {
+      top: 0.38rem;
+    }
+
+    .menu-button[aria-expanded="true"] .menu-button__icon {
+      background: transparent;
+    }
+
+    .menu-button[aria-expanded="true"] .menu-button__icon::before {
+      top: 0;
+      transform: rotate(45deg);
+    }
+
+    .menu-button[aria-expanded="true"] .menu-button__icon::after {
+      top: 0;
+      transform: rotate(-45deg);
+    }
+
+    /* 7. Sections */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: min(52rem, 92vh);
+      padding-block: var(--space-8);
+      border-bottom: 0.0625rem solid var(--color-border);
+    }
+
+    .hero__brand {
+      width: min(100%, 47rem);
+      aspect-ratio: 7.4 / 1;
+      overflow: hidden;
+      margin-bottom: clamp(4rem, 9vw, 8rem);
+    }
+
+    .hero__eyebrow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero__eyebrow span + span::before {
+      display: inline-block;
+      width: 0.25rem;
+      height: 0.25rem;
+      margin-right: var(--space-4);
+      vertical-align: 0.15em;
+      background: var(--color-cyan);
+      content: "";
+    }
+
+    .hero__description {
+      max-width: 42rem;
+      margin-top: var(--space-5);
+      color: var(--color-text-secondary);
+      font-size: var(--text-lead);
+      letter-spacing: -0.015em;
+      line-height: 1.5;
+    }
+
+    .paired-sections {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 0.0625rem solid var(--color-border);
+      border-bottom: 0.0625rem solid var(--color-border);
+    }
+
+    .paired-sections .document-section {
+      padding: var(--space-8) clamp(1.5rem, 4vw, 3.5rem);
+      border: 0;
+    }
+
+    .paired-sections .document-section:first-child {
+      padding-left: 0;
+      border-right: 0.0625rem solid var(--color-border);
+    }
+
+    .paired-sections .document-section:last-child {
+      padding-right: 0;
+    }
+
+    .paired-sections .section-head {
+      grid-template-columns: 2.75rem minmax(0, 1fr);
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+
+    .paired-sections h2 {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+    }
+
+    .paired-sections .lead {
+      font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    }
+
+    .promise-section {
+      position: relative;
+      left: 50%;
+      width: 100vw;
+      margin-left: -50vw;
+      padding-block: var(--space-9);
+      border-top: 0;
+      background: var(--color-midnight);
+      color: var(--color-white);
+    }
+
+    .promise-section__inner {
+      width: min(calc(100% - (2 * var(--page-gutter))), var(--reading-width));
+      margin-inline: auto;
+    }
+
+    .promise-section .section-number,
+    .promise-section .eyebrow {
+      color: var(--color-cyan);
+    }
+
+    .promise-section h2,
+    .promise-section p {
+      color: var(--color-white);
+    }
+
+    .promise-quote {
+      margin-block: var(--space-6);
+      padding-left: clamp(1.5rem, 5vw, 4rem);
+      border-left: 0.1875rem solid var(--color-cyan);
+    }
+
+    .promise-quote p {
+      max-width: 25ch;
+      font-size: clamp(1.65rem, 4vw, 3.3rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+    }
+
+    .signature {
+      display: grid;
+      place-items: center;
+      min-height: 34rem;
+      text-align: center;
+    }
+
+    .signature__brand {
+      width: min(78vw, 43rem);
+      aspect-ratio: 7.4 / 1;
+      margin-inline: auto;
+      overflow: hidden;
+    }
+
+    .signature__line {
+      margin: var(--space-5) auto 0;
+      color: var(--color-text-secondary);
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      letter-spacing: -0.01em;
+    }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding-block: var(--space-5) var(--space-6);
+      border-top: 0.0625rem solid var(--color-border);
+      color: var(--color-text-secondary);
+      font-size: var(--text-caption);
+    }
+
+    /* 8. Utilities */
+    .visually-hidden {
+      position: absolute !important;
+      width: 0.0625rem !important;
+      height: 0.0625rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    .flow-space {
+      margin-top: var(--space-6);
+    }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(0.75rem);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    .js .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 9. Responsive */
+    @media (max-width: 64rem) {
+      html {
+        scroll-padding-top: 5.5rem;
+      }
+
+      .site-shell {
+        display: block;
+        width: min(100%, 56rem);
+      }
+
+      .side-rail {
+        display: none;
+      }
+
+      .site-header {
+        position: fixed;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        left: 0;
+        display: block;
+        border-bottom: 0.0625rem solid var(--color-border);
+        background: var(--color-white);
+      }
+
+      .site-header__bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: min(100%, 56rem);
+        min-height: 4.5rem;
+        margin-inline: auto;
+        padding-inline: var(--page-gutter);
+      }
+
+      .mobile-nav {
+        max-height: calc(100vh - 4.5rem);
+        overflow-y: auto;
+        border-top: 0.0625rem solid var(--color-border);
+        background: var(--color-white);
+      }
+
+      .mobile-nav.is-open {
+        display: block;
+      }
+
+      .mobile-nav ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: min(100%, 56rem);
+        margin-inline: auto;
+        padding: var(--space-3) var(--page-gutter) var(--space-5);
+      }
+
+      .mobile-nav a {
+        display: grid;
+        grid-template-columns: 2rem 1fr;
+        gap: var(--space-2);
+        min-height: 2.75rem;
+        padding: 0.7rem var(--space-2);
+        border-bottom: 0.0625rem solid var(--color-border);
+        color: var(--color-text-secondary);
+        font-size: var(--text-caption);
+        line-height: 1.35;
+        text-decoration: none;
+      }
+
+      .mobile-nav a[aria-current="location"] {
+        color: var(--color-midnight);
+        font-weight: 650;
+      }
+
+      .mobile-nav a[aria-current="location"] span:first-child {
+        color: var(--color-cyan);
+      }
+
+      .document {
+        padding-top: 4.5rem;
+      }
+
+      .hero {
+        min-height: min(48rem, calc(100vh - 4.5rem));
+      }
+
+      .promise-section__inner {
+        width: min(calc(100% - (2 * var(--page-gutter))), 50rem);
+      }
+    }
+
+    @media (max-width: 48rem) {
+      .document-section {
+        padding-block: var(--space-8);
+      }
+
+      .hero {
+        padding-block: var(--space-7);
+      }
+
+      .hero__brand {
+        margin-bottom: var(--space-7);
+      }
+
+      .hero__eyebrow span + span::before {
+        display: none;
+      }
+
+      .toc ol,
+      .card-grid,
+      .profile-grid,
+      .comparison,
+      .paired-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .paired-sections {
+        border-bottom: 0;
+      }
+
+      .paired-sections .document-section {
+        padding-inline: 0;
+      }
+
+      .paired-sections .document-section:first-child {
+        border-right: 0;
+        border-bottom: 0.0625rem solid var(--color-border);
+      }
+
+      .paired-sections .document-section:last-child {
+        border-bottom: 0.0625rem solid var(--color-border);
+      }
+
+      .value-card {
+        min-height: auto;
+      }
+
+      .profile-card h3 {
+        min-height: 0;
+      }
+
+      .sequence li {
+        grid-template-columns: 2.4rem 1fr;
+        gap: var(--space-2) var(--space-3);
+      }
+
+      .sequence p {
+        grid-column: 2;
+      }
+    }
+
+    @media (max-width: 31rem) {
+      .mobile-nav ul {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head,
+      .paired-sections .section-head {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+      }
+
+      .section-number {
+        padding-top: 0;
+      }
+
+      .toc__head,
+      .site-footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .editorial-block,
+      .boundary-box,
+      .copy-card,
+      .comparison__column {
+        padding: var(--space-4);
+      }
+    }
+
+    /* 10. Print */
+    @media print {
+      @page {
+        margin: 16mm;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      body {
+        min-width: 0;
+        background: var(--color-white);
+        color: var(--color-text);
+        font-size: 10.5pt;
+      }
+
+      .site-header,
+      .side-rail,
+      .toc,
+      .copy-card__action,
+      .skip-link {
+        display: none !important;
+      }
+
+      .site-shell {
+        display: block;
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .document {
+        padding: 0;
+      }
+
+      .hero {
+        min-height: 0;
+        padding-block: 18mm;
+      }
+
+      .hero__brand {
+        margin-bottom: 18mm;
+      }
+
+      .document-section,
+      .paired-sections .document-section,
+      .promise-section {
+        left: auto;
+        width: auto;
+        margin: 0;
+        padding-block: 12mm;
+        background: var(--color-white);
+        color: var(--color-text);
+        break-inside: auto;
+      }
+
+      .promise-section__inner {
+        width: 100%;
+      }
+
+      .promise-section h2,
+      .promise-section p,
+      .promise-section .section-number,
+      .promise-section .eyebrow {
+        color: var(--color-text);
+      }
+
+      .promise-quote {
+        border-color: var(--color-midnight);
+      }
+
+      .info-card,
+      .value-card,
+      .profile-card,
+      .comparison__column,
+      .copy-card,
+      .boundary-box,
+      .editorial-block,
+      .sequence li,
+      .promise-quote {
+        break-inside: avoid;
+      }
+
+      .card-grid,
+      .profile-grid,
+      .comparison,
+      .paired-sections {
+        gap: 3mm;
+      }
+
+      .card-grid {
+        border: 0;
+        background: transparent;
+      }
+
+      .info-card,
+      .value-card,
+      .profile-card,
+      .comparison__column,
+      .copy-card,
+      .boundary-box,
+      .editorial-block {
+        border: 0.5pt solid var(--color-border);
+        background: var(--color-white);
+      }
+
+      .signature {
+        min-height: 100mm;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* 11. Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo principal</a>
+
+  <header class="site-header" aria-label="Cabeçalho do documento">
+    <div class="site-header__bar">
+      <a class="wordmark" href="#inicio" aria-label="NUMORA — Início">
+        <img src="logo.jpeg?v=20260805-2" alt="NUMORA" width="1600" height="800">
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-navigation">
+        <span class="visually-hidden">Abrir navegação</span>
+        <span class="menu-button__icon" aria-hidden="true"></span>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobile-navigation" aria-label="Navegação do documento">
+      <ul>
+        <li><a href="#quem-somos"><span>01</span><span>Quem é a NUMORA</span></a></li>
+        <li><a href="#o-que-fazemos"><span>02</span><span>O que fazemos</span></a></li>
+        <li><a href="#o-que-nao-fazemos"><span>03</span><span>O que NÃO fazemos</span></a></li>
+        <li><a href="#missao"><span>04</span><span>Missão</span></a></li>
+        <li><a href="#visao"><span>05</span><span>Visão</span></a></li>
+        <li><a href="#valores"><span>06</span><span>Valores</span></a></li>
+        <li><a href="#posicionamento"><span>07</span><span>Posicionamento</span></a></li>
+        <li><a href="#proposta-de-valor"><span>08</span><span>Proposta de Valor</span></a></li>
+        <li><a href="#diferencial"><span>09</span><span>Nosso Diferencial</span></a></li>
+        <li><a href="#cliente-ideal"><span>10</span><span>Cliente Ideal — ICP</span></a></li>
+        <li><a href="#personalidade"><span>11</span><span>Personalidade da Marca</span></a></li>
+        <li><a href="#tom-de-voz"><span>12</span><span>Tom de Voz</span></a></li>
+        <li><a href="#filosofia"><span>13</span><span>Nossa Filosofia</span></a></li>
+        <li><a href="#promessa"><span>14</span><span>Nossa Promessa</span></a></li>
+        <li><a href="#elevator-pitch"><span>15</span><span>Elevator Pitch</span></a></li>
+        <li><a href="#assinatura"><span>16</span><span>Assinatura Institucional</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="site-shell">
+    <aside class="side-rail" aria-label="Navegação lateral">
+      <div class="side-rail__inner">
+        <div>
+          <a class="wordmark" href="#inicio" aria-label="NUMORA — Início">
+            <img src="logo.jpeg?v=20260805-2" alt="NUMORA" width="1600" height="800">
+          </a>
+          <p class="side-rail__meta">Fundação Estratégica<br>Versão 1.0</p>
+        </div>
+
+        <nav class="side-nav" aria-label="Seções do documento">
+          <ul>
+            <li><a href="#quem-somos"><span>01</span><span>Quem é a NUMORA</span></a></li>
+            <li><a href="#o-que-fazemos"><span>02</span><span>O que fazemos</span></a></li>
+            <li><a href="#o-que-nao-fazemos"><span>03</span><span>O que NÃO fazemos</span></a></li>
+            <li><a href="#missao"><span>04</span><span>Missão</span></a></li>
+            <li><a href="#visao"><span>05</span><span>Visão</span></a></li>
+            <li><a href="#valores"><span>06</span><span>Valores</span></a></li>
+            <li><a href="#posicionamento"><span>07</span><span>Posicionamento</span></a></li>
+            <li><a href="#proposta-de-valor"><span>08</span><span>Proposta de Valor</span></a></li>
+            <li><a href="#diferencial"><span>09</span><span>Nosso Diferencial</span></a></li>
+            <li><a href="#cliente-ideal"><span>10</span><span>Cliente Ideal — ICP</span></a></li>
+            <li><a href="#personalidade"><span>11</span><span>Personalidade da Marca</span></a></li>
+            <li><a href="#tom-de-voz"><span>12</span><span>Tom de Voz</span></a></li>
+            <li><a href="#filosofia"><span>13</span><span>Nossa Filosofia</span></a></li>
+            <li><a href="#promessa"><span>14</span><span>Nossa Promessa</span></a></li>
+            <li><a href="#elevator-pitch"><span>15</span><span>Elevator Pitch</span></a></li>
+            <li><a href="#assinatura"><span>16</span><span>Assinatura Institucional</span></a></li>
+          </ul>
+        </nav>
+
+        <p class="caption">Documento institucional<br>Uso interno</p>
+      </div>
+    </aside>
+
+    <main class="document" id="conteudo">
+      <section class="hero" id="inicio" aria-labelledby="document-title">
+        <div class="hero__brand">
+          <img src="logo.jpeg?v=20260805-2" alt="NUMORA" width="1600" height="800">
+        </div>
+        <div class="hero__eyebrow eyebrow">
+          <span>Uso interno</span>
+          <span>Versão 1.0</span>
+        </div>
+        <h1 id="document-title">Fundação Estratégica</h1>
+        <p class="hero__description">Documento institucional que reúne os princípios, o posicionamento e as diretrizes estratégicas que orientam a atuação da NUMORA.</p>
+      </section>
+
+      <nav class="toc" aria-labelledby="toc-title">
+        <div class="toc__head">
+          <h2 class="toc__title" id="toc-title">Sumário executivo</h2>
+          <span class="caption">16 seções</span>
+        </div>
+        <ol>
+          <li><a href="#quem-somos"><span class="toc__number">01</span><span>Quem é a NUMORA</span></a></li>
+          <li><a href="#o-que-fazemos"><span class="toc__number">02</span><span>O que fazemos</span></a></li>
+          <li><a href="#o-que-nao-fazemos"><span class="toc__number">03</span><span>O que NÃO fazemos</span></a></li>
+          <li><a href="#missao"><span class="toc__number">04</span><span>Missão</span></a></li>
+          <li><a href="#visao"><span class="toc__number">05</span><span>Visão</span></a></li>
+          <li><a href="#valores"><span class="toc__number">06</span><span>Valores</span></a></li>
+          <li><a href="#posicionamento"><span class="toc__number">07</span><span>Posicionamento</span></a></li>
+          <li><a href="#proposta-de-valor"><span class="toc__number">08</span><span>Proposta de Valor</span></a></li>
+          <li><a href="#diferencial"><span class="toc__number">09</span><span>Nosso Diferencial</span></a></li>
+          <li><a href="#cliente-ideal"><span class="toc__number">10</span><span>Cliente Ideal — ICP</span></a></li>
+          <li><a href="#personalidade"><span class="toc__number">11</span><span>Personalidade da Marca</span></a></li>
+          <li><a href="#tom-de-voz"><span class="toc__number">12</span><span>Tom de Voz</span></a></li>
+          <li><a href="#filosofia"><span class="toc__number">13</span><span>Nossa Filosofia</span></a></li>
+          <li><a href="#promessa"><span class="toc__number">14</span><span>Nossa Promessa</span></a></li>
+          <li><a href="#elevator-pitch"><span class="toc__number">15</span><span>Elevator Pitch</span></a></li>
+          <li><a href="#assinatura"><span class="toc__number">16</span><span>Assinatura Institucional</span></a></li>
+        </ol>
+      </nav>
+
+      <section class="document-section reveal" id="quem-somos" aria-labelledby="quem-somos-title">
+        <div class="section-head">
+          <span class="section-number">01</span>
+          <div>
+            <span class="section-kicker eyebrow">Identidade</span>
+            <h2 id="quem-somos-title">Quem é a NUMORA</h2>
+          </div>
+        </div>
+        <div class="prose content-width">
+          <p class="lead">A NUMORA é uma consultoria de Transformação Operacional especializada em ajudar empresas a evoluir sua forma de operar por meio de Inteligência Artificial, automação e redesenho de processos.</p>
+          <p>Nossa atuação começa muito antes da tecnologia. Estudamos a operação, identificamos gargalos, compreendemos a dinâmica do negócio e implementamos soluções que geram eficiência, escalabilidade e vantagem competitiva.</p>
+        </div>
+        <div class="statement-stack content-width" aria-label="Declarações centrais">
+          <p>Não vendemos software.</p>
+          <p>Não vendemos Inteligência Artificial.</p>
+          <p>Entregamos transformação operacional baseada em resultados.</p>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="o-que-fazemos" aria-labelledby="o-que-fazemos-title">
+        <div class="section-head">
+          <span class="section-number">02</span>
+          <div>
+            <span class="section-kicker eyebrow">Atuação</span>
+            <h2 id="o-que-fazemos-title">O que fazemos</h2>
+          </div>
+        </div>
+        <div class="prose content-width">
+          <p class="lead">A NUMORA identifica processos que limitam o crescimento das empresas e os transforma em operações mais inteligentes, eficientes e escaláveis.</p>
+          <p>Nossa atuação envolve:</p>
+        </div>
+        <div class="card-grid flow-space" aria-label="Frentes de atuação">
+          <article class="info-card"><span class="info-card__number">01</span><h3>Diagnóstico operacional;</h3></article>
+          <article class="info-card"><span class="info-card__number">02</span><h3>Mapeamento e redesenho de processos;</h3></article>
+          <article class="info-card"><span class="info-card__number">03</span><h3>Aplicação estratégica de Inteligência Artificial;</h3></article>
+          <article class="info-card"><span class="info-card__number">04</span><h3>Automação de tarefas repetitivas;</h3></article>
+          <article class="info-card"><span class="info-card__number">05</span><h3>Integração entre sistemas;</h3></article>
+          <article class="info-card"><span class="info-card__number">06</span><h3>Estruturação de indicadores operacionais;</h3></article>
+          <article class="info-card"><span class="info-card__number">07</span><h3>Implementação de agentes inteligentes;</h3></article>
+          <article class="info-card"><span class="info-card__number">08</span><h3>Acompanhamento da evolução da operação.</h3></article>
+        </div>
+        <p class="lead flow-space">Cada projeto é desenvolvido para produzir ganhos reais de produtividade, redução de custos e aumento da capacidade operacional.</p>
+      </section>
+
+      <section class="document-section reveal" id="o-que-nao-fazemos" aria-labelledby="o-que-nao-fazemos-title">
+        <div class="section-head">
+          <span class="section-number">03</span>
+          <div>
+            <span class="section-kicker eyebrow">Fronteiras</span>
+            <h2 id="o-que-nao-fazemos-title">O que NÃO fazemos</h2>
+          </div>
+        </div>
+        <div class="prose content-width">
+          <p class="lead">A clareza sobre o que não fazemos é parte do posicionamento da NUMORA.</p>
+        </div>
+        <div class="boundary-box content-width flow-space">
+          <h3>Não somos:</h3>
+          <ul class="clean-list">
+            <li>Software house;</li>
+            <li>Agência digital;</li>
+            <li>Empresa de marketing;</li>
+            <li>Desenvolvedora de sites;</li>
+            <li>Fábrica de software;</li>
+            <li>Revenda de ferramentas de IA;</li>
+            <li>Empresa especializada apenas em chatbots.</li>
+          </ul>
+        </div>
+        <div class="statement-stack content-width">
+          <p>A tecnologia é apenas uma ferramenta.</p>
+          <p>Nosso produto é a transformação operacional.</p>
+        </div>
+      </section>
+
+      <div class="paired-sections reveal">
+        <section class="document-section" id="missao" aria-labelledby="missao-title">
+          <div class="section-head">
+            <span class="section-number">04</span>
+            <div>
+              <span class="section-kicker eyebrow">Direção</span>
+              <h2 id="missao-title">Missão</h2>
+            </div>
+          </div>
+          <p class="lead">Transformar operações empresariais em vantagens competitivas por meio de estratégia, Inteligência Artificial e automação, gerando resultados mensuráveis para nossos clientes.</p>
+        </section>
+
+        <section class="document-section" id="visao" aria-labelledby="visao-title">
+          <div class="section-head">
+            <span class="section-number">05</span>
+            <div>
+              <span class="section-kicker eyebrow">Horizonte</span>
+              <h2 id="visao-title">Visão</h2>
+            </div>
+          </div>
+          <p class="lead">Ser reconhecida como a principal consultoria brasileira em Transformação Operacional, tornando-se referência na aplicação prática de Inteligência Artificial para empresas que buscam crescer com eficiência, inteligência e sustentabilidade.</p>
+        </section>
+      </div>
+
+      <section class="document-section reveal" id="valores" aria-labelledby="valores-title">
+        <div class="section-head">
+          <span class="section-number">06</span>
+          <div>
+            <span class="section-kicker eyebrow">Princípios</span>
+            <h2 id="valores-title">Valores</h2>
+          </div>
+        </div>
+        <div class="card-grid">
+          <article class="value-card">
+            <h3>Resultado acima da tecnologia</h3>
+            <p>A tecnologia só tem valor quando resolve um problema real.</p>
+            <p>Nunca implementamos uma solução apenas porque ela é inovadora.</p>
+            <p>Implementamos porque ela gera resultado.</p>
+          </article>
+          <article class="value-card">
+            <h3>Excelência Técnica</h3>
+            <p>Buscamos a melhor solução possível para cada desafio.</p>
+            <p>Não entregamos projetos apenas funcionais.</p>
+            <p>Entregamos soluções sólidas, escaláveis e bem construídas.</p>
+          </article>
+          <article class="value-card">
+            <h3>Clareza</h3>
+            <p>Complexidade não é sinônimo de inteligência.</p>
+            <p>Transformamos problemas complexos em soluções simples, compreensíveis e eficientes.</p>
+          </article>
+          <article class="value-card">
+            <h3>Confiança</h3>
+            <p>Construímos relações de longo prazo baseadas em transparência, responsabilidade e compromisso com o sucesso do cliente.</p>
+          </article>
+          <article class="value-card">
+            <h3>Evolução Contínua</h3>
+            <p>Toda operação pode ser aprimorada.</p>
+            <p>Toda empresa pode evoluir.</p>
+            <p>A melhoria contínua faz parte da nossa cultura.</p>
+          </article>
+          <article class="value-card">
+            <h3>Parceria</h3>
+            <p>Trabalhamos ao lado do cliente.</p>
+            <p>Nosso sucesso depende do sucesso da operação dele.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="posicionamento" aria-labelledby="posicionamento-title">
+        <div class="section-head">
+          <span class="section-number">07</span>
+          <div>
+            <span class="section-kicker eyebrow">Território</span>
+            <h2 id="posicionamento-title">Posicionamento</h2>
+          </div>
+        </div>
+        <div class="executive-statement content-width">
+          <p>A NUMORA é uma consultoria de Transformação Operacional.</p>
+          <p>Utilizamos Inteligência Artificial, automação e estratégia para transformar processos empresariais em operações mais eficientes, escaláveis e preparadas para o futuro.</p>
+          <p>Enquanto outras empresas vendem tecnologia, nós entregamos evolução operacional.</p>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="proposta-de-valor" aria-labelledby="proposta-de-valor-title">
+        <div class="section-head">
+          <span class="section-number">08</span>
+          <div>
+            <span class="section-kicker eyebrow">Impacto</span>
+            <h2 id="proposta-de-valor-title">Proposta de Valor</h2>
+          </div>
+        </div>
+        <div class="editorial-block content-width">
+          <p class="lead">Ajudamos empresas a reduzir desperdícios, eliminar atividades repetitivas e aumentar sua eficiência operacional por meio de uma abordagem consultiva que combina estratégia, Inteligência Artificial e automação.</p>
+          <p>Cada projeto é desenvolvido para gerar impacto mensurável, retorno sobre investimento e crescimento sustentável.</p>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="diferencial" aria-labelledby="diferencial-title">
+        <div class="section-head">
+          <span class="section-number">09</span>
+          <div>
+            <span class="section-kicker eyebrow">Abordagem</span>
+            <h2 id="diferencial-title">Nosso Diferencial</h2>
+          </div>
+        </div>
+        <div class="prose content-width">
+          <p class="lead">A maioria das empresas começa pela tecnologia.</p>
+          <p class="lead">Nós começamos pelo negócio.</p>
+        </div>
+        <ol class="sequence content-width" aria-label="Sequência da abordagem">
+          <li><span class="sequence__number">01</span><span class="sequence__verb">Entender</span><p>Antes de implementar qualquer solução, entendemos profundamente como a empresa opera.</p></li>
+          <li><span class="sequence__number">02</span><span class="sequence__verb">Mapear</span><p>Mapeamos processos.</p></li>
+          <li><span class="sequence__number">03</span><span class="sequence__verb">Identificar</span><p>Identificamos gargalos.</p></li>
+          <li><span class="sequence__number">04</span><span class="sequence__verb">Calcular</span><p>Calculamos impacto financeiro.</p></li>
+          <li><span class="sequence__number">05</span><span class="sequence__verb">Priorizar</span><p>Priorizamos oportunidades.</p></li>
+          <li><span class="sequence__number">06</span><span class="sequence__verb">Implementar</span><p>Somente então utilizamos a tecnologia adequada.</p></li>
+        </ol>
+        <p class="lead content-width flow-space">Essa abordagem reduz riscos, aumenta o retorno sobre investimento e garante que cada projeto gere valor real para a organização.</p>
+      </section>
+
+      <section class="document-section reveal" id="cliente-ideal" aria-labelledby="cliente-ideal-title">
+        <div class="section-head">
+          <span class="section-number">10</span>
+          <div>
+            <span class="section-kicker eyebrow">Cliente Ideal</span>
+            <h2 id="cliente-ideal-title">Cliente Ideal — ICP</h2>
+          </div>
+        </div>
+        <p class="lead content-width">A NUMORA atende empresas que já possuem operações estruturadas e desejam evoluir sua eficiência.</p>
+        <div class="profile-grid flow-space">
+          <article class="profile-card">
+            <h3>Perfil</h3>
+            <ul class="clean-list">
+              <li>Empresas de médio e grande porte;</li>
+              <li>Faturamento acima de R$ 20 milhões por ano;</li>
+              <li>Operações com múltiplos departamentos;</li>
+              <li>Processos consolidados;</li>
+              <li>Interesse em inovação com foco em resultados.</li>
+            </ul>
+          </article>
+          <article class="profile-card">
+            <h3>Setores prioritários</h3>
+            <ul class="clean-list">
+              <li>Indústria;</li>
+              <li>Construção civil;</li>
+              <li>Logística;</li>
+              <li>Distribuição;</li>
+              <li>Saúde;</li>
+              <li>Serviços B2B;</li>
+              <li>Tecnologia;</li>
+              <li>Varejo.</li>
+            </ul>
+          </article>
+          <article class="profile-card">
+            <h3>Decisores</h3>
+            <ul class="clean-list">
+              <li>CEO;</li>
+              <li>COO;</li>
+              <li>CIO;</li>
+              <li>CTO;</li>
+              <li>Diretor de Operações;</li>
+              <li>Diretor Financeiro;</li>
+              <li>Diretor de Transformação Digital.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="personalidade" aria-labelledby="personalidade-title">
+        <div class="section-head">
+          <span class="section-number">11</span>
+          <div>
+            <span class="section-kicker eyebrow">Expressão</span>
+            <h2 id="personalidade-title">Personalidade da Marca</h2>
+          </div>
+        </div>
+        <p class="lead content-width">Se a NUMORA fosse uma pessoa, ela seria:</p>
+        <div class="comparison flow-space">
+          <article class="comparison__column">
+            <span class="comparison__label">É</span>
+            <ul class="clean-list">
+              <li>Inteligente;</li>
+              <li>Estratégica;</li>
+              <li>Analítica;</li>
+              <li>Elegante;</li>
+              <li>Objetiva;</li>
+              <li>Confiável;</li>
+              <li>Discreta;</li>
+              <li>Segura.</li>
+            </ul>
+          </article>
+          <article class="comparison__column">
+            <span class="comparison__label">Não é</span>
+            <p class="visually-hidden">Nunca seria:</p>
+            <ul class="clean-list">
+              <li>Arrogante;</li>
+              <li>Informal em excesso;</li>
+              <li>Sensacionalista;</li>
+              <li>Barulhenta;</li>
+              <li>Exagerada;</li>
+              <li>Modista.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="tom-de-voz" aria-labelledby="tom-de-voz-title">
+        <div class="section-head">
+          <span class="section-number">12</span>
+          <div>
+            <span class="section-kicker eyebrow">Comunicação</span>
+            <h2 id="tom-de-voz-title">Tom de Voz</h2>
+          </div>
+        </div>
+        <p class="lead content-width">Nossa comunicação deve transmitir autoridade sem parecer distante.</p>
+        <div class="comparison flow-space">
+          <article class="comparison__column">
+            <span class="comparison__label">Falamos de forma:</span>
+            <ul class="clean-list">
+              <li>Clara;</li>
+              <li>Objetiva;</li>
+              <li>Elegante;</li>
+              <li>Consultiva;</li>
+              <li>Baseada em dados;</li>
+              <li>Orientada a resultados.</li>
+            </ul>
+          </article>
+          <article class="comparison__column">
+            <span class="comparison__label">Evitamos:</span>
+            <ul class="clean-list">
+              <li>Jargões desnecessários;</li>
+              <li>Promessas exageradas;</li>
+              <li>Excesso de termos técnicos;</li>
+              <li>Linguagem de startup;</li>
+              <li>Modismos de IA.</li>
+            </ul>
+          </article>
+        </div>
+        <p class="editorial-note content-width">Autoridade sem distância. Clareza sem simplificação excessiva.</p>
+      </section>
+
+      <section class="document-section reveal" id="filosofia" aria-labelledby="filosofia-title">
+        <div class="section-head">
+          <span class="section-number">13</span>
+          <div>
+            <span class="section-kicker eyebrow">Manifesto</span>
+            <h2 id="filosofia-title">Nossa Filosofia</h2>
+          </div>
+        </div>
+        <div class="manifesto">
+          <p>Acreditamos que empresas não precisam de mais tecnologia.</p>
+          <p>Precisam de operações melhores.</p>
+          <p>A Inteligência Artificial não é o objetivo.</p>
+          <p>É uma ferramenta.</p>
+          <p>O verdadeiro valor está na capacidade de transformar processos, reduzir desperdícios, acelerar decisões e permitir que pessoas concentrem seu tempo no que realmente gera impacto.</p>
+          <p>Tecnologia muda rapidamente.</p>
+          <p>Princípios permanecem.</p>
+          <p>Por isso, construímos soluções que priorizam eficiência, simplicidade e resultados duradouros.</p>
+        </div>
+      </section>
+
+      <section class="promise-section reveal" id="promessa" aria-labelledby="promessa-title">
+        <div class="promise-section__inner">
+          <div class="section-head">
+            <span class="section-number">14</span>
+            <div>
+              <span class="section-kicker eyebrow">Compromisso</span>
+              <h2 id="promessa-title">Nossa Promessa</h2>
+            </div>
+          </div>
+          <p>Cada projeto da NUMORA deve responder a uma pergunta simples:</p>
+          <blockquote class="promise-quote">
+            <p>“Como esta iniciativa melhora a operação do cliente de forma mensurável?”</p>
+          </blockquote>
+          <div class="prose">
+            <p>Se não houver uma resposta clara, o projeto deve ser reavaliado.</p>
+            <p>Essa disciplina garante que cada entrega esteja alinhada ao propósito da empresa e ao sucesso do cliente.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="document-section reveal" id="elevator-pitch" aria-labelledby="elevator-pitch-title">
+        <div class="section-head">
+          <span class="section-number">15</span>
+          <div>
+            <span class="section-kicker eyebrow">Síntese</span>
+            <h2 id="elevator-pitch-title">Elevator Pitch</h2>
+          </div>
+        </div>
+        <div class="copy-card content-width">
+          <div class="prose" id="elevator-text">
+            <p>A NUMORA é uma consultoria de Transformação Operacional que ajuda empresas a melhorar sua eficiência por meio de Inteligência Artificial, automação e redesenho de processos.</p>
+            <p>Antes de implementar tecnologia, entendemos profundamente a operação do cliente para entregar soluções que reduzem custos, aumentam produtividade e geram resultados mensuráveis.</p>
+            <p>Não vendemos software.</p>
+            <p>Entregamos transformação de negócios.</p>
+          </div>
+          <div class="copy-card__action">
+            <button class="copy-button" type="button" data-copy-target="elevator-text">Copiar texto</button>
+            <span class="copy-status" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="document-section signature reveal" id="assinatura" aria-labelledby="assinatura-title">
+        <div>
+          <span class="section-kicker eyebrow">16 · Assinatura Institucional</span>
+          <h2 class="visually-hidden" id="assinatura-title">NUMORA</h2>
+          <div class="signature__brand" aria-hidden="true">
+            <img src="logo.jpeg?v=20260805-2" alt="" width="1600" height="800">
+          </div>
+          <p class="signature__line">Transformação Operacional Inteligente.</p>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <span>NUMORA — Fundação Estratégica</span>
+        <span>Versão 1.0 · © NUMORA</span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const menuButton = document.querySelector('.menu-button');
+      const mobileNav = document.querySelector('.mobile-nav');
+      const navigationLinks = document.querySelectorAll('.side-nav a, .mobile-nav a');
+      const sections = document.querySelectorAll('main section[id]');
+      const revealElements = document.querySelectorAll('.reveal');
+      const copyButton = document.querySelector('[data-copy-target]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const closeMenu = (returnFocus = false) => {
+        if (!menuButton || !mobileNav) return;
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.querySelector('.visually-hidden').textContent = 'Abrir navegação';
+        mobileNav.classList.remove('is-open');
+        if (returnFocus) menuButton.focus();
+      };
+
+      if (menuButton && mobileNav) {
+        menuButton.addEventListener('click', () => {
+          const willOpen = menuButton.getAttribute('aria-expanded') !== 'true';
+          menuButton.setAttribute('aria-expanded', String(willOpen));
+          menuButton.querySelector('.visually-hidden').textContent = willOpen ? 'Fechar navegação' : 'Abrir navegação';
+          mobileNav.classList.toggle('is-open', willOpen);
+        });
+
+        mobileNav.addEventListener('click', (event) => {
+          if (event.target.closest('a')) closeMenu();
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+            closeMenu(true);
+          }
+        });
+
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 1024) closeMenu();
+        }, { passive: true });
+      }
+
+      if ('IntersectionObserver' in window) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+          if (!visible) return;
+          const currentId = visible.target.id;
+          navigationLinks.forEach((link) => {
+            if (link.getAttribute('href') === `#${currentId}`) {
+              link.setAttribute('aria-current', 'location');
+            } else {
+              link.removeAttribute('aria-current');
+            }
+          });
+        }, { rootMargin: '-22% 0px -58% 0px', threshold: [0, 0.15, 0.5] });
+
+        sections.forEach((section) => sectionObserver.observe(section));
+
+        if (reduceMotion) {
+          revealElements.forEach((element) => element.classList.add('is-visible'));
+        } else {
+          const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+          revealElements.forEach((element) => revealObserver.observe(element));
+        }
+      } else {
+        revealElements.forEach((element) => element.classList.add('is-visible'));
+      }
+
+      if (copyButton) {
+        copyButton.addEventListener('click', async () => {
+          const target = document.getElementById(copyButton.dataset.copyTarget);
+          const status = copyButton.parentElement.querySelector('.copy-status');
+          if (!target || !status) return;
+
+          const text = Array.from(target.querySelectorAll('p'))
+            .map((paragraph) => paragraph.textContent.trim())
+            .join('\n\n');
+
+          let copied = false;
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(text);
+              copied = true;
+            } else {
+              const textArea = document.createElement('textarea');
+              textArea.value = text;
+              textArea.setAttribute('readonly', '');
+              textArea.style.position = 'fixed';
+              textArea.style.opacity = '0';
+              document.body.appendChild(textArea);
+              textArea.select();
+              copied = document.execCommand('copy');
+              textArea.remove();
+            }
+          } catch (_) {
+            copied = false;
+          }
+
+          status.textContent = copied ? 'Texto copiado' : 'Não foi possível copiar';
+          if (copied) {
+            window.setTimeout(() => {
+              status.textContent = '';
+            }, 3000);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
