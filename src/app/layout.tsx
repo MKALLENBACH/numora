@@ -13,9 +13,13 @@ export const metadata: Metadata = {
     ? { canonical: siteConfig.siteUrl }
     : undefined,
   icons: {
-    icon: [{ url: siteConfig.favicon, type: "image/jpeg" }],
-    shortcut: [{ url: siteConfig.favicon, type: "image/jpeg" }],
-    apple: [{ url: siteConfig.favicon, type: "image/jpeg" }],
+    icon: [
+      { url: siteConfig.favicon16, type: "image/png", sizes: "16x16" },
+      { url: siteConfig.favicon32, type: "image/png", sizes: "32x32" },
+      { url: siteConfig.favicon, type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: [{ url: siteConfig.favicon32, type: "image/png" }],
+    apple: [{ url: siteConfig.appleTouchIcon, type: "image/png", sizes: "180x180" }],
   },
   openGraph: {
     type: "website",

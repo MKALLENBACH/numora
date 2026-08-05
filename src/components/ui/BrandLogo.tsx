@@ -18,8 +18,8 @@ export function BrandLogo({
       className={`brand-logo ${className}`.trim()}
       src={siteConfig.logo}
       alt={decorative ? "" : "NUMORA"}
-      width={1600}
-      height={800}
+      width={1382}
+      height={276}
       priority={priority}
       sizes="(max-width: 768px) 144px, 176px"
     />

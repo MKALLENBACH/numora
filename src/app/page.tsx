@@ -65,7 +65,7 @@ export default function Home() {
               </h1>
               <p className="hero__description">
                 A NUMORA transforma processos empresariais por meio de estratégia,
-                Inteligência Artificial, automação e integração — sempre começando pelo
+                Inteligência Artificial, automação e integração, sempre começando pelo
                 negócio.
               </p>
               <div className="hero__actions">

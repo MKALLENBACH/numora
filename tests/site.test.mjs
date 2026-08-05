@@ -79,7 +79,28 @@ test("metadados e conteúdo estratégico essenciais permanecem exatos", () => {
     /Transformação operacional por meio de estratégia, Inteligência Artificial, automação e integração\./,
   );
   assert.match(source, /Não vendemos software\. Entregamos transformação operacional\./);
+  assert.match(
+    source,
+    /Inteligência Artificial, automação e integração, sempre começando pelo/,
+  );
   assert.match(source, /A composição de cada projeto depende do contexto/);
+});
+
+test("logos e ícones da marca são exportados nos formatos corretos", () => {
+  for (const asset of [
+    "logo-wordmark.png",
+    "favicon.png",
+    "favicon-32.png",
+    "favicon-16.png",
+    "apple-touch-icon.png",
+  ]) {
+    assert.equal(existsSync(join(root, "out", "brand", asset)), true, `${asset} não foi exportado`);
+  }
+
+  assert.match(html, /brand\/logo-wordmark\.png/);
+  assert.match(html, /brand\/favicon-16\.png/);
+  assert.match(html, /brand\/favicon-32\.png/);
+  assert.match(html, /brand\/apple-touch-icon\.png/);
 });
 
 test("diagnóstico desativado não gera rota pública", () => {
@@ -100,7 +121,12 @@ test("base path configurado é preservado nos assets", () => {
   if (!basePath) return;
 
   assert.match(html, new RegExp(`${basePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/_next/`));
-  assert.match(html, new RegExp(`${basePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/brand/logo\\.jpeg`));
+  assert.match(
+    html,
+    new RegExp(
+      `${basePath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/brand/logo-wordmark\\.png`,
+    ),
+  );
 });
 
 test("CSS não mascara overflow e mantém alvos interativos mínimos", () => {
