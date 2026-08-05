@@ -1,7 +1,7 @@
 import { siteConfig } from "@/config/site";
 
 export const diagnosticConfig = {
-  enabled: false,
+  enabled: true,
   href: `${siteConfig.basePath}/diagnostico`,
   label: "Comece seu diagnóstico",
   microcopy: {
