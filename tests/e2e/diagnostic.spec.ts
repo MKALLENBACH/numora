@@ -625,6 +625,49 @@ test.describe("Diagnóstico inicial NUMORA", () => {
     expect(startCalls[0].body.clientRequestId).toEqual(expect.stringMatching(/^[0-9a-f-]{36}$/));
   });
 
+  test("bloqueia avanço ao detectar dados sensíveis na identificação (CT-089)", async ({ page }) => {
+    const calls = await mockSupabase(page, async (functionName, body) => {
+      if (functionName === "diagnostic-state") return sessionNotFound();
+      if (functionName === "diagnostic-start") return { data: publicState("IDENTIFICATION") };
+      if (functionName === "diagnostic-identification") {
+        return {
+          status: 422,
+          error: {
+            code: "VALIDATION_ERROR",
+            message: "Revise as informações indicadas para continuar.",
+            referenceCode: "NUM3B608E9DC732",
+            retryable: true,
+          },
+        };
+      }
+      throw new Error(`Unexpected Edge Function: ${functionName}`);
+    });
+
+    await page.goto("diagnostico/");
+    await page.getByRole("button", { name: "Começar diagnóstico" }).click();
+
+    await expect(page.getByRole("heading", { name: "Conte-nos um pouco sobre você e sua empresa" })).toBeVisible();
+
+    await page.getByLabel("Nome").fill("Matheus Kallenbach");
+    await page.getByLabel("Cargo ou função").fill("QA");
+    await page.getByLabel("Empresa", { exact: true }).fill("Teste S/A");
+    await page.getByLabel("E-mail profissional").fill("qa@teste.com.br");
+    await page.getByLabel("Setor").selectOption({ label: "Outro" });
+    await page.getByLabel("Qual setor?").fill("Tecnologia");
+    await page.getByLabel("Porte da empresa").selectOption({ label: "Até 10 pessoas" });
+    
+    // Simulate submitting sensitive data in a field to trigger the mock VALIDATION_ERROR
+    await page.getByRole("button", { name: "Continuar" }).click();
+
+    await expect(page.getByText("Revise as informações indicadas para continuar.")).toBeVisible();
+    
+    // Should stay on the same step
+    await expect(page.getByRole("heading", { name: "Conte-nos um pouco sobre você e sua empresa" })).toBeVisible();
+    
+    const idCalls = calls.filter((call) => call.functionName === "diagnostic-identification");
+    expect(idCalls).toHaveLength(1);
+  });
+
   for (const width of [320, 390]) {
     test(`mantém navegação por teclado e não cria rolagem horizontal em ${width}px`, async ({ page }, testInfo) => {
       await page.setViewportSize({ width, height: 844 });
