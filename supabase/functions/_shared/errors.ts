@@ -28,6 +28,7 @@ export class AppError extends Error {
     public readonly code: PublicErrorCode,
     public readonly status = 400,
     public readonly fields?: Record<string, string>,
+    public readonly technicalCode?: string,
   ) {
     super(code);
   }
@@ -38,18 +39,26 @@ export function referenceCode(): string {
 }
 
 export function mapPersistenceError(error: unknown): AppError {
-  const message = error instanceof Error ? error.message : String(error ?? "");
-  if (message.includes("SESSION_EXPIRED")) return new AppError("SESSION_EXPIRED", 410);
-  if (message.includes("SESSION_NOT_FOUND")) return new AppError("SESSION_NOT_FOUND", 404);
-  if (message.includes("STATE_CONFLICT") || message.includes("40001")) return new AppError("STATE_CONFLICT", 409);
-  if (message.includes("UNAUTHORIZED") || message.includes("42501")) return new AppError("UNAUTHORIZED", 401);
-  if (message.includes("BLOCKED")) return new AppError("BLOCKED", 403);
+  const message = error instanceof Error
+    ? error.message
+    : error && typeof error === "object" && "message" in error
+      ? String((error as { message?: unknown }).message ?? "")
+      : String(error ?? "");
+  const rawCode = error && typeof error === "object" && "code" in error
+    ? String((error as { code?: unknown }).code ?? "")
+    : "";
+  const technicalCode = /^[A-Z0-9_]{1,100}$/i.test(rawCode) ? rawCode : undefined;
+  if (message.includes("SESSION_EXPIRED")) return new AppError("SESSION_EXPIRED", 410, undefined, technicalCode);
+  if (message.includes("SESSION_NOT_FOUND")) return new AppError("SESSION_NOT_FOUND", 404, undefined, technicalCode);
+  if (message.includes("STATE_CONFLICT") || message.includes("40001")) return new AppError("STATE_CONFLICT", 409, undefined, technicalCode);
+  if (message.includes("UNAUTHORIZED") || message.includes("42501")) return new AppError("UNAUTHORIZED", 401, undefined, technicalCode);
+  if (message.includes("BLOCKED")) return new AppError("BLOCKED", 403, undefined, technicalCode);
   if (
     message.includes("TEMPORARY_EMAIL") || message.includes("REVIEW_LIMIT_REACHED") ||
     message.includes("INVALID_") || message.includes("QUESTION_LIMIT_REACHED") ||
     message.includes("IDEMPOTENCY_KEY_REUSED")
-  ) return new AppError("VALIDATION_ERROR", 422);
-  return new AppError("PERSISTENCE_UNAVAILABLE", 503);
+  ) return new AppError("VALIDATION_ERROR", 422, undefined, technicalCode);
+  return new AppError("PERSISTENCE_UNAVAILABLE", 503, undefined, technicalCode);
 }
 
 export function errorResponse(error: unknown, code: string, headers: HeadersInit): Response {

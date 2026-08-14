@@ -6,7 +6,7 @@ import { reviseReview } from "./ai.ts";
 import { assertOwnedDiagnostic, buildPublicState, diagnosticRowVersion } from "./public-state.ts";
 import {
   appendProposedAnswer, clarificationPublicQuestion, createInterviewContext,
-  flattenStructuredData, missingCriticalPaths, parseClarificationCode, selectNextAction,
+  flattenStructuredData, getCatalogQuestion, missingCriticalPaths, parseClarificationCode, selectNextAction,
   type StoredAnswer, type StoredEvidence, toPublicQuestion, validateCatalogAnswer,
 } from "./interview.ts";
 import {
@@ -160,6 +160,47 @@ async function audit(ctx: RequestContext, diagnosticId: string, sessionId: strin
   if (error) throw mapPersistenceError(error);
 }
 
+type RequestIdentity = {
+  diagnosticId?: string;
+  sessionId?: string;
+};
+
+function requestIdentity(value: unknown): RequestIdentity {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const record = value as Record<string, unknown>;
+  return {
+    ...(typeof record.diagnosticId === "string" ? { diagnosticId: record.diagnosticId } : {}),
+    ...(typeof record.sessionId === "string" ? { sessionId: record.sessionId } : {}),
+  };
+}
+
+async function recordTechnicalFailure(
+  ctx: RequestContext,
+  endpoint: EndpointName,
+  identity: RequestIdentity,
+  error: AppError,
+): Promise<void> {
+  if (!["PERSISTENCE_UNAVAILABLE", "GENERIC_ERROR"].includes(error.code)) return;
+
+  try {
+    await ctx.admin.from("technical_errors").insert({
+      diagnostic_id: identity.diagnosticId ?? null,
+      session_id: identity.sessionId ?? null,
+      owner_user_id: ctx.user.id,
+      error_type: error.code === "PERSISTENCE_UNAVAILABLE" ? "DATABASE" : "INTEGRATION",
+      error_code: error.technicalCode ?? error.code,
+      reference_code: ctx.referenceCode,
+      safe_context: {
+        endpoint,
+        publicCode: error.code,
+        ...(error.technicalCode ? { technicalCode: error.technicalCode } : {}),
+      },
+    });
+  } catch {
+    // O registro auxiliar nunca deve substituir a resposta segura do erro original.
+  }
+}
+
 async function loadInterviewContext(ctx: RequestContext, diagnosticId: string, sessionId?: string) {
   const diagnostic = await assertOwnedDiagnostic(ctx.admin, ctx.user.id, diagnosticId);
   let sessionQuery = ctx.admin.from("diagnostic_sessions")
@@ -184,8 +225,9 @@ async function loadInterviewContext(ctx: RequestContext, diagnosticId: string, s
       .eq("diagnostic_id", diagnosticId).eq("owner_user_id", ctx.user.id).eq("is_current", true)
       .order("created_at", { ascending: true }),
     ctx.admin.from("evidence_items")
-      .select("answer_id,target_path,source_type,text,confidence")
-      .eq("diagnostic_id", diagnosticId),
+      .select("answer_id,target_path,source_type,text,confidence,created_at")
+      .eq("diagnostic_id", diagnosticId)
+      .order("created_at", { ascending: true }),
     ctx.admin.from("consent_records").select("consent_type,decision,policy_version")
       .eq("diagnostic_id", diagnosticId).order("occurred_at", { ascending: false }),
     ctx.admin.from("diagnostic_flags").select("code").eq("diagnostic_id", diagnosticId).eq("status", "ACTIVE"),
@@ -257,8 +299,13 @@ async function handleConsent(ctx: RequestContext, body: ConsentInput) {
 async function handleIdentification(ctx: RequestContext, body: IdentificationInput) {
   const attempt = await prepareIdempotency(ctx, body.diagnosticId, "identification", "IDENTIFICATION", body.clientRequestId, body);
   if (attempt.replayedState) return attempt.replayedState;
-  const { phone, phoneE164, ...leadRest } = body.lead;
-  const safety = await redactValue({ company: body.company, lead: leadRest }, "identification");
+  const leadForSafety = {
+    name: body.lead.name,
+    role: body.lead.role,
+    email: body.lead.email,
+    ...(body.lead.roleCategory ? { roleCategory: body.lead.roleCategory } : {}),
+  };
+  const safety = await redactValue({ company: body.company, lead: leadForSafety }, "identification");
   if (safety.redactions.length) throw new AppError("VALIDATION_ERROR", 422);
   const emailType = classifyEmail(body.lead.email);
   if (emailType === "TEMPORARY") throw new AppError("VALIDATION_ERROR", 422, { email: "Para continuar, precisamos de um endereço de e-mail permanente." });
@@ -285,7 +332,8 @@ async function securityFlags(ctx: RequestContext, diagnosticId: string, display:
   });
   for (const [matches, code] of [[detectsPromptInjection(display), "PROMPT_INJECTION_ATTEMPT"], [detectsAbuse(display), "PERSISTENT_ABUSE"]] as const) {
     if (!matches) continue;
-    const { data } = await ctx.admin.from("diagnostic_flags").select("id").eq("diagnostic_id", diagnosticId).eq("code", code).eq("status", "ACTIVE").limit(1);
+    const { data, error } = await ctx.admin.from("diagnostic_flags").select("id").eq("diagnostic_id", diagnosticId).eq("code", code).eq("status", "ACTIVE").limit(1);
+    if (error) throw mapPersistenceError(error);
     const persistent = Boolean(data?.length);
     flags.push({
       code: persistent && code === "PROMPT_INJECTION_ATTEMPT" ? "PERSISTENT_PROMPT_INJECTION" : code,
@@ -319,6 +367,12 @@ async function handleAnswer(ctx: RequestContext, body: AnswerInput) {
     responseType: body.responseType, value: redacted.value,
   });
   const skipped = body.responseType === "SKIPPED";
+  const currentClarification = parseClarificationCode(body.questionCode);
+  const extractionQuestion = validated.question ?? (
+    currentClarification
+      ? getCatalogQuestion(currentClarification.relatedQuestionId) ?? null
+      : null
+  );
   const answerQuestion = validated.question
     ? toPublicQuestion(validated.question)
     : clarificationPublicQuestion(body.questionCode);
@@ -328,7 +382,7 @@ async function handleAnswer(ctx: RequestContext, body: AnswerInput) {
     : await deterministicAI.extractAnswer({
       question: answerQuestion,
       answer: validated.value,
-      targetPaths: [...(validated.question?.targetPaths ?? [])],
+      targetPaths: [...(extractionQuestion?.targetPaths ?? [])],
       knownData: flattenStructuredData(loaded.context.structuredData),
     });
   const flags = await securityFlags(ctx, body.diagnosticId, display, redacted.redactions.length > 0, redacted.redactions.some((item) => item.severe));
@@ -346,9 +400,11 @@ async function handleAnswer(ctx: RequestContext, body: AnswerInput) {
     field.sourceType !== "AI_INFERENCE" &&
     field.sourceType !== "NOT_CONFIRMED"
   );
-  const normalizedFields = Object.fromEntries(
-    acceptedFields.map((field) => [field.path, field.value as Json]),
-  );
+  const normalizedFields = acceptedFields.length > 0
+    ? Object.fromEntries(
+      acceptedFields.map((field) => [field.path, field.value as Json]),
+    )
+    : undefined;
   const proposed = appendProposedAnswer(loaded.context, {
     code: body.questionCode,
     value: validated.value,
@@ -369,10 +425,11 @@ async function handleAnswer(ctx: RequestContext, body: AnswerInput) {
       : loaded.diagnostic.current_stage;
   const nextCode = action?.type === "ASK_QUESTION" ? action.question.id
     : action?.type === "ASK_CLARIFICATION" ? action.question.id : null;
-  const currentClarification = parseClarificationCode(body.questionCode);
   const answerEvidence = extractedFields.map((field) => ({
     targetPath: field.path,
-    sourceType: field.confidence >= 0.85 && field.sourceType !== "AI_INFERENCE"
+    sourceType: validationStatus === "VALID" &&
+        field.confidence >= 0.85 &&
+        field.sourceType !== "AI_INFERENCE"
       ? field.sourceType
       : "NOT_CONFIRMED" as const,
     text: field.evidenceText.slice(0, 500),
@@ -387,13 +444,13 @@ async function handleAnswer(ctx: RequestContext, body: AnswerInput) {
     p_question_version: body.questionVersion,
     p_response_type: responseType(body.responseType),
     p_raw_value: redacted.value,
-    p_normalized_value: normalizedFields,
+    p_normalized_value: normalizedFields ?? null,
     p_display_value: display,
     p_validation_status: validationStatus,
     p_source_type: skipped
       ? "NOT_CONFIRMED"
-      : answerEvidence[0]?.sourceType ?? (validated.isClarification ? "REPORTED_FACT" : "NOT_CONFIRMED"),
-    p_confidence: skipped ? 0 : answerEvidence[0]?.confidence ?? (validated.isClarification ? 1 : 0),
+      : answerEvidence[0]?.sourceType ?? (validationStatus === "VALID" ? "REPORTED_FACT" : "NOT_CONFIRMED"),
+    p_confidence: skipped ? 0 : answerEvidence[0]?.confidence ?? (validationStatus === "VALID" ? 1 : 0),
     p_confirmed: !skipped && validationStatus === "VALID",
     p_redacted: redacted.redactions.length > 0,
     p_redactions: redacted.redactions,
@@ -426,12 +483,52 @@ async function reviewInputs(ctx: RequestContext, diagnosticId: string, sessionId
   return { ...loaded, answers, company };
 }
 
+function structuredDataForReview(context: ReturnType<typeof createInterviewContext>) {
+  const flattened = flattenStructuredData(context.structuredData);
+  const latestAnswers = new Map<string, (typeof context.answers)[number]>();
+  for (const answer of context.answers) latestAnswers.set(answer.questionId, answer);
+
+  const areaDetails = [...latestAnswers.values()].flatMap((answer) => {
+    const question = getCatalogQuestion(answer.questionId);
+    if (!question || question.kind !== "AREA_SPECIFIC" || answer.clarity !== "CLEAR") return [];
+    const value = stringifyDisplayValue(answer.value).trim();
+    return value ? [`${question.text} ${value}`] : [];
+  });
+
+  if (areaDetails.length > 0) {
+    const currentProcess = typeof flattened["currentProcess.description"] === "string"
+      ? flattened["currentProcess.description"].trim()
+      : "";
+    flattened["currentProcess.description"] = [
+      currentProcess,
+      `Detalhes específicos da área: ${areaDetails.join(" ")}`,
+    ].filter(Boolean).join("\n").slice(0, 1_200);
+  }
+
+  const reviewTextLimits: Readonly<Record<string, number>> = {
+    "lead.company": 200,
+    "challenge.primaryAffectedArea": 100,
+    "challenge.summary": 800,
+    "currentProcess.description": 1_200,
+    "currentProcess.participants": 500,
+    "challenge.desiredOutcome": 800,
+    "buyingContext.priority": 100,
+    "buyingContext.deadline": 100,
+    "buyingContext.decisionMakers": 800,
+  };
+  for (const [path, limit] of Object.entries(reviewTextLimits)) {
+    if (typeof flattened[path] === "string") flattened[path] = flattened[path].slice(0, limit);
+  }
+
+  return flattened;
+}
+
 async function handleGenerateReview(ctx: RequestContext, body: GenerateReviewInput) {
   const attempt = await prepareIdempotency(ctx, body.diagnosticId, "generate-review", "GENERATE_REVIEW", body.clientRequestId, body);
   if (attempt.replayedState) return attempt.replayedState;
   const inputs = await reviewInputs(ctx, body.diagnosticId, body.sessionId);
   const canonicalDraft = await deterministicAI.generateReview({
-    structuredData: flattenStructuredData(inputs.context.structuredData),
+    structuredData: structuredDataForReview(inputs.context),
   });
   const generated = await reviseReview(canonicalDraft);
   if (generated.fallbackUsed) {
@@ -455,7 +552,8 @@ async function handleUpdateReview(ctx: RequestContext, body: UpdateReviewInput) 
   if (attempt.replayedState) return attempt.replayedState;
   await assertOwnedDiagnostic(ctx.admin, ctx.user.id, body.diagnosticId);
   const section = body.sectionKey === "additionalInformation" ? "decisionContext" : body.sectionKey;
-  const { data: current } = await ctx.admin.from("diagnostic_reviews").select("version,summary").eq("diagnostic_id", body.diagnosticId).eq("status", "PENDING_CONFIRMATION").order("version", { ascending: false }).limit(1);
+  const { data: current, error: reviewError } = await ctx.admin.from("diagnostic_reviews").select("version,summary").eq("diagnostic_id", body.diagnosticId).eq("status", "PENDING_CONFIRMATION").order("version", { ascending: false }).limit(1);
+  if (reviewError) throw mapPersistenceError(reviewError);
   if (current?.[0]?.version !== body.reviewVersion) throw new AppError("STATE_CONFLICT", 409);
   const safe = await redactValue(body.value, `review.${section}`);
   if (safe.redactions.length) throw new AppError("VALIDATION_ERROR", 422);
@@ -526,7 +624,8 @@ async function handleComplete(ctx: RequestContext, body: CompleteInput) {
   const attempt = await prepareIdempotency(ctx, body.diagnosticId, "complete", "COMPLETE", body.clientRequestId, body);
   if (attempt.replayedState) return attempt.replayedState;
   const inputs = await reviewInputs(ctx, body.diagnosticId, body.sessionId);
-  const { data: reviews } = await ctx.admin.from("diagnostic_reviews").select("summary").eq("diagnostic_id", body.diagnosticId).eq("status", "CONFIRMED").order("version", { ascending: false }).limit(1);
+  const { data: reviews, error: reviewError } = await ctx.admin.from("diagnostic_reviews").select("summary").eq("diagnostic_id", body.diagnosticId).eq("status", "CONFIRMED").order("version", { ascending: false }).limit(1);
+  if (reviewError) throw mapPersistenceError(reviewError);
   if (!reviews?.[0]?.summary) throw new AppError("STATE_CONFLICT", 409);
   const artifacts = await completionArtifacts(
     reviews[0].summary as Record<string, Json>,
@@ -576,7 +675,8 @@ async function dispatch(endpoint: EndpointName, ctx: RequestContext, body: unkno
     const attempt = await prepareIdempotency(ctx, input.diagnosticId, "confirm-review", "CONFIRM_REVIEW", input.clientRequestId, input);
     if (attempt.replayedState) return attempt.replayedState;
     await assertOwnedDiagnostic(ctx.admin, ctx.user.id, input.diagnosticId);
-    const { data: current } = await ctx.admin.from("diagnostic_reviews").select("version").eq("diagnostic_id", input.diagnosticId).eq("status", "PENDING_CONFIRMATION").order("version", { ascending: false }).limit(1);
+    const { data: current, error: reviewError } = await ctx.admin.from("diagnostic_reviews").select("version").eq("diagnostic_id", input.diagnosticId).eq("status", "PENDING_CONFIRMATION").order("version", { ascending: false }).limit(1);
+    if (reviewError) throw mapPersistenceError(reviewError);
     if (current?.[0]?.version !== input.reviewVersion) throw new AppError("STATE_CONFLICT", 409);
     await rpc(ctx, "diagnostic_confirm_review", {
       p_owner_user_id: ctx.user.id, p_diagnostic_id: input.diagnosticId, p_session_id: input.sessionId,
@@ -603,15 +703,18 @@ export function serveEndpoint(endpoint: EndpointName): void {
     const origin = request.headers.get("origin");
     let headers: Record<string, string> = { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" };
     const code = referenceCode();
+    let ctx: RequestContext | null = null;
+    let identity: RequestIdentity = {};
     try {
       headers = { ...headers, ...corsHeaders(origin) };
       if (request.method === "OPTIONS") return preflightResponse(request);
       if (request.method !== "POST") throw new AppError("VALIDATION_ERROR", 405);
       const { user, admin } = await authenticate(request);
-      const ctx: RequestContext = { user, admin, origin, referenceCode: code };
+      ctx = { user, admin, origin, referenceCode: code };
       await rateLimit(ctx, "diagnostic-global", integerEnv("RATE_LIMIT_MAX_REQUESTS", 30, 1, 300), integerEnv("RATE_LIMIT_WINDOW_SECONDS", 60, 1, 3600));
       const raw = await requestBody(request);
       const body = parse(endpoint, raw);
+      identity = requestIdentity(body);
       const data = await dispatch(endpoint, ctx, body);
       const diagnosticId = data && typeof data === "object" && "diagnosticId" in data
         ? String((data as { diagnosticId: unknown }).diagnosticId) : null;
@@ -626,7 +729,9 @@ export function serveEndpoint(endpoint: EndpointName): void {
         const fields = Object.fromEntries(error.issues.slice(0, 10).map((issue) => [issue.path.join(".") || "request", "Valor inválido."]));
         return errorResponse(new AppError("VALIDATION_ERROR", 422, fields), code, headers);
       }
-      return errorResponse(error, code, headers);
+      const safeError = error instanceof AppError ? error : new AppError("GENERIC_ERROR", 500);
+      if (ctx) await recordTechnicalFailure(ctx, endpoint, identity, safeError);
+      return errorResponse(safeError, code, headers);
     }
   });
 }

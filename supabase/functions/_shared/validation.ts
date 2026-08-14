@@ -81,6 +81,25 @@ export const AnswerSchema = z.object({
 
 export const ActionSchema = z.object({ ...diagnosticIdentity }).strict();
 export const GenerateReviewSchema = z.object({ ...diagnosticIdentity, clientRequestId }).strict();
+
+const reviewTextLimits = {
+  company: 200,
+  affectedArea: 100,
+  challenge: 800,
+  currentProcess: 1_200,
+  participants: 500,
+  desiredOutcome: 800,
+  priority: 100,
+  deadline: 100,
+  decisionContext: 800,
+  additionalInformation: 800,
+} as const;
+
+const reviewArrayLimits = {
+  systems: { items: 100, selections: 20 },
+  mainImpacts: { items: 200, selections: 15 },
+} as const;
+
 export const UpdateReviewSchema = z.object({
   ...diagnosticIdentity,
   sectionKey: z.enum([
@@ -90,7 +109,27 @@ export const UpdateReviewSchema = z.object({
   value: z.union([z.string().max(2000), z.array(z.string().max(500)).max(20), z.null()]),
   reviewVersion: z.number().int().positive(),
   clientRequestId,
-}).strict();
+}).strict().superRefine((input, context) => {
+  const invalid = () => context.addIssue({
+    code: "custom",
+    path: ["value"],
+    message: "Valor incompatível com a seção da revisão.",
+  });
+
+  if (input.sectionKey in reviewArrayLimits) {
+    const limits = reviewArrayLimits[input.sectionKey as keyof typeof reviewArrayLimits];
+    if (
+      !Array.isArray(input.value) ||
+      input.value.length > limits.selections ||
+      input.value.some((item) => item.length > limits.items)
+    ) invalid();
+    return;
+  }
+
+  if (input.sectionKey === "deadline" && input.value === null) return;
+  const limit = reviewTextLimits[input.sectionKey as keyof typeof reviewTextLimits];
+  if (typeof input.value !== "string" || input.value.length > limit) invalid();
+});
 export const ConfirmReviewSchema = z.object({ ...diagnosticIdentity, reviewVersion: z.number().int().positive(), clientRequestId }).strict();
 export const CompleteSchema = z.object({ ...diagnosticIdentity, clientRequestId }).strict();
 export const AbandonSchema = z.object({ ...diagnosticIdentity, clientRequestId }).strict();

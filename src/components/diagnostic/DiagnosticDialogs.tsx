@@ -6,6 +6,62 @@ import { siteConfig } from "@/config/site";
 import type { DiagnosticClientError } from "@/features/diagnostic/client/diagnostic-client";
 import type { PreviousAnswer, ReviewSection } from "@/features/diagnostic/client/types";
 
+type ReviewEditRule =
+  | { kind: "text"; maxLength: number }
+  | { kind: "list"; itemMaxLength: number; maxItems: number };
+
+const REVIEW_EDIT_RULES: Readonly<Record<string, ReviewEditRule>> = {
+  company: { kind: "text", maxLength: 200 },
+  affectedArea: { kind: "text", maxLength: 100 },
+  challenge: { kind: "text", maxLength: 800 },
+  currentProcess: { kind: "text", maxLength: 1_200 },
+  participants: { kind: "text", maxLength: 500 },
+  systems: { kind: "list", itemMaxLength: 100, maxItems: 20 },
+  mainImpacts: { kind: "list", itemMaxLength: 200, maxItems: 15 },
+  desiredOutcome: { kind: "text", maxLength: 800 },
+  priority: { kind: "text", maxLength: 100 },
+  deadline: { kind: "text", maxLength: 100 },
+  decisionContext: { kind: "text", maxLength: 800 },
+  additionalInformation: { kind: "text", maxLength: 800 },
+};
+
+const DEFAULT_REVIEW_EDIT_RULE: ReviewEditRule = { kind: "text", maxLength: 800 };
+
+function listItems(value: string) {
+  return value.split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+function reviewEditStatus(value: string, rule: ReviewEditRule) {
+  if (rule.kind === "text") {
+    return {
+      error: value.trim()
+        ? value.length > rule.maxLength
+          ? `Use no máximo ${rule.maxLength} caracteres neste campo.`
+          : ""
+        : "Informe o conteúdo revisado para salvar.",
+      counter: `${value.length}/${rule.maxLength} caracteres`,
+      maxLength: rule.maxLength,
+    };
+  }
+
+  const items = listItems(value);
+  const longestItemLength = items.reduce((longest, item) => Math.max(longest, item.length), 0);
+  const oversizedItemIndex = items.findIndex((item) => item.length > rule.itemMaxLength);
+  const error = !items.length
+    ? "Informe pelo menos um item para salvar."
+    : items.length > rule.maxItems
+      ? `Use no máximo ${rule.maxItems} itens separados por vírgula.`
+      : oversizedItemIndex >= 0
+        ? `O item ${oversizedItemIndex + 1} excede ${rule.itemMaxLength} caracteres.`
+        : "";
+
+  return {
+    error,
+    counter: `${items.length}/${rule.maxItems} itens · maior item: ${longestItemLength}/${rule.itemMaxLength} caracteres`,
+    maxLength: rule.maxItems * rule.itemMaxLength + Math.max(0, rule.maxItems - 1) * 2,
+  };
+}
+
 function ModalDialog({
   title,
   description,
@@ -147,16 +203,46 @@ export function EditReviewDialog({
   busy: boolean;
 }) {
   const [value, setValue] = useState(section.value);
+  const hintId = useId();
+  const counterId = useId();
+  const errorId = useId();
+  const rule = REVIEW_EDIT_RULES[section.key] ?? DEFAULT_REVIEW_EDIT_RULE;
+  const status = reviewEditStatus(value, rule);
+  const describedBy = `${hintId} ${counterId}${status.error ? ` ${errorId}` : ""}`;
+
+  async function handleSave() {
+    if (status.error) return;
+    await onSave(value.trim());
+  }
 
   return (
     <ModalDialog title={`Editar ${section.title}`} description="Atualize somente este bloco. O resumo será gerado novamente." onClose={onClose}>
       <div className="diagnostic-field">
-        <label htmlFor="review-edit-value">Informação revisada</label>
-        <textarea id="review-edit-value" value={value} onChange={(event) => setValue(event.target.value)} rows={6} maxLength={2000} />
+        <label htmlFor="review-edit-value">
+          {rule.kind === "list" ? "Itens revisados" : "Informação revisada"}
+        </label>
+        <textarea
+          id="review-edit-value"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          rows={6}
+          maxLength={status.maxLength}
+          aria-invalid={Boolean(status.error)}
+          aria-describedby={describedBy}
+        />
+        <p className="diagnostic-support" id={hintId}>
+          {rule.kind === "list"
+            ? `Separe os itens por vírgula. Cada item pode ter até ${rule.itemMaxLength} caracteres.`
+            : `Este campo aceita até ${rule.maxLength} caracteres.`}
+        </p>
+        <div className="diagnostic-field__meta">
+          {status.error ? <p className="diagnostic-field-error" id={errorId}>{status.error}</p> : <span />}
+          <span id={counterId}>{status.counter}</span>
+        </div>
       </div>
       <div className="diagnostic-dialog__actions diagnostic-dialog__actions--row">
         <button className="diagnostic-button diagnostic-button--secondary" type="button" onClick={onClose} disabled={busy}>Cancelar</button>
-        <button className="diagnostic-button diagnostic-button--primary" type="button" onClick={() => onSave(value.trim())} disabled={busy || !value.trim()}>{busy ? "Salvando…" : "Salvar alteração"}</button>
+        <button className="diagnostic-button diagnostic-button--primary" type="button" onClick={handleSave} disabled={busy || Boolean(status.error)}>{busy ? "Salvando…" : "Salvar alteração"}</button>
       </div>
     </ModalDialog>
   );

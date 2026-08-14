@@ -183,7 +183,10 @@ export function NumberInput({ question, value, onChange, error }: InputProps) {
         min={question.validation?.min}
         max={question.validation?.max}
         value={!unknown && typeof value === "number" ? value : ""}
-        onChange={(event) => onChange(event.target.value === "" ? null : Number(event.target.value))}
+        onChange={(event) => {
+          const nextValue = event.target.valueAsNumber;
+          onChange(event.target.value === "" || !Number.isFinite(nextValue) ? null : nextValue);
+        }}
         disabled={unknown}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${question.id}-error` : undefined}

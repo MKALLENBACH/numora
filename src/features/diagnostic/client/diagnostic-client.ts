@@ -221,7 +221,9 @@ export function createDiagnosticClient() {
     async refresh(state?: Pick<PublicDiagnosticState, "diagnosticId" | "sessionId">) {
       const stored = state ?? safeRead<StoredDiagnostic>(SESSION_STORAGE_KEY) ?? undefined;
       return rememberState(
-        await invoke<PublicDiagnosticState>("diagnostic-state", { ...(stored ?? {}) }),
+        await invoke<PublicDiagnosticState>("diagnostic-state", stored
+          ? { diagnosticId: stored.diagnosticId, sessionId: stored.sessionId }
+          : {}),
       );
     },
     async clearSession() {

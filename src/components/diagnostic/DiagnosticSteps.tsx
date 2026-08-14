@@ -1,6 +1,15 @@
 "use client";
 
-import { type FormEvent, type RefObject, useMemo, useState } from "react";
+import {
+  type ChangeEvent,
+  type FormEvent,
+  type KeyboardEvent,
+  type RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { siteConfig } from "@/config/site";
 import {
@@ -10,6 +19,11 @@ import {
   revenueRanges,
 } from "@/features/diagnostic/client/content";
 import { diagnosticPublicConfig } from "@/features/diagnostic/client/config";
+import {
+  formatBrazilianPhone,
+  normalizeBrazilianPhone,
+  phoneCaretAfterDigits,
+} from "@/features/diagnostic/client/input-masks";
 import { answerDisplayValue, normalizeReviewSections } from "@/features/diagnostic/client/presentation";
 import type {
   AnswerValue,
@@ -187,6 +201,13 @@ function validateIdentification(values: IdentificationValues) {
     if (!values[key].trim()) errors[key] = "Precisamos desta informação para continuar.";
   });
 
+  (["name", "role", "company"] as const).forEach((key) => {
+    const value = values[key].trim();
+    if (value && value.length < 2) {
+      errors[key] = "Informe pelo menos 2 caracteres para continuar.";
+    }
+  });
+
   const email = values.email.trim().toLowerCase();
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.email = "Este endereço de e-mail não parece estar completo. Revise e tente novamente.";
@@ -195,11 +216,110 @@ function validateIdentification(values: IdentificationValues) {
   }
   if (values.industry === "OTHER" && !values.industryOther.trim()) {
     errors.industryOther = "Precisamos desta informação para continuar.";
+  } else if (values.industryOther && values.industryOther.trim().length < 2) {
+    errors.industryOther = "Informe pelo menos 2 caracteres para continuar.";
   }
-  if (values.phone && values.phone.replace(/\D/g, "").length < 10) {
+  const phoneDigits = normalizeBrazilianPhone(values.phone).replace(/\D/g, "");
+  const acceptedPhoneLengths = values.phone.startsWith("+") ? [12, 13] : [10, 11];
+  if (values.phone && !acceptedPhoneLengths.includes(phoneDigits.length)) {
     errors.phone = "O número informado parece incompleto. Inclua o DDD e revise os números.";
   }
   return errors;
+}
+
+function PhoneInput({
+  value,
+  error,
+  onChange,
+}: {
+  value: string;
+  error?: string;
+  onChange: (value: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const inputId = "identification-phone";
+  const hintId = `${inputId}-hint`;
+  const errorId = `${inputId}-error`;
+
+  useEffect(() => () => {
+    if (animationFrameRef.current !== null) {
+      window.cancelAnimationFrame(animationFrameRef.current);
+    }
+  }, []);
+
+  function moveCaretAfterUpdate(nextValue: string, digitCount: number) {
+    if (animationFrameRef.current !== null) {
+      window.cancelAnimationFrame(animationFrameRef.current);
+    }
+    animationFrameRef.current = window.requestAnimationFrame(() => {
+      const input = inputRef.current;
+      if (!input || document.activeElement !== input) return;
+      const nextPosition = phoneCaretAfterDigits(formatBrazilianPhone(nextValue), digitCount);
+      input.setSelectionRange(nextPosition, nextPosition);
+      animationFrameRef.current = null;
+    });
+  }
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const cursor = event.currentTarget.selectionStart ?? event.currentTarget.value.length;
+    const digitsBeforeCursor = event.currentTarget.value.slice(0, cursor).replace(/\D/g, "").length;
+    const nextValue = normalizeBrazilianPhone(event.currentTarget.value);
+    const nextDigitCount = nextValue.replace(/\D/g, "").length;
+    onChange(nextValue);
+    moveCaretAfterUpdate(nextValue, Math.min(digitsBeforeCursor, nextDigitCount));
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (!["Backspace", "Delete"].includes(event.key) || event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+
+    const input = event.currentTarget;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    if (start === null || end === null || start !== end) return;
+
+    const adjacentIndex = event.key === "Backspace" ? start - 1 : start;
+    if (adjacentIndex < 0 || adjacentIndex >= input.value.length || /\d/.test(input.value[adjacentIndex])) {
+      return;
+    }
+
+    const digits = input.value.replace(/\D/g, "");
+    const digitsBeforeCursor = input.value.slice(0, start).replace(/\D/g, "").length;
+    const digitToRemove = event.key === "Backspace" ? digitsBeforeCursor - 1 : digitsBeforeCursor;
+    if (digitToRemove < 0 || digitToRemove >= digits.length) return;
+
+    event.preventDefault();
+    const nextDigits = `${digits.slice(0, digitToRemove)}${digits.slice(digitToRemove + 1)}`;
+    const nextValue = normalizeBrazilianPhone(input.value.trimStart().startsWith("+") ? `+${nextDigits}` : nextDigits);
+    const nextCaretDigit = event.key === "Backspace" ? digitToRemove : digitsBeforeCursor;
+    onChange(nextValue);
+    moveCaretAfterUpdate(nextValue, nextCaretDigit);
+  }
+
+  return (
+    <div className="diagnostic-field">
+      <label htmlFor={inputId}>Telefone profissional — opcional</label>
+      <input
+        ref={inputRef}
+        id={inputId}
+        type="tel"
+        inputMode="tel"
+        value={formatBrazilianPhone(value)}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        autoComplete="tel"
+        maxLength={19}
+        aria-invalid={Boolean(error)}
+        aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
+      />
+      <p className="diagnostic-support" id={hintId}>
+        Informe o DDD. A formatação se adapta a telefone fixo ou celular.
+      </p>
+      {error ? <p className="diagnostic-field-error" id={errorId}>{error}</p> : null}
+    </div>
+  );
 }
 
 export function IdentificationStep({
@@ -229,12 +349,11 @@ export function IdentificationStep({
     await onSubmit(values);
   }
 
-  const textFields: ReadonlyArray<{ key: keyof IdentificationValues; label: string; type?: string; optional?: boolean; autoComplete?: string }> = [
-    { key: "name", label: "Nome", autoComplete: "name" },
-    { key: "role", label: "Cargo ou função", autoComplete: "organization-title" },
-    { key: "company", label: "Empresa", autoComplete: "organization" },
-    { key: "email", label: "E-mail profissional", type: "email", autoComplete: "email" },
-    { key: "phone", label: "Telefone profissional — opcional", type: "tel", optional: true, autoComplete: "tel" },
+  const textFields: ReadonlyArray<{ key: keyof IdentificationValues; label: string; type?: string; autoComplete?: string; minLength: number; maxLength: number }> = [
+    { key: "name", label: "Nome", autoComplete: "name", minLength: 2, maxLength: 150 },
+    { key: "role", label: "Cargo ou função", autoComplete: "organization-title", minLength: 2, maxLength: 150 },
+    { key: "company", label: "Empresa", autoComplete: "organization", minLength: 2, maxLength: 200 },
+    { key: "email", label: "E-mail profissional", type: "email", autoComplete: "email", minLength: 3, maxLength: 254 },
   ];
 
   return (
@@ -252,13 +371,20 @@ export function IdentificationStep({
                 value={values[field.key]}
                 onChange={(event) => setField(field.key, event.target.value)}
                 autoComplete={field.autoComplete}
+                minLength={field.minLength}
+                maxLength={field.maxLength}
                 aria-invalid={Boolean(errors[field.key])}
                 aria-describedby={errors[field.key] ? `identification-${field.key}-error` : undefined}
-                required={!field.optional}
+                required
               />
               {errors[field.key] ? <p className="diagnostic-field-error" id={`identification-${field.key}-error`}>{errors[field.key]}</p> : null}
             </div>
           ))}
+          <PhoneInput
+            value={values.phone}
+            error={errors.phone}
+            onChange={(value) => setField("phone", value)}
+          />
           <div className="diagnostic-field">
             <label htmlFor="identification-industry">Setor</label>
             <select id="identification-industry" value={values.industry} onChange={(event) => setField("industry", event.target.value)} aria-invalid={Boolean(errors.industry)} aria-describedby={errors.industry ? "identification-industry-error" : undefined}>
@@ -269,7 +395,7 @@ export function IdentificationStep({
           {values.industry === "OTHER" ? (
             <div className="diagnostic-field">
               <label htmlFor="identification-industryOther">Qual setor?</label>
-              <input id="identification-industryOther" value={values.industryOther} onChange={(event) => setField("industryOther", event.target.value)} aria-invalid={Boolean(errors.industryOther)} aria-describedby={errors.industryOther ? "identification-industryOther-error" : undefined} />
+              <input id="identification-industryOther" value={values.industryOther} minLength={2} maxLength={150} onChange={(event) => setField("industryOther", event.target.value)} aria-invalid={Boolean(errors.industryOther)} aria-describedby={errors.industryOther ? "identification-industryOther-error" : undefined} />
               {errors.industryOther ? <p className="diagnostic-field-error" id="identification-industryOther-error">{errors.industryOther}</p> : null}
             </div>
           ) : null}
@@ -311,6 +437,52 @@ function isAnswerEmpty(value: AnswerValue) {
   return false;
 }
 
+function validateNumericAnswer(question: PublicQuestion, value: AnswerValue): string {
+  if (!["NUMBER", "NUMBER_WITH_UNIT"].includes(question.responseType)) return "";
+
+  const structuredValue = value && typeof value === "object" && !Array.isArray(value)
+    ? value
+    : null;
+  if (structuredValue && "unknown" in structuredValue) {
+    return question.validation?.allowUnknown
+      ? ""
+      : "Informe um valor numérico para continuar.";
+  }
+
+  let numericValue: unknown = value;
+  if (question.responseType === "NUMBER_WITH_UNIT") {
+    if (!structuredValue || !("value" in structuredValue) || !("unit" in structuredValue)) {
+      return "Informe a quantidade e selecione uma unidade para continuar.";
+    }
+
+    const allowedUnits = question.validation?.units ?? question.options?.map((option) => option.value) ?? [];
+    if (
+      typeof structuredValue.unit !== "string" ||
+      !structuredValue.unit ||
+      (allowedUnits.length > 0 && !allowedUnits.includes(structuredValue.unit))
+    ) {
+      return "Selecione uma unidade válida para continuar.";
+    }
+    numericValue = structuredValue.value;
+  }
+
+  if (typeof numericValue !== "number" || !Number.isFinite(numericValue)) {
+    return "Informe um número válido para continuar.";
+  }
+
+  const minimum = question.validation?.min;
+  if (minimum !== undefined && numericValue < minimum) {
+    return `Informe um valor igual ou maior que ${minimum}.`;
+  }
+
+  const maximum = question.validation?.max;
+  if (maximum !== undefined && numericValue > maximum) {
+    return `Informe um valor igual ou menor que ${maximum}.`;
+  }
+
+  return "";
+}
+
 export function QuestionStep({
   question,
   initialValue,
@@ -340,12 +512,25 @@ export function QuestionStep({
   }
 
   async function handleSubmit() {
-    if (question.required !== false && isAnswerEmpty(value)) {
-      setError("Precisamos desta informação para continuar.");
+    if (isAnswerEmpty(value)) {
+      if (question.required === false && onSkip) {
+        await onSkip();
+        return;
+      }
+      setError(
+        question.required === false
+          ? "Use “Pular por enquanto” para continuar sem responder."
+          : "Precisamos desta informação para continuar.",
+      );
       return;
     }
     if (typeof value === "string" && question.validation?.minLength && value.trim().length < question.validation.minLength) {
       setError(`Descreva um pouco mais — use pelo menos ${question.validation.minLength} caracteres.`);
+      return;
+    }
+    const numericError = validateNumericAnswer(question, value);
+    if (numericError) {
+      setError(numericError);
       return;
     }
     await onSubmit(value, answerDisplayValue(question, value));

@@ -446,11 +446,11 @@ begin
     clarification_for_code, metadata
   ) values (
     s.id, d.id, p_owner_user_id, p_question_code,
-    case
+    (case
       when p_is_clarification then 'CLARIFICATION_ANSWERED'
       when p_response_type = 'SKIPPED' then 'SKIPPED'
       else 'ANSWERED'
-    end,
+    end)::public.question_event_type,
     next_sequence,
     case when p_is_clarification then p_question_metadata->>'relatedQuestionId' else null end,
     coalesce(p_question_metadata, '{}'::jsonb)
@@ -475,7 +475,10 @@ begin
       d.id, security_flag->>'code', security_flag->>'displayName', 'SECURITY',
       (security_flag->>'severity')::public.flag_severity, 'SYSTEM',
       security_flag->>'reason',
-      coalesce((security_flag->>'schedulingEffect')::public.scheduling_effect, 'NONE'),
+      coalesce(
+        (security_flag->>'schedulingEffect')::public.scheduling_effect,
+        'NONE'::public.scheduling_effect
+      ),
       nullif(security_flag->>'recommendedRoute', '')::public.recommended_route,
       '{}'::jsonb
     ) on conflict (diagnostic_id, code) where status = 'ACTIVE'
@@ -488,10 +491,10 @@ begin
     completion_percentage = greatest(completion_percentage, least(p_completion_percentage, 100))
   where id = d.id;
   update public.diagnostic_sessions set
-    status = case
+    status = (case
       when p_next_status = 'BLOCKED' then 'BLOCKED'::public.session_status
       else status
-    end,
+    end)::public.session_status,
     current_stage = p_next_stage,
     current_question_code = case
       when p_next_status = 'BLOCKED' then null
@@ -703,7 +706,7 @@ declare
   flag jsonb;
   criterion jsonb;
   dimension_result_id uuid;
-  criterion_result_id uuid;
+  new_criterion_result_id uuid;
   commercial_allowed boolean;
   final_status public.diagnostic_status;
   final_route public.recommended_route;
@@ -773,9 +776,9 @@ begin
       case when (criterion->>'assessed')::boolean then (criterion->>'maximumPoints')::numeric else 0 end,
       (criterion->>'maximumPoints')::numeric,
       'Deterministic qualification matrix ' || coalesce(p_assessment->>'version', '1.0.0')
-    ) returning id into criterion_result_id;
+    ) returning id into new_criterion_result_id;
     insert into public.criterion_evidence_links (criterion_result_id, evidence_item_id)
-    select criterion_result_id, evidence_item.id
+    select new_criterion_result_id, evidence_item.id
     from public.evidence_items evidence_item
     join public.interview_answers answer on answer.id = evidence_item.answer_id
     where evidence_item.diagnostic_id = d.id
@@ -793,7 +796,10 @@ begin
     ) values (
       d.id, new_assessment_id, flag->>'code', flag->>'displayName', flag->>'category',
       (flag->>'severity')::public.flag_severity, 'RULE', flag->>'reason',
-      coalesce((flag->>'schedulingEffect')::public.scheduling_effect, 'NONE'),
+      coalesce(
+        (flag->>'schedulingEffect')::public.scheduling_effect,
+        'NONE'::public.scheduling_effect
+      ),
       nullif(flag->>'recommendedRoute', '')::public.recommended_route,
       coalesce(flag->'metadata', '{}'::jsonb)
     ) on conflict (diagnostic_id, code) where status = 'ACTIVE'
@@ -824,7 +830,10 @@ begin
     where diagnostic_id = d.id and consent_type = 'COMMERCIAL'
     order by occurred_at desc limit 1
   ), false) into commercial_allowed;
-  final_status := case when commercial_allowed then 'COMPLETED' else 'COMPLETED_NO_CONTACT' end;
+  final_status := (case
+    when commercial_allowed then 'COMPLETED'
+    else 'COMPLETED_NO_CONTACT'
+  end)::public.diagnostic_status;
   final_route := case
     when not commercial_allowed then 'NO_CONTACT'::public.recommended_route
     when exists (select 1 from public.diagnostic_flags where diagnostic_id = d.id and status = 'ACTIVE' and severity = 'S3') then 'BLOCKED'::public.recommended_route

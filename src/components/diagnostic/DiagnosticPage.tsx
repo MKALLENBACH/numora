@@ -42,6 +42,10 @@ import {
 
 type Mutation = () => Promise<PublicDiagnosticState>;
 type RetryAction = () => Promise<void>;
+type RecoveryRequest = {
+  scope: string;
+  requestId: string;
+};
 
 export function DiagnosticPage() {
   const client = useMemo(() => createDiagnosticClient(), []);
@@ -55,12 +59,14 @@ export function DiagnosticPage() {
   const [previousAnswers, setPreviousAnswers] = useState<ReadonlyArray<PreviousAnswer>>([]);
   const [showPrevious, setShowPrevious] = useState(false);
   const [editingSection, setEditingSection] = useState<ReviewSection | null>(null);
-  const [commercialAuthorized, setCommercialAuthorized] = useState<boolean | null>(null);
   const questionHeadingRef = useRef<HTMLHeadingElement>(null);
   const retryRef = useRef<RetryAction | null>(null);
   const draftRequestIdRef = useRef(createClientRequestId());
   const questionStartedAtRef = useRef(new Date().toISOString());
   const generatingReviewRef = useRef(false);
+  const reviewRequestRef = useRef<RecoveryRequest | null>(null);
+  const completingDiagnosticRef = useRef(false);
+  const completionRequestRef = useRef<RecoveryRequest | null>(null);
 
   const currentQuestion = state?.currentQuestion ?? null;
 
@@ -78,24 +84,57 @@ export function DiagnosticPage() {
   }, [currentQuestion, state]);
 
   useEffect(() => {
-    if (!state || state.stage !== "REVIEW" || state.review || generatingReviewRef.current) return;
-    generatingReviewRef.current = true;
-    const requestId = createClientRequestId();
-    void runMutation(
-      () => client.invokeState("diagnostic-generate-review", sessionPayload(state, requestId)),
-      { preserveView: true },
-    ).finally(() => {
-      generatingReviewRef.current = false;
-    });
+    if (
+      !state ||
+      state.stage !== "REVIEW" ||
+      state.review ||
+      error ||
+      generatingReviewRef.current
+    ) return;
+
+    const request = recoveryRequest(reviewRequestRef, state);
+    void generateReview(state, request.requestId);
     // O efeito deve reagir apenas à transição para revisão sem resumo.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state?.stage, state?.review]);
+  }, [error, state?.diagnosticId, state?.sessionId, state?.stage, state?.review]);
+
+  useEffect(() => {
+    if (!state || state.status !== "COMPLETING" || error || completingDiagnosticRef.current) {
+      return;
+    }
+
+    const request = recoveryRequest(completionRequestRef, state);
+    void completeDiagnostic(state, request.requestId);
+    // A conclusão é retomada somente quando a sessão entra ou retorna em COMPLETING.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, state?.diagnosticId, state?.sessionId, state?.status]);
 
   function applyState(nextState: PublicDiagnosticState) {
     setState(nextState);
     setError(null);
     setNotice("");
     return nextState;
+  }
+
+  async function generateReview(active: PublicDiagnosticState, requestId: string) {
+    if (generatingReviewRef.current) return;
+    generatingReviewRef.current = true;
+
+    try {
+      const nextState = await runMutation(
+        () => client.invokeState(
+          "diagnostic-generate-review",
+          sessionPayload(active, requestId),
+        ),
+        {
+          preserveView: true,
+          retryAction: () => generateReview(active, requestId),
+        },
+      );
+      if (nextState?.review) reviewRequestRef.current = null;
+    } finally {
+      generatingReviewRef.current = false;
+    }
   }
 
   async function runMutation(
@@ -176,6 +215,13 @@ export function DiagnosticPage() {
     try {
       const resumable = await client.findResumable();
       if (resumable) {
+        if (resumable.status === "COMPLETING") {
+          applyState(resumable);
+          setResumeCandidate(null);
+          setShowResume(false);
+          setSaveStatus("saved");
+          return;
+        }
         setResumeCandidate(resumable);
         setShowResume(true);
         return;
@@ -202,6 +248,8 @@ export function DiagnosticPage() {
 
   async function resetAndStartDiagnostic(requestId = createClientRequestId()) {
     await client.clearSession();
+    reviewRequestRef.current = null;
+    completionRequestRef.current = null;
     setState(null);
     setResumeCandidate(null);
     setShowResume(false);
@@ -241,7 +289,6 @@ export function DiagnosticPage() {
   async function submitCommercial(accepted: boolean, requestId = createClientRequestId()) {
     if (!state) return;
     const active = state;
-    setCommercialAuthorized(accepted);
     await runMutation(
       () => client.invokeState("diagnostic-consent", {
           ...sessionPayload(active, requestId),
@@ -346,12 +393,26 @@ export function DiagnosticPage() {
 
   async function completeDiagnostic(
     confirmed: PublicDiagnosticState,
-    requestId = createClientRequestId(),
+    requestId: string,
   ) {
-    await runMutation(
-      () => client.invokeState("diagnostic-complete", sessionPayload(confirmed, requestId)),
-      { retryAction: () => completeDiagnostic(confirmed, requestId) },
-    );
+    if (completingDiagnosticRef.current) return;
+    completingDiagnosticRef.current = true;
+    completionRequestRef.current = {
+      scope: diagnosticScope(confirmed),
+      requestId,
+    };
+
+    try {
+      const nextState = await runMutation(
+        () => client.invokeState("diagnostic-complete", sessionPayload(confirmed, requestId)),
+        { retryAction: () => completeDiagnostic(confirmed, requestId) },
+      );
+      if (nextState && ["COMPLETED", "COMPLETED_NO_CONTACT"].includes(nextState.status)) {
+        completionRequestRef.current = null;
+      }
+    } finally {
+      completingDiagnosticRef.current = false;
+    }
   }
 
   async function confirmReview(
@@ -420,7 +481,7 @@ export function DiagnosticPage() {
             <p>Aguarde enquanto registramos as informações confirmadas.</p>
           </section>
         ) : state.status === "COMPLETED" || state.status === "COMPLETED_NO_CONTACT" ? (
-          <CompletionStep withContact={state.status === "COMPLETED" || commercialAuthorized === true} />
+          <CompletionStep withContact={state.status === "COMPLETED"} />
         ) : state.stage === "PRIVACY_CONSENT" ? (
           <PrivacyConsentStep onAccept={() => submitPrivacy(true)} onDecline={() => submitPrivacy(false)} busy={busy} />
         ) : state.stage === "COMMERCIAL_CONSENT" ? (
@@ -467,4 +528,20 @@ function sessionPayload(state: PublicDiagnosticState, clientRequestId: string) {
     sessionId: state.sessionId,
     clientRequestId,
   };
+}
+
+function diagnosticScope(state: Pick<PublicDiagnosticState, "diagnosticId" | "sessionId">) {
+  return `${state.diagnosticId}:${state.sessionId}`;
+}
+
+function recoveryRequest(
+  requestRef: { current: RecoveryRequest | null },
+  state: Pick<PublicDiagnosticState, "diagnosticId" | "sessionId">,
+): RecoveryRequest {
+  const scope = diagnosticScope(state);
+  if (requestRef.current?.scope === scope) return requestRef.current;
+
+  const request = { scope, requestId: createClientRequestId() };
+  requestRef.current = request;
+  return request;
 }

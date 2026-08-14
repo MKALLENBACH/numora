@@ -67,6 +67,7 @@ export type StoredEvidence = {
   source_type: "REPORTED_FACT" | "CLIENT_ESTIMATE" | "AI_INFERENCE" | "SYSTEM_DERIVED" | "NOT_CONFIRMED";
   text: string;
   confidence: number;
+  created_at: string;
 };
 
 type StructuredSection = Record<string, Json | undefined>;
@@ -77,6 +78,7 @@ export type StructuredData = {
   impact: StructuredSection;
   buyingContext: StructuredSection;
   technicalContext: StructuredSection;
+  areaSpecific: StructuredSection;
 };
 
 export type InterviewContext = {
@@ -105,6 +107,8 @@ export type InterviewContext = {
     answerId: string;
     questionId: string;
     evidenceText: string;
+    revision: number;
+    isCurrent: boolean;
   }>;
   signals: string[];
   review: null;
@@ -303,9 +307,56 @@ export function selectNextAction(context: InterviewContext): NextAction {
 }
 
 function setValueAtPath(data: StructuredData, path: string, value: Json): void {
-  const [section, field] = path.split(".");
-  if (!section || !field || !(section in data)) return;
-  data[section as keyof StructuredData][field] = value;
+  const segments = path.split(".").filter(Boolean);
+  const [section] = segments;
+  if (!section || segments.length < 2 || !(section in data)) return;
+
+  let current = data as unknown as Record<string, Json | undefined>;
+  for (const segment of segments.slice(0, -1)) {
+    const existing = current[segment];
+    if (!existing || typeof existing !== "object" || Array.isArray(existing)) {
+      current[segment] = {};
+    }
+    current = current[segment] as Record<string, Json | undefined>;
+  }
+
+  const leaf = segments.at(-1);
+  if (leaf) current[leaf] = value;
+}
+
+function storedClarity(status: string): "CLEAR" | "PARTIAL" | "VAGUE" {
+  return status === "VALID" ? "CLEAR" : status === "NOT_CONFIRMED" ? "PARTIAL" : "VAGUE";
+}
+
+function normalizedFieldRecord(value: Json | null): Record<string, Json> | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const fields = value as Record<string, Json>;
+  return Object.keys(fields).some((path) => path.includes(".")) ? fields : null;
+}
+
+function nextLogicalRevision(answers: InterviewContext["answers"], questionId: string): number {
+  return answers.reduce(
+    (latest, answer) => answer.questionId === questionId ? Math.max(latest, answer.revision) : latest,
+    0,
+  ) + 1;
+}
+
+function projectNormalizedFields(
+  data: StructuredData,
+  question: CatalogQuestion,
+  fields: Record<string, Json> | null,
+  overwriteExisting: boolean,
+): Set<string> {
+  const projected = new Set<string>();
+  if (!fields) return projected;
+  const allowedPaths = new Set(question.targetPaths);
+  for (const [path, value] of Object.entries(fields)) {
+    if (!allowedPaths.has(path)) continue;
+    if (!overwriteExisting && present(valueAtPath(data, path))) continue;
+    setValueAtPath(data, path, value);
+    projected.add(path);
+  }
+  return projected;
 }
 
 export function createInterviewContext(input: {
@@ -327,38 +378,53 @@ export function createInterviewContext(input: {
       revenueRange: input.company?.revenue_range as Json,
     } : {},
     challenge: {}, currentProcess: {}, impact: {}, buyingContext: {}, technicalContext: {},
+    areaSpecific: {},
   };
   const answers: InterviewContext["answers"] = [];
   const clarifications: InterviewContext["clarifications"] = [];
   for (const answer of input.answers) {
     const parsed = parseClarificationCode(answer.question_code);
+    const skipped = answer.response_type === "SKIPPED";
+    const clarity = storedClarity(answer.validation_status);
+    const normalizedFields = normalizedFieldRecord(answer.normalized_value);
     if (parsed) {
       clarifications.push({
         id: answer.question_code, type: parsed.type, relatedQuestionId: parsed.relatedQuestionId,
         text: clarificationPublicQuestion(answer.question_code)?.text ?? "Esclarecimento",
         sequence: parsed.sequence, answered: true,
       });
+      const relatedQuestion = getCatalogQuestion(parsed.relatedQuestionId);
+      if (!relatedQuestion) continue;
+      if (!skipped) {
+        projectNormalizedFields(
+          data,
+          relatedQuestion,
+          normalizedFields,
+          clarity === "CLEAR",
+        );
+      }
+      answers.push({
+        id: answer.id,
+        questionId: relatedQuestion.id,
+        questionVersion: relatedQuestion.version,
+        value: answer.raw_value,
+        clarity,
+        revision: nextLogicalRevision(answers, relatedQuestion.id),
+        answeredAtEpochMs: new Date(answer.created_at).getTime(),
+        needsClarification: !skipped && clarity !== "CLEAR",
+        clarificationType: parsed.type,
+      });
       continue;
     }
     const question = getCatalogQuestion(answer.question_code);
     if (!question) continue;
-    const skipped = answer.response_type === "SKIPPED";
     const primaryPath = question.targetPaths[0];
-    const hasNormalizedProjection = answer.normalized_value !== null &&
-      typeof answer.normalized_value === "object" &&
-      !Array.isArray(answer.normalized_value);
-    const normalizedProjection = hasNormalizedProjection
-      ? answer.normalized_value as Record<string, Json>
-      : null;
-    if (!skipped && hasNormalizedProjection) {
-      for (const [path, value] of Object.entries(normalizedProjection ?? {})) {
-        if (!path.includes(".")) continue;
-        setValueAtPath(data, path, value);
-      }
+    const projected = !skipped
+      ? projectNormalizedFields(data, question, normalizedFields, true)
+      : new Set<string>();
+    if (!skipped && primaryPath && !projected.has(primaryPath)) {
+      setValueAtPath(data, primaryPath, answer.raw_value);
     }
-    if (!skipped && !hasNormalizedProjection && primaryPath) setValueAtPath(data, primaryPath, answer.raw_value);
-    const clarity = answer.validation_status === "VALID"
-      ? "CLEAR" : answer.validation_status === "NOT_CONFIRMED" ? "PARTIAL" : "VAGUE";
     answers.push({
       id: answer.id, questionId: answer.question_code, questionVersion: answer.question_version,
       value: answer.raw_value, clarity, revision: answer.revision,
@@ -374,6 +440,7 @@ export function createInterviewContext(input: {
     return [{
       path: item.target_path, sourceType: item.source_type, confidence: item.confidence,
       answerId: item.answer_id, questionId: answer.questionId, evidenceText: item.text,
+      revision: answer.revision, isCurrent: true,
     }];
   });
   const signals = [...input.signals];
@@ -405,21 +472,48 @@ export function appendProposedAnswer(context: InterviewContext, input: {
 }): InterviewContext {
   const parsed = parseClarificationCode(input.code);
   if (parsed) {
-    return { ...context, clarifications: [...context.clarifications, {
-      id: input.code, type: parsed.type, relatedQuestionId: parsed.relatedQuestionId,
-      text: clarificationPublicQuestion(input.code)?.text ?? "Esclarecimento",
-      sequence: parsed.sequence, answered: true,
-    }] };
+    const relatedQuestion = getCatalogQuestion(parsed.relatedQuestionId);
+    if (!relatedQuestion) throw new AppError("STATE_CONFLICT", 409);
+    const data = structuredClone(context.structuredData);
+    if (!input.skipped) {
+      projectNormalizedFields(
+        data,
+        relatedQuestion,
+        input.normalizedFields ?? null,
+        input.clarity === "CLEAR",
+      );
+    }
+    const answer: InterviewContext["answers"][number] = {
+      id: crypto.randomUUID(),
+      questionId: relatedQuestion.id,
+      questionVersion: relatedQuestion.version,
+      value: input.value,
+      clarity: input.clarity,
+      revision: nextLogicalRevision(context.answers, relatedQuestion.id),
+      answeredAtEpochMs: Date.now(),
+      needsClarification: !input.skipped && input.clarity !== "CLEAR",
+      clarificationType: parsed.type,
+    };
+    return {
+      ...context,
+      structuredData: data,
+      answers: [...context.answers, answer],
+      askedQuestionIds: [...new Set([...context.askedQuestionIds, relatedQuestion.id])],
+      clarifications: [...context.clarifications, {
+        id: input.code, type: parsed.type, relatedQuestionId: parsed.relatedQuestionId,
+        text: clarificationPublicQuestion(input.code)?.text ?? "Esclarecimento",
+        sequence: parsed.sequence, answered: true,
+      }],
+    };
   }
   const question = getCatalogQuestion(input.code);
   if (!question) throw new AppError("STATE_CONFLICT", 409);
   const data = structuredClone(context.structuredData);
   const primaryPath = question.targetPaths[0];
-  if (!input.skipped && input.normalizedFields !== undefined) {
-    for (const [path, value] of Object.entries(input.normalizedFields)) {
-      setValueAtPath(data, path, value);
-    }
-  } else if (!input.skipped && primaryPath) {
+  const projected = !input.skipped
+    ? projectNormalizedFields(data, question, input.normalizedFields ?? null, true)
+    : new Set<string>();
+  if (!input.skipped && primaryPath && !projected.has(primaryPath)) {
     setValueAtPath(data, primaryPath, input.value);
   }
   const answer: InterviewContext["answers"][number] = {
@@ -446,9 +540,16 @@ export function flattenStructuredData(data: StructuredData): Record<string, unkn
 }
 
 function valueAtPath(data: StructuredData, path: string): unknown {
-  const [section, field] = path.split(".");
-  if (!section || !field || !(section in data)) return undefined;
-  return data[section as keyof StructuredData][field];
+  const segments = path.split(".").filter(Boolean);
+  const [section] = segments;
+  if (!section || segments.length < 2 || !(section in data)) return undefined;
+
+  let current: unknown = data;
+  for (const segment of segments) {
+    if (!current || typeof current !== "object" || Array.isArray(current)) return undefined;
+    current = (current as Record<string, unknown>)[segment];
+  }
+  return current;
 }
 
 function present(value: unknown): boolean {
