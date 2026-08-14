@@ -239,7 +239,6 @@ function PhoneInput({
   const inputRef = useRef<HTMLInputElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const inputId = "identification-phone";
-  const hintId = `${inputId}-hint`;
   const errorId = `${inputId}-error`;
 
   useEffect(() => () => {
@@ -312,11 +311,8 @@ function PhoneInput({
         autoComplete="tel"
         maxLength={19}
         aria-invalid={Boolean(error)}
-        aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
+        aria-describedby={error ? errorId : undefined}
       />
-      <p className="diagnostic-support" id={hintId}>
-        Informe o DDD. A formatação se adapta a telefone fixo ou celular.
-      </p>
       {error ? <p className="diagnostic-field-error" id={errorId}>{error}</p> : null}
     </div>
   );
