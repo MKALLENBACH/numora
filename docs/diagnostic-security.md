@@ -47,6 +47,6 @@ Os períodos em `.env.example` são defaults técnicos sujeitos a aprovação. A
 - revisar origins de CORS;
 - habilitar Auth anônimo e proteção contra abuso no Supabase;
 - aplicar migrations em banco limpo;
-- executar pgTAP/RLS cross-user;
+- homologar RLS e isolamento cross-user em um projeto Supabase controlado;
 - verificar ausência de secrets e dados internos no bundle;
 - revisar logs e retenção.

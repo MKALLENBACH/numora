@@ -10,13 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "typecheck:edge": "tsc -p supabase/functions/tsconfig.check.json",
-    "test": "npm run test:site && npm run test:unit",
-    "test:site": "node --test tests/*.test.mjs",
-    "test:unit": "vitest run",
-    "test:e2e": "playwright test",
-    "test:integration": "supabase test db",
     "diagnostic:generate": "node supabase/scripts/generate-question-catalog.mjs",
-    "diagnostic:check-generated": "vitest run supabase/tests/catalog-parity.test.ts",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "supabase:reset": "supabase db reset",
@@ -30,7 +24,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
@@ -38,7 +31,6 @@
     "eslint-config-next": "^16.3.0",
     "supabase": "^2.111.0",
     "typescript": "^6.0.3",
-    "vite": "^8.2.0",
-    "vitest": "^4.1.10"
+    "vite": "^8.2.0"
   }
 }

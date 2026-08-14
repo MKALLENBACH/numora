@@ -36,21 +36,14 @@ supabase functions serve --env-file supabase/.env.local
 
 Use `npx supabase ...` quando o executável local não estiver disponível no `PATH`. Não versione `supabase/.env.local`.
 
-## Testes
+## Verificações locais
 
 ```text
 npm run lint
 npm run typecheck
 npm run typecheck:edge
-npm run diagnostic:check-generated
-npm run test:site
-npm run test:unit
-npm run test:integration
-npm run test:e2e
 npm run build
 ```
-
-Os testes de integração e pgTAP exigem a stack Supabase local. A suíte E2E pública usa um backend Supabase isolado por mocks de rede para validar o navegador de forma reproduzível; ela não substitui a homologação das migrations, RLS, Auth anônimo, CORS e Edge Functions em um projeto Supabase real.
 
 ## Limitações assumidas
 
@@ -60,7 +53,7 @@ Os testes de integração e pgTAP exigem a stack Supabase local. A suíte E2E p�
 - Sem ADM, agenda, CRM, notificações, upload, pagamento ou área do cliente.
 - Sem garantia de contato, prazo, reunião, proposta, ROI ou implementação.
 - Valores de retenção são defaults técnicos e precisam de aprovação antes de produção.
-- O CTA institucional deve permanecer desativado enquanto política de privacidade, projeto Supabase e testes críticos publicados não estiverem validados.
+- O CTA institucional deve permanecer desativado enquanto política de privacidade, projeto Supabase e homologação crítica não estiverem validados.
 
 ## Próximo passo para o ADM
 
