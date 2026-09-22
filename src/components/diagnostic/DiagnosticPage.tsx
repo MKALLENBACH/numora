@@ -4,17 +4,21 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { privacyConfig } from "@/config/privacy";
 import {
+  clearIdentificationDraft,
   clearLocalDraft,
   createClientRequestId,
   createDiagnosticClient,
   DiagnosticClientError,
+  preserveIdentificationDraft,
   preserveLocalDraft,
+  readIdentificationDraft,
   readLocalDraft,
   toDiagnosticError,
 } from "@/features/diagnostic/client/diagnostic-client";
 import { isDiagnosticConfigured } from "@/features/diagnostic/client/config";
 import type {
   AnswerValue,
+  IdentificationDraftValues,
   IdentificationValues,
   PreviousAnswer,
   PublicDiagnosticState,
@@ -178,7 +182,10 @@ export function DiagnosticPage() {
         setSaveStatus(nextError.code === "PERSISTENCE_UNAVAILABLE" ? "paused" : "error");
         retryRef.current = nextError.retryable ? (options.retryAction ?? null) : null;
       }
-      if (!options.preserveView && nextError.code === "SESSION_EXPIRED") setState(null);
+      if (!options.preserveView && nextError.code === "SESSION_EXPIRED") {
+        if (state) clearIdentificationDraft(state);
+        setState(null);
+      }
       return null;
     } finally {
       setBusy(false);
@@ -301,9 +308,25 @@ export function DiagnosticPage() {
     );
   }
 
+  function updateIdentificationDraft(values: IdentificationDraftValues) {
+    if (!state || state.stage !== "IDENTIFICATION") return;
+    preserveIdentificationDraft(state, values);
+  }
+
   async function submitIdentification(values: IdentificationValues, requestId = createClientRequestId()) {
     if (!state) return;
     const active = state;
+    preserveIdentificationDraft(active, {
+      name: values.name,
+      role: values.role,
+      company: values.company,
+      email: values.email,
+      industry: values.industry,
+      industryOther: values.industryOther,
+      companySize: values.companySize,
+      phone: values.phone,
+      revenueRange: values.revenueRange,
+    });
     await runMutation(
       () => client.invokeState("diagnostic-identification", {
           ...sessionPayload(active, requestId),
@@ -451,6 +474,9 @@ export function DiagnosticPage() {
     persistedDraft && state && currentQuestion && persistedDraft.diagnosticId === state.diagnosticId && persistedDraft.questionCode === currentQuestion.id
       ? persistedDraft.value
       : null;
+  const identificationDraft = state?.stage === "IDENTIFICATION"
+    ? readIdentificationDraft(state)
+    : null;
   const modalOpen = showResume || showPrevious || Boolean(editingSection);
   const liveStageLabel = state?.progress.currentLabel ?? "Introdução do diagnóstico";
 
@@ -488,7 +514,13 @@ export function DiagnosticPage() {
         ) : state.stage === "COMMERCIAL_CONSENT" ? (
           <CommercialConsentStep onSubmit={submitCommercial} busy={busy} />
         ) : state.stage === "IDENTIFICATION" ? (
-          <IdentificationStep onSubmit={submitIdentification} busy={busy} />
+          <IdentificationStep
+            key={diagnosticScope(state)}
+            initialValues={identificationDraft?.data}
+            onDraftChange={updateIdentificationDraft}
+            onSubmit={submitIdentification}
+            busy={busy}
+          />
         ) : state.stage === "REVIEW" && state.review ? (
           <ReviewStep review={state.review} onEdit={setEditingSection} onConfirm={() => confirmReview()} onAdd={addReviewInformation} busy={busy} />
         ) : currentQuestion ? (

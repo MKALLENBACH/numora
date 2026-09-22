@@ -27,6 +27,7 @@ import {
 import { answerDisplayValue, normalizeReviewSections } from "@/features/diagnostic/client/presentation";
 import type {
   AnswerValue,
+  IdentificationDraftValues,
   IdentificationValues,
   PublicQuestion,
   PublicReview,
@@ -192,6 +193,20 @@ const initialIdentification: IdentificationValues = {
   website: "",
 };
 
+function toIdentificationDraft(values: IdentificationValues): IdentificationDraftValues {
+  return {
+    name: values.name,
+    role: values.role,
+    company: values.company,
+    email: values.email,
+    industry: values.industry,
+    industryOther: values.industryOther,
+    companySize: values.companySize,
+    phone: values.phone,
+    revenueRange: values.revenueRange,
+  };
+}
+
 const disposableDomains = new Set(["mailinator.com", "10minutemail.com", "guerrillamail.com", "tempmail.com"]);
 
 function validateIdentification(values: IdentificationValues) {
@@ -319,14 +334,35 @@ function PhoneInput({
 }
 
 export function IdentificationStep({
+  initialValues,
+  onDraftChange,
   onSubmit,
   busy,
 }: {
+  initialValues?: IdentificationDraftValues;
+  onDraftChange: (values: IdentificationDraftValues) => void;
   onSubmit: (values: IdentificationValues) => void | Promise<void>;
   busy: boolean;
 }) {
-  const [values, setValues] = useState(initialIdentification);
+  const [values, setValues] = useState<IdentificationValues>(() => ({
+    ...initialIdentification,
+    ...initialValues,
+    website: "",
+  }));
   const [errors, setErrors] = useState<Partial<Record<keyof IdentificationValues, string>>>({});
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      onDraftChange(toIdentificationDraft(values));
+    }, 350);
+    return () => window.clearTimeout(timeout);
+  }, [onDraftChange, values]);
+
+  useEffect(() => {
+    const preserveBeforePageExit = () => onDraftChange(toIdentificationDraft(values));
+    window.addEventListener("pagehide", preserveBeforePageExit);
+    return () => window.removeEventListener("pagehide", preserveBeforePageExit);
+  }, [onDraftChange, values]);
 
   function setField(key: keyof IdentificationValues, value: string) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -335,6 +371,7 @@ export function IdentificationStep({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    onDraftChange(toIdentificationDraft(values));
     const nextErrors = validateIdentification(values);
     setErrors(nextErrors);
     const firstError = Object.keys(nextErrors)[0] as keyof IdentificationValues | undefined;
@@ -356,7 +393,12 @@ export function IdentificationStep({
     <section className="diagnostic-card diagnostic-card--wide" aria-labelledby="identification-title">
       <p className="diagnostic-eyebrow">Identificação</p>
       <h1 id="identification-title">{diagnosticCopy.identification.title}</h1>
-      <form className="diagnostic-form" onSubmit={handleSubmit} noValidate>
+      <form
+        className="diagnostic-form"
+        onSubmit={handleSubmit}
+        onBlurCapture={() => onDraftChange(toIdentificationDraft(values))}
+        noValidate
+      >
         <div className="diagnostic-form__grid">
           {textFields.map((field) => (
             <div className="diagnostic-field" key={field.key}>

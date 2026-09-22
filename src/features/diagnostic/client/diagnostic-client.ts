@@ -6,6 +6,8 @@ import { publicErrorMessages } from "./content";
 import { diagnosticPublicConfig, hasDiagnosticBackendConfiguration } from "./config";
 import type {
   DiagnosticErrorCode,
+  IdentificationDraft,
+  IdentificationDraftValues,
   LocalDraft,
   PublicApiError,
   PublicDiagnosticState,
@@ -13,6 +15,11 @@ import type {
 
 const SESSION_STORAGE_KEY = "numora.diagnostic.session.v1";
 const DRAFT_STORAGE_KEY = "numora.diagnostic.draft.v1";
+const IDENTIFICATION_DRAFT_PREFIX = "numora:diagnostic:";
+const IDENTIFICATION_DRAFT_SUFFIX = ":identification-draft";
+const IDENTIFICATION_DRAFT_VERSION = 1;
+
+type DiagnosticScope = Pick<PublicDiagnosticState, "diagnosticId" | "sessionId">;
 
 type StoredDiagnostic = {
   diagnosticId: string;
@@ -69,6 +76,120 @@ function safeRemove(key: string) {
     window.localStorage.removeItem(key);
   } catch {
     // Sem ação: o servidor continua sendo a fonte da verdade.
+  }
+}
+
+function identificationDraftKey(scope: DiagnosticScope) {
+  return `${IDENTIFICATION_DRAFT_PREFIX}${scope.diagnosticId}:${scope.sessionId}${IDENTIFICATION_DRAFT_SUFFIX}`;
+}
+
+function safeSessionRead(key: string): unknown {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const value = window.sessionStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch {
+    return null;
+  }
+}
+
+function safeSessionWrite(key: string, value: unknown) {
+  if (typeof window === "undefined") return;
+
+  try {
+    window.sessionStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // O estado React continua disponível quando o storage da aba não está acessível.
+  }
+}
+
+function safeSessionRemove(key: string) {
+  if (typeof window === "undefined") return;
+
+  try {
+    window.sessionStorage.removeItem(key);
+  } catch {
+    // Sem ação: falhas do storage não devem interromper o diagnóstico.
+  }
+}
+
+function asIdentificationDraft(value: unknown, scope: DiagnosticScope): IdentificationDraft | null {
+  if (!value || typeof value !== "object") return null;
+
+  const candidate = value as Record<string, unknown>;
+  const data = candidate.data;
+  if (
+    candidate.version !== IDENTIFICATION_DRAFT_VERSION ||
+    candidate.diagnosticId !== scope.diagnosticId ||
+    candidate.sessionId !== scope.sessionId ||
+    typeof candidate.updatedAt !== "string" ||
+    Number.isNaN(Date.parse(candidate.updatedAt)) ||
+    !data ||
+    typeof data !== "object"
+  ) {
+    return null;
+  }
+
+  const fields: ReadonlyArray<keyof IdentificationDraftValues> = [
+    "name",
+    "role",
+    "company",
+    "email",
+    "industry",
+    "industryOther",
+    "companySize",
+    "phone",
+    "revenueRange",
+  ];
+  const draftData = data as Record<string, unknown>;
+  if (fields.some((field) => typeof draftData[field] !== "string")) return null;
+
+  return {
+    version: IDENTIFICATION_DRAFT_VERSION,
+    diagnosticId: scope.diagnosticId,
+    sessionId: scope.sessionId,
+    updatedAt: candidate.updatedAt,
+    data: Object.fromEntries(fields.map((field) => [field, draftData[field]])) as IdentificationDraftValues,
+  };
+}
+
+export function readIdentificationDraft(scope: DiagnosticScope) {
+  const key = identificationDraftKey(scope);
+  const draft = asIdentificationDraft(safeSessionRead(key), scope);
+  if (!draft) safeSessionRemove(key);
+  return draft;
+}
+
+export function preserveIdentificationDraft(
+  scope: DiagnosticScope,
+  data: IdentificationDraftValues,
+) {
+  safeSessionWrite(identificationDraftKey(scope), {
+    version: IDENTIFICATION_DRAFT_VERSION,
+    diagnosticId: scope.diagnosticId,
+    sessionId: scope.sessionId,
+    updatedAt: new Date().toISOString(),
+    data,
+  } satisfies IdentificationDraft);
+}
+
+export function clearIdentificationDraft(scope?: DiagnosticScope) {
+  if (scope) {
+    safeSessionRemove(identificationDraftKey(scope));
+    return;
+  }
+  if (typeof window === "undefined") return;
+
+  try {
+    const keys = Array.from({ length: window.sessionStorage.length }, (_, index) =>
+      window.sessionStorage.key(index),
+    ).filter((key): key is string => Boolean(
+      key?.startsWith(IDENTIFICATION_DRAFT_PREFIX) && key.endsWith(IDENTIFICATION_DRAFT_SUFFIX),
+    ));
+    keys.forEach((key) => window.sessionStorage.removeItem(key));
+  } catch {
+    // Sem ação: a limpeza volta a ser tentada no próximo ciclo do fluxo.
   }
 }
 
@@ -192,6 +313,12 @@ export function createDiagnosticClient() {
       diagnosticId: state.diagnosticId,
       sessionId: state.sessionId,
     } satisfies StoredDiagnostic);
+    if (
+      state.stage !== "IDENTIFICATION" ||
+      ["BLOCKED", "EXPIRED", "COMPLETED", "COMPLETED_NO_CONTACT"].includes(state.status)
+    ) {
+      clearIdentificationDraft(state);
+    }
     return state;
   }
 
@@ -204,9 +331,14 @@ export function createDiagnosticClient() {
         const state = await invoke<PublicDiagnosticState>("diagnostic-state", {
           ...(stored ?? {}),
         });
-        return state.canResume ? rememberState(state) : null;
+        if (state.canResume) return rememberState(state);
+        clearIdentificationDraft(state);
+        return null;
       } catch (error) {
-        if (error instanceof DiagnosticClientError && error.code === "SESSION_NOT_FOUND") return null;
+        if (error instanceof DiagnosticClientError && error.code === "SESSION_NOT_FOUND") {
+          clearIdentificationDraft();
+          return null;
+        }
         throw error;
       }
     },
@@ -232,6 +364,7 @@ export function createDiagnosticClient() {
       }
       safeRemove(SESSION_STORAGE_KEY);
       safeRemove(DRAFT_STORAGE_KEY);
+      clearIdentificationDraft();
     },
   };
 }

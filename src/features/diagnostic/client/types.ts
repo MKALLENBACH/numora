@@ -67,6 +67,16 @@ export type IdentificationValues = {
   website: string;
 };
 
+export type IdentificationDraftValues = Omit<IdentificationValues, "website">;
+
+export type IdentificationDraft = {
+  version: 1;
+  diagnosticId: string;
+  sessionId: string;
+  updatedAt: string;
+  data: IdentificationDraftValues;
+};
+
 export type AnswerValue = PublicAnswerValue | null;
 
 export type LocalDraft = {
