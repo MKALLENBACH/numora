@@ -1,7 +1,9 @@
+import { privacyConfig } from "@/config/privacy";
+
 export const diagnosticPublicConfig = {
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "") ?? "",
   supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "",
-  privacyPolicyUrl: process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL?.trim() ?? "",
+  privacyPolicyUrl: privacyConfig.policyUrl,
 } as const;
 
 export function isDiagnosticConfigured() {

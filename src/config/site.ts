@@ -3,6 +3,16 @@ const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim().replace(/\/
 const resolvedSiteUrl = configuredSiteUrl || "http://localhost:3000";
 const assetBaseUrl = `${new URL(resolvedSiteUrl).origin}${configuredBasePath}`;
 
+export function withBasePath(pathname: string) {
+  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+
+  if (!configuredBasePath || normalizedPath === configuredBasePath || normalizedPath.startsWith(`${configuredBasePath}/`)) {
+    return normalizedPath;
+  }
+
+  return `${configuredBasePath}${normalizedPath}`;
+}
+
 export const siteConfig = {
   name: "NUMORA",
   title: "NUMORA — Transformação Operacional Inteligente",

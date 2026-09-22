@@ -122,22 +122,22 @@ export function PrivacyConsentStep({
         />
         <span>{diagnosticCopy.privacy.checkbox}</span>
       </label>
-      {diagnosticPublicConfig.privacyPolicyUrl ? (
-        <a className="diagnostic-text-link" href={diagnosticPublicConfig.privacyPolicyUrl} target="_blank" rel="noreferrer">
-          Consultar política de privacidade
-        </a>
-      ) : (
-        <p className="diagnostic-config-warning" role="alert">
-          A política de privacidade ainda não foi configurada. Não é possível continuar neste ambiente.
-        </p>
-      )}
+      <a
+        className="diagnostic-text-link"
+        href={diagnosticPublicConfig.privacyPolicyUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Consultar política de privacidade
+        <span className="diagnostic-visually-hidden"> (abre em uma nova aba)</span>
+      </a>
       <StepActions
         primaryLabel="Continuar"
         onPrimary={onAccept}
         secondaryLabel="Não concordo"
         onSecondary={onDecline}
         busy={busy}
-        primaryDisabled={!accepted || !diagnosticPublicConfig.privacyPolicyUrl}
+        primaryDisabled={!accepted}
       />
     </section>
   );

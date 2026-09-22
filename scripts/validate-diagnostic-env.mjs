@@ -31,13 +31,25 @@ for (const variable of ["NEXT_PUBLIC_PRIVACY_POLICY_URL", "NEXT_PUBLIC_SUPABASE_
   const value = process.env[variable]?.trim();
   if (!value) continue;
 
-  // Allow relative paths (e.g. /politica-de-privacidade) for privacy policy URL.
-  if (value.startsWith("/") && variable === "NEXT_PUBLIC_PRIVACY_POLICY_URL") continue;
+  if (variable === "NEXT_PUBLIC_PRIVACY_POLICY_URL" && value.startsWith("/")) {
+    if (value !== "/politica-de-privacidade") {
+      console.error(
+        "NEXT_PUBLIC_PRIVACY_POLICY_URL deve apontar para /politica-de-privacidade; o base path é aplicado automaticamente.",
+      );
+      process.exitCode = 1;
+    }
+    continue;
+  }
 
   try {
     const url = new URL(value);
     const local = new Set(["localhost", "127.0.0.1", "::1"]).has(url.hostname);
-    if (url.protocol !== "https:" && !local) throw new Error("HTTPS obrigatório");
+    if (url.protocol !== "https:" && !(local && variable === "NEXT_PUBLIC_SUPABASE_URL")) {
+      throw new Error("HTTPS obrigatório");
+    }
+    if (variable === "NEXT_PUBLIC_PRIVACY_POLICY_URL" && local) {
+      throw new Error("localhost não é permitido");
+    }
   } catch {
     console.error(`${variable} precisa conter uma URL HTTPS válida.`);
     process.exitCode = 1;
