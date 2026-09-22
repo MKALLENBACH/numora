@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { privacyConfig } from "@/config/privacy";
-import { siteConfig, withBasePath } from "@/config/site";
+import { siteConfig } from "@/config/site";
 
 import styles from "./policy.module.css";
 
-const policyUrl = `${new URL(siteConfig.siteUrl).origin}${withBasePath(privacyConfig.policyPath)}/`;
+const policyUrl = `${new URL(siteConfig.siteUrl).origin}${privacyConfig.internalUrl}/`;
 
 export const metadata: Metadata = {
   title: `Política de Privacidade | ${siteConfig.name}`,
@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     description: "Informações sobre o tratamento e a proteção de dados pessoais pela NUMORA.",
     url: siteConfig.hasConfiguredSiteUrl ? policyUrl : undefined,
   },
+  robots: privacyConfig.isIndexable
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
 };
 
 const sections = [
@@ -53,7 +56,12 @@ export default function PrivacyPolicyPage() {
 
       <main className={styles.main} id="conteudo-politica">
         <header className={styles.hero}>
-          <p className={styles.eyebrow}>Privacidade</p>
+          <div className={styles.heroTopline}>
+            <p className={styles.eyebrow}>Privacidade</p>
+            {privacyConfig.status === "DRAFT" && !privacyConfig.isProductionEnvironment ? (
+              <span className={styles.draftBadge}>Versão em revisão</span>
+            ) : null}
+          </div>
           <h1>Política de Privacidade</h1>
           <p className={styles.lead}>
             Esta política explica como a NUMORA coleta, utiliza, protege e elimina dados
@@ -69,6 +77,11 @@ export default function PrivacyPolicyPage() {
               <dd>{privacyConfig.lastUpdated}</dd>
             </div>
           </dl>
+          {privacyConfig.status === "DRAFT" && !privacyConfig.isProductionEnvironment ? (
+            <p className={styles.draftNotice}>
+              Conteúdo em revisão para ambiente de desenvolvimento.
+            </p>
+          ) : null}
         </header>
 
         <div className={styles.layout}>
@@ -220,16 +233,15 @@ export default function PrivacyPolicyPage() {
 
             <section id="contato">
               <h2>9. Contato sobre privacidade</h2>
-              {privacyConfig.contactEmail ? (
+              {privacyConfig.privacyEmail ? (
                 <p>
-                  Para dúvidas ou para exercer direitos relacionados a dados pessoais, escreva para{" "}
-                  <a href={`mailto:${privacyConfig.contactEmail}`}>{privacyConfig.contactEmail}</a>.
+                  E-mail para assuntos de privacidade:{" "}
+                  <a href={`mailto:${privacyConfig.privacyEmail}`}>{privacyConfig.privacyEmail}</a>.
                 </p>
               ) : (
                 <p>
-                  Para dúvidas ou solicitações relacionadas a dados pessoais, utilize o canal
-                  institucional informado nas comunicações da NUMORA. Um canal específico poderá ser
-                  publicado aqui quando estiver disponível.
+                  O canal específico para assuntos de privacidade será disponibilizado antes da
+                  publicação definitiva em produção.
                 </p>
               )}
             </section>

@@ -3,6 +3,48 @@ import { resolve } from "node:path";
 
 const configSource = readFileSync(resolve("src/config/diagnostic.ts"), "utf8");
 const diagnosticEnabled = /enabled:\s*true\b/.test(configSource);
+const privacyConfigSource = readFileSync(resolve("src/config/privacy.ts"), "utf8");
+const privacyStatus = privacyConfigSource.match(
+  /privacyPolicyStatus:\s*PrivacyPolicyStatus\s*=\s*"([A-Z]+)"/,
+)?.[1];
+const privacyVersion = privacyConfigSource.match(/version:\s*"([^"]+)"/)?.[1]?.trim();
+const privacyLastUpdated = privacyConfigSource.match(/lastUpdated:\s*"([^"]+)"/)?.[1]?.trim();
+const appEnvironment = process.env.APP_ENV?.trim().toLowerCase() || "development";
+const privacyEmail = process.env.NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL?.trim();
+const validEmailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!privacyStatus || !["DRAFT", "APPROVED"].includes(privacyStatus)) {
+  console.error("O status editorial da Política de Privacidade precisa ser DRAFT ou APPROVED.");
+  process.exitCode = 1;
+}
+
+if (privacyEmail && !validEmailPattern.test(privacyEmail)) {
+  console.error("NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL precisa conter um e-mail válido.");
+  process.exitCode = 1;
+}
+
+if (appEnvironment === "production") {
+  if (privacyStatus === "DRAFT") {
+    console.warn(
+      "A Política de Privacidade está em DRAFT. Ela permanecerá com noindex e fora do sitemap.",
+    );
+  }
+
+  if (privacyStatus === "APPROVED") {
+    const missingPolicyConfiguration = [
+      !privacyVersion ? "versão" : null,
+      !privacyLastUpdated ? "data de atualização" : null,
+      !privacyEmail ? "canal de privacidade" : null,
+    ].filter(Boolean);
+
+    if (missingPolicyConfiguration.length > 0) {
+      console.error(
+        `Política APPROVED sem configuração obrigatória: ${missingPolicyConfiguration.join(", ")}.`,
+      );
+      process.exitCode = 1;
+    }
+  }
+}
 
 const requiredPublicVariables = [
   "NEXT_PUBLIC_PRIVACY_POLICY_URL",

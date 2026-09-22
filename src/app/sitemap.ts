@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { diagnosticConfig } from "@/config/diagnostic";
+import { privacyConfig } from "@/config/privacy";
 import { siteConfig } from "@/config/site";
 
 export const dynamic = "force-static";
@@ -12,12 +13,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
-    {
-      url: `${new URL(siteConfig.siteUrl).origin}${siteConfig.basePath}/politica-de-privacidade/`,
+  ];
+
+  if (privacyConfig.isIndexable) {
+    entries.push({
+      url: `${new URL(siteConfig.siteUrl).origin}${privacyConfig.internalUrl}/`,
       changeFrequency: "yearly",
       priority: 0.3,
-    },
-  ];
+    });
+  }
 
   if (diagnosticConfig.enabled) {
     entries.push({

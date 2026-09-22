@@ -71,6 +71,23 @@
   text-transform: uppercase;
 }
 
+.heroTopline {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.draftBadge {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid rgba(20, 124, 138, 0.28);
+  border-radius: 999px;
+  background: rgba(20, 124, 138, 0.08);
+  color: #116b77;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+
 .hero h1 {
   max-width: 14ch;
   margin-top: 1.1rem;
@@ -107,6 +124,13 @@
   margin: 0;
   color: var(--midnight);
   font-weight: 700;
+}
+
+.draftNotice {
+  max-width: 42rem;
+  margin-top: 1.25rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .layout {
@@ -264,6 +288,11 @@
 }
 
 @media (max-width: 32rem) {
+  .heroTopline {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .metadata {
     align-items: flex-start;
     flex-direction: column;
