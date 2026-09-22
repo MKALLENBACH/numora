@@ -17,7 +17,7 @@ export const ConsentSchema = z.object({
   ...diagnosticIdentity,
   type: z.enum(["PRIVACY", "COMMERCIAL"]),
   decision: z.enum(["ACCEPTED", "DECLINED"]),
-  policyVersion: z.string().min(1).max(100),
+  policyVersion: z.string().trim().min(1).max(100),
   clientRequestId,
   rowVersion: z.number().int().positive().optional(),
 }).strict();

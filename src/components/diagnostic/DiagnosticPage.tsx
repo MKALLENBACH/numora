@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { privacyConfig } from "@/config/privacy";
 import {
   clearLocalDraft,
   createClientRequestId,
@@ -280,7 +281,7 @@ export function DiagnosticPage() {
           ...sessionPayload(active, requestId),
           type: "PRIVACY",
           decision: accepted ? "ACCEPTED" : "DECLINED",
-          policyVersion: "mvp-v1",
+          policyVersion: privacyConfig.version,
         }),
       { retryAction: () => submitPrivacy(accepted, requestId) },
     );
@@ -294,7 +295,7 @@ export function DiagnosticPage() {
           ...sessionPayload(active, requestId),
           type: "COMMERCIAL",
           decision: accepted ? "ACCEPTED" : "DECLINED",
-          policyVersion: "mvp-v1",
+          policyVersion: privacyConfig.version,
         }),
       { retryAction: () => submitCommercial(accepted, requestId) },
     );
