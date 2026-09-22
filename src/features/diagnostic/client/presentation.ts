@@ -1,4 +1,6 @@
 import type { AnswerValue, PublicQuestion, PublicReview, ReviewSection } from "./types";
+import { industries } from "./content";
+import { interviewCatalog } from "../domain/catalog";
 
 const reviewFields: ReadonlyArray<{ key: keyof PublicReview; title: string }> = [
   { key: "company", title: "Empresa" },
@@ -23,6 +25,29 @@ const unitLabels: Readonly<Record<string, string>> = {
   HOURS_PER_MONTH: "horas por mês",
 };
 
+const reviewOptionLabels = new Map(
+  [
+    ...industries,
+    ...interviewCatalog.questions.flatMap((question) => question.options ?? []),
+  ].map((option) => [option.value, option.label]),
+);
+
+const localizedReviewFields = new Set<keyof PublicReview>([
+  "affectedArea",
+  "systems",
+  "mainImpacts",
+  "decisionContext",
+]);
+
+function reviewDisplayValue(rawValue: string | string[]) {
+  const values = Array.isArray(rawValue) ? rawValue : rawValue.split(",");
+  return values
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map((value) => reviewOptionLabels.get(value) ?? value)
+    .join(", ");
+}
+
 export function answerDisplayValue(question: PublicQuestion, value: AnswerValue) {
   if (Array.isArray(value)) {
     const labels = new Map((question.options ?? []).map((option) => [option.value, option.label]));
@@ -39,11 +64,17 @@ export function answerDisplayValue(question: PublicQuestion, value: AnswerValue)
 
 export function normalizeReviewSections(review: PublicReview): ReadonlyArray<ReviewSection> {
   return reviewFields.map(({ key, title }) => {
-      const rawValue = review[key];
-      return {
-        key,
-        title,
-        value: Array.isArray(rawValue) ? rawValue.join(", ") : typeof rawValue === "string" ? rawValue : "",
-      };
-    });
+    const rawValue = review[key];
+    const displayValue = Array.isArray(rawValue)
+      ? localizedReviewFields.has(key)
+        ? reviewDisplayValue(rawValue)
+        : rawValue.join(", ")
+      : typeof rawValue === "string"
+        ? localizedReviewFields.has(key)
+          ? reviewDisplayValue(rawValue)
+          : rawValue
+        : "";
+
+    return { key, title, value: displayValue };
+  });
 }

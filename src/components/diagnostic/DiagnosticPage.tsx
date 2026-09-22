@@ -76,6 +76,25 @@ export function DiagnosticPage() {
   const currentQuestion = state?.currentQuestion ?? null;
 
   useEffect(() => {
+    let cancelled = false;
+
+    void client.restoreTerminal()
+      .then((terminalState) => {
+        if (!cancelled && terminalState) {
+          setState(terminalState);
+          setSaveStatus("saved");
+        }
+      })
+      .catch(() => {
+        // A introdução continua disponível se o estado terminal não puder ser restaurado.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [client]);
+
+  useEffect(() => {
     if (!currentQuestion || !state) return;
     const draft = readLocalDraft();
     if (draft?.diagnosticId === state.diagnosticId && draft.questionCode === currentQuestion.id) {
@@ -500,7 +519,7 @@ export function DiagnosticPage() {
         ) : !state ? (
           <IntroductionStep onStart={handleStart} busy={busy} />
         ) : state.status === "BLOCKED" ? (
-          <BlockedStep />
+          <BlockedStep onRestart={() => resetAndStartDiagnostic()} busy={busy} />
         ) : state.status === "COMPLETING" ? (
           <section className="diagnostic-card diagnostic-card--loading" aria-live="polite">
             <p className="diagnostic-eyebrow">Concluindo com segurança</p>
@@ -508,7 +527,11 @@ export function DiagnosticPage() {
             <p>Aguarde enquanto registramos as informações confirmadas.</p>
           </section>
         ) : state.status === "COMPLETED" || state.status === "COMPLETED_NO_CONTACT" ? (
-          <CompletionStep withContact={state.status === "COMPLETED"} />
+          <CompletionStep
+            withContact={state.status === "COMPLETED"}
+            onRestart={() => resetAndStartDiagnostic()}
+            busy={busy}
+          />
         ) : state.stage === "PRIVACY_CONSENT" ? (
           <PrivacyConsentStep onAccept={() => submitPrivacy(true)} onDecline={() => submitPrivacy(false)} busy={busy} />
         ) : state.stage === "COMMERCIAL_CONSENT" ? (

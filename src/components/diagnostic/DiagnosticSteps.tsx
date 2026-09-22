@@ -644,25 +644,43 @@ export function ReviewStep({
   );
 }
 
-export function CompletionStep({ withContact }: { withContact: boolean }) {
+export function CompletionStep({
+  withContact,
+  onRestart,
+  busy,
+}: {
+  withContact: boolean;
+  onRestart: () => void | Promise<void>;
+  busy: boolean;
+}) {
   return (
     <section className="diagnostic-card diagnostic-card--completion" aria-labelledby="completion-title">
       <span className="diagnostic-completion-mark" aria-hidden="true">✓</span>
       <p className="diagnostic-eyebrow">Informações registradas</p>
       <h1 id="completion-title">{diagnosticCopy.completion.title}</h1>
       <p className="diagnostic-lead">{withContact ? diagnosticCopy.completion.withContact : diagnosticCopy.completion.withoutContact}</p>
-      <a className="diagnostic-button diagnostic-button--primary" href={`${siteConfig.basePath}/`}>Voltar ao site</a>
+      <div className="diagnostic-actions">
+        <a className="diagnostic-button diagnostic-button--primary" href={`${siteConfig.basePath}/`}>Voltar ao site</a>
+        <button className="diagnostic-button diagnostic-button--secondary" type="button" onClick={onRestart} disabled={busy}>
+          {busy ? "Preparando…" : "Iniciar novo diagnóstico"}
+        </button>
+      </div>
     </section>
   );
 }
 
-export function BlockedStep() {
+export function BlockedStep({ onRestart, busy }: { onRestart: () => void; busy: boolean }) {
   return (
     <section className="diagnostic-card" aria-labelledby="blocked-title">
       <p className="diagnostic-eyebrow">Privacidade</p>
       <h1 id="blocked-title">Não podemos continuar</h1>
       <p className="diagnostic-lead">Sem essa autorização, não podemos continuar com o diagnóstico.</p>
-      <a className="diagnostic-button diagnostic-button--primary" href={`${siteConfig.basePath}/`}>Voltar ao site</a>
+      <div className="diagnostic-actions">
+        <a className="diagnostic-button diagnostic-button--primary" href={`${siteConfig.basePath}/`}>Voltar ao site</a>
+        <button className="diagnostic-button diagnostic-button--secondary" type="button" onClick={onRestart} disabled={busy}>
+          {busy ? "Preparando…" : "Iniciar novo diagnóstico"}
+        </button>
+      </div>
     </section>
   );
 }

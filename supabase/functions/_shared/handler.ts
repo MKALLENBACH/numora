@@ -268,7 +268,7 @@ async function handleStart(ctx: RequestContext, body: StartInput) {
   const attempt = await prepareIdempotency(ctx, undefined, "start", "START", body.clientRequestId, body);
   if (attempt.replayedState) return attempt.replayedState;
   await rateLimit(ctx, "diagnostic-start", integerEnv("RATE_LIMIT_MAX_STARTS_PER_HOUR", 3, 1, 100), 3600);
-  await rpc(ctx, "diagnostic_start", {
+  const startResult = await rpc(ctx, "diagnostic_start", {
     p_owner_user_id: ctx.user.id,
     p_idempotency_key: attempt.key,
     p_request_hash: attempt.hash,
@@ -276,7 +276,12 @@ async function handleStart(ctx: RequestContext, body: StartInput) {
     p_timezone: body.timezone,
     p_ttl_days: integerEnv("DIAGNOSTIC_SESSION_TTL_DAYS", 7, 1, 30),
   });
-  return buildPublicState(ctx.admin, ctx.user.id);
+  const diagnosticId = startResult && typeof startResult === "object" &&
+      "diagnosticId" in startResult && typeof startResult.diagnosticId === "string"
+    ? startResult.diagnosticId
+    : null;
+  if (!diagnosticId) throw new AppError("PERSISTENCE_UNAVAILABLE", 503);
+  return buildPublicState(ctx.admin, ctx.user.id, diagnosticId);
 }
 
 async function handleConsent(ctx: RequestContext, body: ConsentInput) {

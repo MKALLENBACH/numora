@@ -33,7 +33,11 @@ function publicStage(status: string, stage: string): PublicDiagnosticState["stag
 }
 
 export async function buildPublicState(admin: SupabaseClient, ownerId: string, diagnosticId?: string): Promise<PublicDiagnosticState> {
-  let query = admin.from("diagnostics").select("id,status,current_stage,updated_at").eq("owner_user_id", ownerId).is("archived_at", null).order("updated_at", { ascending: false }).limit(1);
+  let query = admin.from("diagnostics").select("id,status,current_stage,updated_at").eq("owner_user_id", ownerId).is("archived_at", null)
+    .order("updated_at", { ascending: false })
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: false })
+    .limit(1);
   if (diagnosticId) query = query.eq("id", diagnosticId);
   const { data: rows, error } = await query;
   if (error) throw mapPersistenceError(error);

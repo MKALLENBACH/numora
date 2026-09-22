@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 import { PublicDiagnosticStateSchema } from "@/features/diagnostic/contracts/public";
 
@@ -18,6 +18,74 @@ const DRAFT_STORAGE_KEY = "numora.diagnostic.draft.v1";
 const IDENTIFICATION_DRAFT_PREFIX = "numora:diagnostic:";
 const IDENTIFICATION_DRAFT_SUFFIX = ":identification-draft";
 const IDENTIFICATION_DRAFT_VERSION = 1;
+const AUTH_REQUEST_TIMEOUT_MS = 20_000;
+const DEFAULT_FUNCTION_TIMEOUT_MS = 20_000;
+const LONG_FUNCTION_TIMEOUT_MS = 45_000;
+const LONG_RUNNING_FUNCTIONS = new Set([
+  "diagnostic-generate-review",
+  "diagnostic-complete",
+]);
+const POST_IDENTIFICATION_STAGES = new Set<PublicDiagnosticState["stage"]>([
+  "CHALLENGE",
+  "CURRENT_PROCESS",
+  "IMPACT",
+  "BUYING_CONTEXT",
+  "REVIEW",
+  "COMPLETION",
+]);
+const TERMINAL_DIAGNOSTIC_STATUSES = new Set<PublicDiagnosticState["status"]>([
+  "BLOCKED",
+  "EXPIRED",
+  "COMPLETED",
+  "COMPLETED_NO_CONTACT",
+]);
+
+const RESTORABLE_TERMINAL_STATUSES = new Set<PublicDiagnosticState["status"]>([
+  "BLOCKED",
+  "COMPLETED",
+  "COMPLETED_NO_CONTACT",
+]);
+
+let sharedSupabaseClient: SupabaseClient | null | undefined;
+let anonymousSessionPromise: Promise<string> | null = null;
+
+async function fetchWithTimeout(input: RequestInfo | URL, init: RequestInit = {}) {
+  const controller = new AbortController();
+  const forwardAbort = () => controller.abort();
+  const upstreamSignal = init.signal;
+
+  if (upstreamSignal?.aborted) controller.abort();
+  else upstreamSignal?.addEventListener("abort", forwardAbort, { once: true });
+
+  const timeoutId = setTimeout(() => controller.abort(), AUTH_REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(input, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+    upstreamSignal?.removeEventListener("abort", forwardAbort);
+  }
+}
+
+function getSharedSupabaseClient() {
+  if (typeof window === "undefined" || !hasDiagnosticBackendConfiguration()) return null;
+
+  if (sharedSupabaseClient === undefined) {
+    sharedSupabaseClient = createClient(
+      diagnosticPublicConfig.supabaseUrl,
+      diagnosticPublicConfig.supabaseKey,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: false,
+        },
+        global: { fetch: fetchWithTimeout },
+      },
+    );
+  }
+
+  return sharedSupabaseClient;
+}
 
 type DiagnosticScope = Pick<PublicDiagnosticState, "diagnosticId" | "sessionId">;
 
@@ -213,23 +281,24 @@ function asError(payload: ApiEnvelope<unknown> | null, status: number): Diagnost
 }
 
 export function createClientRequestId() {
-  return typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const bytes = new Uint8Array(16);
+  if (typeof crypto !== "undefined") {
+    crypto.getRandomValues(bytes);
+  } else {
+    for (let index = 0; index < bytes.length; index += 1) {
+      bytes[index] = Math.floor(Math.random() * 256);
+    }
+  }
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const value = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `${value.slice(0, 8)}-${value.slice(8, 12)}-${value.slice(12, 16)}-${value.slice(16, 20)}-${value.slice(20)}`;
 }
 
 export function createDiagnosticClient() {
   const supabaseUrl = diagnosticPublicConfig.supabaseUrl;
   const anonymousKey = diagnosticPublicConfig.supabaseKey;
-  const supabase = hasDiagnosticBackendConfiguration()
-    ? createClient(supabaseUrl, anonymousKey, {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: false,
-        },
-      })
-    : null;
+  const supabase = getSharedSupabaseClient();
   let currentRowVersion: number | null = null;
 
   async function ensureAnonymousSession() {
@@ -251,15 +320,23 @@ export function createDiagnosticClient() {
     }
     if (existing.session?.access_token) return existing.session.access_token;
 
-    const { data, error } = await supabase.auth.signInAnonymously();
-    if (error || !data.session?.access_token) {
-      throw new DiagnosticClientError({
-        code: "UNAUTHORIZED",
-        message: publicErrorMessages.UNAUTHORIZED,
-        retryable: true,
-      });
+    if (!anonymousSessionPromise) {
+      anonymousSessionPromise = supabase.auth.signInAnonymously()
+        .then(({ data, error }) => {
+          if (error || !data.session?.access_token) {
+            throw new DiagnosticClientError({
+              code: "UNAUTHORIZED",
+              message: publicErrorMessages.UNAUTHORIZED,
+              retryable: true,
+            });
+          }
+          return data.session.access_token;
+        })
+        .finally(() => {
+          anonymousSessionPromise = null;
+        });
     }
-    return data.session.access_token;
+    return anonymousSessionPromise;
   }
 
   async function invoke<T>(functionName: string, body: Record<string, unknown>) {
@@ -279,24 +356,47 @@ export function createDiagnosticClient() {
     const requestBody = concurrencyProtected && currentRowVersion !== null
       ? { ...body, rowVersion: currentRowVersion }
       : body;
-    const response = await fetch(`${supabaseUrl}/functions/v1/${functionName}`, {
-      method: "POST",
-      headers: {
-        apikey: anonymousKey,
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
-    const payload = (await response.json().catch(() => null)) as ApiEnvelope<T> | null;
-
-    if (!response.ok || !payload?.data) throw asError(payload, response.status);
-    const responseRowVersion = Number(
-      payload.meta?.rowVersion ?? response.headers.get("X-Diagnostic-Row-Version"),
+    const controller = new AbortController();
+    const timeoutId = setTimeout(
+      () => controller.abort(),
+      LONG_RUNNING_FUNCTIONS.has(functionName)
+        ? LONG_FUNCTION_TIMEOUT_MS
+        : DEFAULT_FUNCTION_TIMEOUT_MS,
     );
-    if (Number.isSafeInteger(responseRowVersion) && responseRowVersion > 0) {
-      currentRowVersion = responseRowVersion;
+    let responseOk = false;
+    let responseStatus = 0;
+    let responseRowVersionHeader: string | null = null;
+    let payload: ApiEnvelope<T> | null = null;
+
+    try {
+      const response = await fetch(`${supabaseUrl}/functions/v1/${functionName}`, {
+        method: "POST",
+        headers: {
+          apikey: anonymousKey,
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal,
+      });
+      responseOk = response.ok;
+      responseStatus = response.status;
+      responseRowVersionHeader = response.headers.get("X-Diagnostic-Row-Version");
+      payload = (await response.json().catch(() => null)) as ApiEnvelope<T> | null;
+    } catch (error) {
+      if (controller.signal.aborted) {
+        throw new DiagnosticClientError({
+          code: "GENERIC_ERROR",
+          message: publicErrorMessages.GENERIC_ERROR,
+          retryable: true,
+        });
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
     }
+
+    if (!responseOk || !payload?.data) throw asError(payload, responseStatus);
     const parsed = PublicDiagnosticStateSchema.safeParse(payload.data);
     if (!parsed.success) {
       throw new DiagnosticClientError({
@@ -304,6 +404,12 @@ export function createDiagnosticClient() {
         message: publicErrorMessages.GENERIC_ERROR,
         retryable: true,
       });
+    }
+    const responseRowVersion = Number(
+      payload.meta?.rowVersion ?? responseRowVersionHeader,
+    );
+    if (Number.isSafeInteger(responseRowVersion) && responseRowVersion > 0) {
+      currentRowVersion = responseRowVersion;
     }
     return parsed.data;
   }
@@ -314,8 +420,8 @@ export function createDiagnosticClient() {
       sessionId: state.sessionId,
     } satisfies StoredDiagnostic);
     if (
-      state.stage !== "IDENTIFICATION" ||
-      ["BLOCKED", "EXPIRED", "COMPLETED", "COMPLETED_NO_CONTACT"].includes(state.status)
+      POST_IDENTIFICATION_STAGES.has(state.stage) ||
+      TERMINAL_DIAGNOSTIC_STATUSES.has(state.status)
     ) {
       clearIdentificationDraft(state);
     }
@@ -324,8 +430,23 @@ export function createDiagnosticClient() {
 
   return {
     isConfigured: hasDiagnosticBackendConfiguration(),
+    async restoreTerminal() {
+      const stored = safeRead<StoredDiagnostic>(SESSION_STORAGE_KEY);
+      if (!stored) return null;
+
+      try {
+        const state = await invoke<PublicDiagnosticState>("diagnostic-state", stored);
+        return RESTORABLE_TERMINAL_STATUSES.has(state.status)
+          ? rememberState(state)
+          : null;
+      } catch (error) {
+        if (error instanceof DiagnosticClientError && error.code === "SESSION_NOT_FOUND") {
+          return null;
+        }
+        throw error;
+      }
+    },
     async findResumable() {
-      await ensureAnonymousSession();
       const stored = safeRead<StoredDiagnostic>(SESSION_STORAGE_KEY);
       try {
         const state = await invoke<PublicDiagnosticState>("diagnostic-state", {
