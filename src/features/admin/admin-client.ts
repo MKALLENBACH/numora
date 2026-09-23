@@ -3,9 +3,16 @@ import { z } from "zod";
 import { withBasePath } from "@/config/runtime";
 import { getAdminSupabaseBrowserClient } from "@/lib/supabase/browser";
 
+import {
+  ADMIN_FUNCTION_TIMEOUT_MS,
+  AdminClientError,
+  adminConfigurationError,
+  adminFunctionFetch,
+  adminSupabaseConfiguration,
+  currentAdminAccessToken,
+} from "./admin-transport";
 import { adminRoles, type AdminSession } from "./types";
 
-const ADMIN_FUNCTION_TIMEOUT_MS = 20_000;
 const AdminSessionSchema = z.object({
   userId: z.uuid(),
   profileId: z.uuid(),
@@ -16,48 +23,21 @@ const AdminSessionSchema = z.object({
 }).strict();
 
 type AdminAction = "SESSION" | "LOGIN" | "LOGOUT";
-type AdminErrorCode = "UNAUTHORIZED" | "ACCESS_DENIED" | "CONFIGURATION_ERROR" | "GENERIC_ERROR";
 
-export class AdminClientError extends Error {
-  constructor(
-    public readonly code: AdminErrorCode,
-    message: string,
-  ) {
-    super(message);
-  }
-}
-
-function configurationError() {
-  return new AdminClientError(
-    "CONFIGURATION_ERROR",
-    "O ADM não está configurado neste ambiente.",
-  );
-}
-
-function supabaseConfiguration() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "") ?? "";
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
-  if (!url || !key) throw configurationError();
-  return { url, key };
-}
+export { AdminClientError } from "./admin-transport";
 
 async function invokeAdminAuth(
   action: AdminAction,
   accessToken: string,
 ): Promise<AdminSession> {
-  const { url, key } = supabaseConfiguration();
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), ADMIN_FUNCTION_TIMEOUT_MS);
 
   try {
-    const response = await fetch(`${url}/functions/v1/admin-auth`, {
-      method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ action }),
+    const response = await adminFunctionFetch({
+      functionName: "admin-auth",
+      accessToken,
+      body: { action },
       signal: controller.signal,
     });
     const payload = await response.json().catch(() => null) as {
@@ -97,16 +77,6 @@ async function invokeAdminAuth(
   }
 }
 
-async function currentAccessToken() {
-  const supabase = getAdminSupabaseBrowserClient();
-  if (!supabase) throw configurationError();
-  const { data, error } = await supabase.auth.getSession();
-  if (error || !data.session?.access_token) {
-    throw new AdminClientError("UNAUTHORIZED", "Não foi possível validar sua sessão.");
-  }
-  return data.session.access_token;
-}
-
 export function safeAdminReturnTo(rawValue: string | null) {
   const fallback = withBasePath("/adm/");
   if (!rawValue || typeof window === "undefined") return fallback;
@@ -139,12 +109,12 @@ export function safeAdminReturnTo(rawValue: string | null) {
 
 export const adminClient = {
   async restore() {
-    return invokeAdminAuth("SESSION", await currentAccessToken());
+    return invokeAdminAuth("SESSION", await currentAdminAccessToken());
   },
 
   async login(email: string, password: string) {
     const supabase = getAdminSupabaseBrowserClient();
-    if (!supabase) throw configurationError();
+    if (!supabase) throw adminConfigurationError();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error || !data.session?.access_token || data.user.is_anonymous) {
       throw new AdminClientError(
@@ -163,7 +133,7 @@ export const adminClient = {
 
   async logout() {
     const supabase = getAdminSupabaseBrowserClient();
-    if (!supabase) throw configurationError();
+    if (!supabase) throw adminConfigurationError();
     try {
       const { data } = await supabase.auth.getSession();
       if (data.session?.access_token) {
@@ -184,15 +154,14 @@ export const adminClient = {
   },
 
   async requestRecovery(email: string) {
-    const { url, key } = supabaseConfiguration();
+    adminSupabaseConfiguration();
     const redirectTo = `${window.location.origin}${withBasePath("/adm/recuperar-acesso/")}`;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), ADMIN_FUNCTION_TIMEOUT_MS);
     try {
-      const response = await fetch(`${url}/functions/v1/admin-auth`, {
-        method: "POST",
-        headers: { apikey: key, "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "RECOVER", email, redirectTo }),
+      const response = await adminFunctionFetch({
+        functionName: "admin-auth",
+        body: { action: "RECOVER", email, redirectTo },
         signal: controller.signal,
       });
       if (response.ok) return;
@@ -210,7 +179,7 @@ export const adminClient = {
 
   async updatePassword(password: string) {
     const supabase = getAdminSupabaseBrowserClient();
-    if (!supabase) throw configurationError();
+    if (!supabase) throw adminConfigurationError();
     const { error } = await supabase.auth.updateUser({ password });
     if (error) {
       throw new AdminClientError(
