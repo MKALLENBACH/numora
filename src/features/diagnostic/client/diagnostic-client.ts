@@ -1,6 +1,5 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-
 import { PublicDiagnosticStateSchema } from "@/features/diagnostic/contracts/public";
+import { getDiagnosticSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 import { publicErrorMessages } from "./content";
 import { diagnosticPublicConfig, hasDiagnosticBackendConfiguration } from "./config";
@@ -18,7 +17,6 @@ const DRAFT_STORAGE_KEY = "numora.diagnostic.draft.v1";
 const IDENTIFICATION_DRAFT_PREFIX = "numora:diagnostic:";
 const IDENTIFICATION_DRAFT_SUFFIX = ":identification-draft";
 const IDENTIFICATION_DRAFT_VERSION = 1;
-const AUTH_REQUEST_TIMEOUT_MS = 20_000;
 const DEFAULT_FUNCTION_TIMEOUT_MS = 20_000;
 const LONG_FUNCTION_TIMEOUT_MS = 45_000;
 const LONG_RUNNING_FUNCTIONS = new Set([
@@ -46,46 +44,7 @@ const RESTORABLE_TERMINAL_STATUSES = new Set<PublicDiagnosticState["status"]>([
   "COMPLETED_NO_CONTACT",
 ]);
 
-let sharedSupabaseClient: SupabaseClient | null | undefined;
 let anonymousSessionPromise: Promise<string> | null = null;
-
-async function fetchWithTimeout(input: RequestInfo | URL, init: RequestInit = {}) {
-  const controller = new AbortController();
-  const forwardAbort = () => controller.abort();
-  const upstreamSignal = init.signal;
-
-  if (upstreamSignal?.aborted) controller.abort();
-  else upstreamSignal?.addEventListener("abort", forwardAbort, { once: true });
-
-  const timeoutId = setTimeout(() => controller.abort(), AUTH_REQUEST_TIMEOUT_MS);
-  try {
-    return await fetch(input, { ...init, signal: controller.signal });
-  } finally {
-    clearTimeout(timeoutId);
-    upstreamSignal?.removeEventListener("abort", forwardAbort);
-  }
-}
-
-function getSharedSupabaseClient() {
-  if (typeof window === "undefined" || !hasDiagnosticBackendConfiguration()) return null;
-
-  if (sharedSupabaseClient === undefined) {
-    sharedSupabaseClient = createClient(
-      diagnosticPublicConfig.supabaseUrl,
-      diagnosticPublicConfig.supabaseKey,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: false,
-        },
-        global: { fetch: fetchWithTimeout },
-      },
-    );
-  }
-
-  return sharedSupabaseClient;
-}
 
 type DiagnosticScope = Pick<PublicDiagnosticState, "diagnosticId" | "sessionId">;
 
@@ -298,7 +257,9 @@ export function createClientRequestId() {
 export function createDiagnosticClient() {
   const supabaseUrl = diagnosticPublicConfig.supabaseUrl;
   const anonymousKey = diagnosticPublicConfig.supabaseKey;
-  const supabase = getSharedSupabaseClient();
+  const supabase = hasDiagnosticBackendConfiguration()
+    ? getDiagnosticSupabaseBrowserClient()
+    : null;
   let currentRowVersion: number | null = null;
 
   async function ensureAnonymousSession() {

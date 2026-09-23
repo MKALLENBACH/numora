@@ -43,6 +43,7 @@ jobs:
       - run: npm run build
         env:
           APP_ENV: ${{ vars.APP_ENV || 'development' }}
+          NEXT_PUBLIC_APP_ENV: ${{ vars.APP_ENV || 'development' }}
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
           NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL: ${{ vars.NEXT_PUBLIC_PRIVACY_CONTACT_EMAIL }}

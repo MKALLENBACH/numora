@@ -10,6 +10,6 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true
   },
-  "include": ["_check/**/*.d.ts", "_shared/**/*.ts", "diagnostic-*/**/*.ts"],
+  "include": ["_check/**/*.d.ts", "_shared/**/*.ts", "diagnostic-*/**/*.ts", "admin-*/**/*.ts"],
   "exclude": ["_shared/*_test.ts"]
 }

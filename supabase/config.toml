@@ -26,7 +26,11 @@ enabled = false
 [auth]
 enabled = true
 site_url = "http://localhost:3000"
-additional_redirect_urls = ["http://127.0.0.1:3000", "http://localhost:3000"]
+additional_redirect_urls = [
+  "http://127.0.0.1:3000/adm/recuperar-acesso/",
+  "http://localhost:3000/adm/recuperar-acesso/",
+  "https://mkallenbach.github.io/numora/adm/recuperar-acesso/",
+]
 jwt_expiry = 3600
 enable_refresh_token_rotation = true
 refresh_token_reuse_interval = 10
@@ -75,3 +79,6 @@ verify_jwt = true
 
 [functions.diagnostic-abandon]
 verify_jwt = true
+
+[functions.admin-auth]
+verify_jwt = false
