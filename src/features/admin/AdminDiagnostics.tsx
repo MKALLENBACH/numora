@@ -12,6 +12,7 @@ import {
 import { listAdminDiagnostics } from "./admin-diagnostics-client";
 import { useAdminAuth } from "./AdminAuthProvider";
 import { AdminClientError } from "./admin-transport";
+import { diagnosticDetailHref } from "./diagnostic-detail-navigation";
 import {
   ADMIN_DIAGNOSTIC_AREAS,
   ADMIN_DIAGNOSTIC_CLASSIFICATIONS,
@@ -209,6 +210,9 @@ function DiagnosticCard({ item }: Readonly<{ item: AdminDiagnosticListItem }>) {
           <dd>{formatDate(item.createdAt)}</dd>
         </div>
       </dl>
+      <a className="admin-detail-link" href={diagnosticDetailHref(item.diagnosticId)}>
+        Ver diagnóstico <span aria-hidden="true">→</span>
+      </a>
     </article>
   );
 }
@@ -636,6 +640,7 @@ export function AdminDiagnostics() {
                   <th scope="col">Permissão</th>
                   <th scope="col">Responsável</th>
                   <th scope="col">Data</th>
+                  <th scope="col"><span className="admin-visually-hidden">Ações</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -673,6 +678,11 @@ export function AdminDiagnostics() {
                     </td>
                     <td>{item.assignee?.displayName ?? "Não atribuído"}</td>
                     <td><time dateTime={item.createdAt}>{formatDate(item.createdAt)}</time></td>
+                    <td>
+                      <a className="admin-detail-link admin-detail-link--table" href={diagnosticDetailHref(item.diagnosticId)}>
+                        Ver diagnóstico <span aria-hidden="true">→</span>
+                      </a>
+                    </td>
                   </tr>
                 ))}
               </tbody>

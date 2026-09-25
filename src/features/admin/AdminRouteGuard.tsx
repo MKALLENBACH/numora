@@ -5,13 +5,14 @@ import { useEffect } from "react";
 import { withBasePath } from "@/config/runtime";
 
 import { useAdminAuth } from "./AdminAuthProvider";
+import { currentProtectedAdminReturnTo } from "./diagnostic-detail-navigation";
 
 export function AdminRouteGuard({ children }: Readonly<{ children: React.ReactNode }>) {
   const { status } = useAdminAuth();
 
   useEffect(() => {
     if (status !== "anonymous" && status !== "denied") return;
-    const returnTo = encodeURIComponent(window.location.pathname);
+    const returnTo = encodeURIComponent(currentProtectedAdminReturnTo());
     window.location.replace(`${withBasePath("/adm/login/")}?returnTo=${returnTo}`);
   }, [status]);
 

@@ -6,6 +6,7 @@ export type AdminErrorCode =
   | "UNAUTHORIZED"
   | "ACCESS_DENIED"
   | "VALIDATION_ERROR"
+  | "NOT_FOUND"
   | "RATE_LIMITED"
   | "QUERY_TIMEOUT"
   | "CONFIGURATION_ERROR"
@@ -74,6 +75,43 @@ export async function adminFunctionFetch(input: {
       signal: controller.signal,
       cache: "no-store",
     });
+  } finally {
+    window.clearTimeout(timeoutId);
+    input.signal?.removeEventListener("abort", forwardAbort);
+  }
+}
+
+export async function adminFunctionJson(input: {
+  functionName: string;
+  accessToken?: string;
+  body: unknown;
+  signal?: AbortSignal;
+  timeoutMs?: number;
+}) {
+  const { url, key } = adminSupabaseConfiguration();
+  const controller = new AbortController();
+  const forwardAbort = () => controller.abort(input.signal?.reason);
+  if (input.signal?.aborted) controller.abort(input.signal.reason);
+  else input.signal?.addEventListener("abort", forwardAbort, { once: true });
+
+  const timeoutId = window.setTimeout(
+    () => controller.abort(new DOMException("Request timed out", "TimeoutError")),
+    input.timeoutMs ?? ADMIN_FUNCTION_TIMEOUT_MS,
+  );
+  try {
+    const response = await fetch(`${url}/functions/v1/${input.functionName}`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        ...(input.accessToken ? { Authorization: `Bearer ${input.accessToken}` } : {}),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(input.body),
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    const payload = await response.json().catch(() => null) as unknown;
+    return { response, payload };
   } finally {
     window.clearTimeout(timeoutId);
     input.signal?.removeEventListener("abort", forwardAbort);

@@ -11,7 +11,7 @@ import { adminRoleLabels } from "./types";
 
 const navigation = [
   { label: "Visão geral", href: "/adm/" },
-  { label: "Diagnósticos", href: "/adm/diagnosticos/" },
+  { label: "Diagnósticos", href: "/adm/diagnosticos/", aliases: ["/adm/diagnostico/"] },
   { label: "Perfil", href: "/adm/perfil/" },
 ] as const;
 
@@ -77,7 +77,10 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
         {navigation.map((item) => {
           const href = withBasePath(item.href);
           const normalizedHref = href.replace(/\/$/, "");
-          const current = pathname === href || pathname === normalizedHref || (
+          const aliases = "aliases" in item ? item.aliases.map(withBasePath) : [];
+          const current = pathname === href || pathname === normalizedHref || aliases.some((alias) => (
+            pathname === alias || pathname === alias.replace(/\/$/, "")
+          )) || (
             item.href !== "/adm/" && pathname.startsWith(`${normalizedHref}/`)
           );
           return (
