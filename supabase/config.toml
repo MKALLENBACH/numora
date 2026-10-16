@@ -88,3 +88,6 @@ verify_jwt = false
 
 [functions.admin-diagnostic-detail]
 verify_jwt = false
+
+[functions.admin-diagnostic-workflow]
+verify_jwt = false

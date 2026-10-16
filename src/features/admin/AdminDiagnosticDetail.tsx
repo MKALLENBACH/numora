@@ -22,6 +22,12 @@ import {
   type AdminDiagnosticTab,
 } from "./diagnostic-detail-contract";
 import { isDiagnosticId, isDiagnosticTab } from "./diagnostic-detail-navigation";
+import { useAdminWorkflow } from "./useAdminWorkflow";
+import { AdminWorkflowActions } from "./AdminWorkflowActions";
+import { AdminInternalNotes } from "./AdminInternalNotes";
+import { AdminEffectiveFields } from "./AdminFieldOverrideDialog";
+import { AdminWorkflowHistory } from "./AdminWorkflowHistory";
+import { AdminHypothesisReview } from "./AdminHypothesisReview";
 
 type DetailDataBySection = Partial<Record<AdminDiagnosticDetailSection, AdminDiagnosticDetailData>>;
 type OverviewData = Extract<AdminDiagnosticDetailData, { section: "OVERVIEW" }>;
@@ -39,6 +45,7 @@ const tabs: readonly { id: AdminDiagnosticTab; label: string; section: AdminDiag
   { id: "flags", label: "Flags", section: "FLAGS" },
   { id: "briefing", label: "Briefing", section: "BRIEFING" },
   { id: "auditoria", label: "Auditoria", section: "AUDIT" },
+  { id: "notas", label: "Notas internas", section: "NOTES" },
 ];
 
 const statusLabels: Record<string, string> = {
@@ -630,7 +637,7 @@ function BriefingSection({ data }: Readonly<{ data: BriefingData }>) {
             <h2 id="briefing-title">Briefing vigente</h2>
             <p>Versão {current.version} · {displayLabel(statusLabels, current.status)} · {formatDateTime(current.generatedAt)}</p>
           </div>
-          <span className="admin-detail-badge">Origem não registrada</span>
+          <span className="admin-detail-badge">{data.content.generationMode === "DETERMINISTIC" ? "Geração determinística" : data.content.generationMode === "EXTERNAL" ? "Redação assistida" : "Origem não registrada"}</span>
         </div>
         {[
           ["Resumo executivo", current.executiveSummary],
@@ -653,7 +660,7 @@ function BriefingSection({ data }: Readonly<{ data: BriefingData }>) {
         </div>
         <DefinitionGrid items={[
           { label: "Contexto de oferta", value: displayLabel(offerLabels, current.recommendedOffer) },
-          { label: "Origem do briefing", value: "Não registrada por artefato" },
+          { label: "Origem do briefing", value: data.content.generationMode === "DETERMINISTIC" ? "Determinística" : data.content.generationMode === "EXTERNAL" ? "Redação assistida" : "Não registrada por artefato" },
         ]} />
       </section>
       {history.length > 1 ? (
@@ -752,6 +759,18 @@ function AdminDiagnosticDetailView({ diagnosticId }: Readonly<{ diagnosticId: st
   const dataRef = useRef<DetailDataBySection>({});
   const pendingRef = useRef(new Map<AdminDiagnosticDetailSection, AbortController>());
   const tabRefs = useRef(new Map<AdminDiagnosticTab, HTMLAnchorElement>());
+  const workflow = useAdminWorkflow(diagnosticId, invalidateWorkflowSections);
+
+  function invalidateWorkflowSections(sections: string[]) {
+    sections.forEach((section) => {
+      const key = section as AdminDiagnosticDetailSection;
+      pendingRef.current.get(key)?.abort();
+      pendingRef.current.delete(key);
+      delete dataRef.current[key];
+    });
+    setDataBySection({ ...dataRef.current });
+    setRetryKey((value) => value + 1);
+  }
 
   const activeSection = tabs.find((tab) => tab.id === activeTab)?.section ?? "OVERVIEW";
 
@@ -767,8 +786,9 @@ function AdminDiagnosticDetailView({ diagnosticId }: Readonly<{ diagnosticId: st
 
   useEffect(() => {
     if (!diagnosticId) return;
-    const requested = new Set<AdminDiagnosticDetailSection>(["OVERVIEW", activeSection]);
+    const requested = new Set<AdminDiagnosticDetailSection>(activeSection === "NOTES" ? ["OVERVIEW"] : ["OVERVIEW", activeSection]);
     const started: AbortController[] = [];
+    const pendingRequests=pendingRef.current;
 
     requested.forEach((section) => {
       if (dataRef.current[section] || pendingRef.current.has(section)) return;
@@ -804,7 +824,10 @@ function AdminDiagnosticDetailView({ diagnosticId }: Readonly<{ diagnosticId: st
     });
 
     return () => {
-      started.forEach((controller) => controller.abort());
+      started.forEach((controller) => {
+        controller.abort();
+        for (const [section,pending] of pendingRequests) if(pending===controller)pendingRequests.delete(section);
+      });
     };
   }, [activeSection, diagnosticId, refresh, retryKey]);
 
@@ -899,6 +922,10 @@ function AdminDiagnosticDetailView({ diagnosticId }: Readonly<{ diagnosticId: st
             </div>
           </header>
 
+          <AdminWorkflowActions controller={workflow} />
+          <div role="status" aria-live="polite">{workflow.message}</div>
+          {workflow.error ? <div role="alert"><p>{workflow.error.message}</p><button type="button" onClick={() => void workflow.reload()}>Recarregar análise interna</button></div> : null}
+
           <div className="admin-detail-tabs-wrap">
             <div className="admin-detail-tabs" role="tablist" aria-label="Seções do diagnóstico" onKeyDown={handleTabKeyDown}>
               {tabs.map((tab) => (
@@ -926,7 +953,11 @@ function AdminDiagnosticDetailView({ diagnosticId }: Readonly<{ diagnosticId: st
             aria-labelledby={`admin-tab-${activeTab}`}
             className="admin-detail-tabpanel"
           >
-            {loadingBySection[activeSection] && !activeData ? <SectionLoading />
+            {activeSection === "INTERVIEW" ? <AdminEffectiveFields controller={workflow} /> : null}
+            {activeSection === "QUALIFICATION" ? <AdminWorkflowActions controller={workflow} placement="qualification" /> : null}
+            {activeSection === "BRIEFING" ? <><AdminWorkflowActions controller={workflow} placement="briefing" /><AdminHypothesisReview controller={workflow} /></> : null}
+            {activeData?.section === "FLAGS" ? <AdminWorkflowActions controller={workflow} placement="flags" flags={[...activeData.content.active, ...activeData.content.resolved]} /> : null}
+            {activeSection === "NOTES" ? <AdminInternalNotes controller={workflow} /> : loadingBySection[activeSection] && !activeData ? <SectionLoading />
               : activeError ? <SectionError error={activeError} onRetry={() => retry(activeSection)} />
                 : activeData?.section === "OVERVIEW" ? <OverviewSection data={activeData} />
                   : activeData?.section === "INTERVIEW" ? <InterviewSection data={activeData} />
@@ -935,6 +966,8 @@ function AdminDiagnosticDetailView({ diagnosticId }: Readonly<{ diagnosticId: st
                         : activeData?.section === "BRIEFING" ? <BriefingSection data={activeData} />
                           : activeData?.section === "AUDIT" ? <AuditSection data={activeData} />
                             : <SectionLoading />}
+            {workflow.data && !workflow.data.workflow.privacyRestricted && activeSection!=="OVERVIEW" && activeSection!=="NOTES"?<AdminWorkflowHistory key={activeSection+workflow.data.workflow.rowVersion} diagnosticId={diagnosticId} kind={activeSection==="INTERVIEW"?"OVERRIDES":activeSection} />:null}
+            {workflow.data && !workflow.data.workflow.privacyRestricted && activeSection==="BRIEFING"?<AdminWorkflowHistory key={"hypotheses"+workflow.data.workflow.rowVersion} diagnosticId={diagnosticId} kind="HYPOTHESES" />:null}
           </div>
         </>
       )}

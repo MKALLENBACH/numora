@@ -13,6 +13,8 @@ import { listAdminDiagnostics } from "./admin-diagnostics-client";
 import { useAdminAuth } from "./AdminAuthProvider";
 import { AdminClientError } from "./admin-transport";
 import { diagnosticDetailHref } from "./diagnostic-detail-navigation";
+import { REVIEW_STATUSES, ADMIN_PRIORITIES } from "./workflow-contract";
+import { reviewLabels, priorityLabels as adminPriorityLabels } from "./AdminWorkflowActions";
 import {
   ADMIN_DIAGNOSTIC_AREAS,
   ADMIN_DIAGNOSTIC_CLASSIFICATIONS,
@@ -195,11 +197,15 @@ function DiagnosticCard({ item }: Readonly<{ item: AdminDiagnosticListItem }>) {
           <dd>{item.highestFlagSeverity ?? "Sem flags ativas"}</dd>
         </div>
         <div>
-          <dt>Área e prioridade</dt>
+          <dt>Área e prioridade declarada</dt>
           <dd>
             {item.primaryArea ? areaLabels[item.primaryArea] : "Área não informada"}
             {item.declaredPriority ? ` · ${priorityLabels[item.declaredPriority]}` : ""}
           </dd>
+        </div>
+        <div>
+          <dt>Análise interna</dt>
+          <dd>{reviewLabels[item.reviewStatus ?? "NEW"]} · Prioridade {adminPriorityLabels[item.adminPriority ?? "NORMAL"]}</dd>
         </div>
         <div>
           <dt>Responsável</dt>
@@ -218,7 +224,7 @@ function DiagnosticCard({ item }: Readonly<{ item: AdminDiagnosticListItem }>) {
 }
 
 export function AdminDiagnostics() {
-  const { refresh } = useAdminAuth();
+  const { refresh, session } = useAdminAuth();
   const [request, setRequest] = useState<AdminDiagnosticListRequest>(INITIAL_REQUEST);
   const [draftSearch, setDraftSearch] = useState("");
   const [draftFilters, setDraftFilters] = useState<ListFilters>({});
@@ -417,6 +423,17 @@ export function AdminDiagnostics() {
           </header>
 
           <div className="admin-filter-grid">
+            <FilterSelect id="filter-review-status" label="Status administrativo" value={draftFilters.reviewStatus ?? ""}
+              options={REVIEW_STATUSES.map(value => ({value,label:reviewLabels[value]}))}
+              onChange={event => setDraftFilters(current => ({...current,reviewStatus:event.target.value ? event.target.value as ListFilters["reviewStatus"] : undefined}))} />
+            <FilterSelect id="filter-admin-priority" label="Prioridade administrativa" value={draftFilters.adminPriority ?? ""}
+              options={ADMIN_PRIORITIES.map(value => ({value,label:adminPriorityLabels[value]}))}
+              onChange={event => setDraftFilters(current => ({...current,adminPriority:event.target.value ? event.target.value as ListFilters["adminPriority"] : undefined}))} />
+            <FilterSelect id="filter-archive" label="Arquivo administrativo" value={draftFilters.archiveMode ?? "ACTIVE"}
+              options={[{value:"ACTIVE",label:"Ativos"},{value:"ARCHIVED",label:"Arquivados"},{value:"ALL",label:"Ativos e arquivados"}]}
+              onChange={event => setDraftFilters(current => ({...current,archiveMode:(event.target.value || "ALL") as ListFilters["archiveMode"]}))} />
+            {session?.role !== "VIEWER" ? <label className="admin-filter-field"><span>Responsável</span><select value={draftFilters.assigneeId ?? ""}
+              onChange={event => setDraftFilters(current => ({...current,assigneeId:event.target.value || undefined}))}><option value="">Todos os responsáveis</option><option value={session?.profileId}>Meus diagnósticos</option></select></label> : null}
             {filterError ? <p className="admin-filter-error" role="alert">{filterError}</p> : null}
             <FilterSelect
               id="filter-status"
@@ -670,7 +687,7 @@ export function AdminDiagnostics() {
                         {item.highestFlagSeverity ?? "Sem flags"}
                       </span>
                     </td>
-                    <td>{statusLabels[item.diagnosticStatus]}</td>
+                    <td><span>Entrevista: {statusLabels[item.diagnosticStatus]}</span><strong>Análise: {reviewLabels[item.reviewStatus ?? "NEW"]}</strong><small>Prioridade interna: {adminPriorityLabels[item.adminPriority ?? "NORMAL"]}</small></td>
                     <td>
                       <span className={`admin-contact-state admin-contact-state--${item.contactAllowed ? "allowed" : "denied"}`}>
                         {item.contactAllowed ? "Autorizado" : "Não autorizado"}

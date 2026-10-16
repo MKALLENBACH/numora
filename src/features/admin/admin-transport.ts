@@ -10,7 +10,9 @@ export type AdminErrorCode =
   | "RATE_LIMITED"
   | "QUERY_TIMEOUT"
   | "CONFIGURATION_ERROR"
-  | "GENERIC_ERROR";
+  | "GENERIC_ERROR"
+  | "STATE_CONFLICT" | "STALE_STATE" | "ACTION_NOT_APPLICABLE" | "IDEMPOTENCY_KEY_REUSED"
+  | "BACKEND_FAILURE" | "REQUEST_TIMEOUT" | "NETWORK_ERROR";
 
 export class AdminClientError extends Error {
   constructor(

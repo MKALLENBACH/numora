@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { REVIEW_STATUSES,ADMIN_PRIORITIES } from "./admin-workflow-contract.ts";
 
 export const ADMIN_DIAGNOSTIC_STATUSES = [
   "INTRODUCTION",
@@ -81,6 +82,10 @@ const DateOnlySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((value) =>
 }, "INVALID_DATE");
 
 const FiltersSchema = z.object({
+  reviewStatus:z.enum(REVIEW_STATUSES).optional(),
+  adminPriority:z.enum(ADMIN_PRIORITIES).optional(),
+  assigneeId:z.uuid().optional(),
+  archiveMode:z.enum(["ACTIVE","ARCHIVED","ALL"]).optional(),
   diagnosticStatus: z.array(z.enum(ADMIN_DIAGNOSTIC_STATUSES)).max(17).optional(),
   classification: z.array(z.enum(ADMIN_DIAGNOSTIC_CLASSIFICATIONS)).max(5).optional(),
   scoreState: z.enum(["PRESENT", "ABSENT"]).optional(),
@@ -116,6 +121,7 @@ const FiltersSchema = z.object({
 });
 
 export const AdminDiagnosticListRequestSchema = z.object({
+  workflowVersion:z.literal(1).optional(),
   page: z.number().int().min(1).max(100_000).default(1),
   pageSize: z.literal(25).default(25),
   search: z.string().trim().min(2).max(320).optional(),
@@ -141,7 +147,8 @@ export const AdminDiagnosticListItemSchema = z.object({
   classification: z.enum(ADMIN_DIAGNOSTIC_CLASSIFICATIONS).nullable(),
   highestFlagSeverity: z.enum(ADMIN_DIAGNOSTIC_FLAG_SEVERITIES).nullable(),
   diagnosticStatus: z.enum(ADMIN_DIAGNOSTIC_STATUSES),
-  reviewStatus: z.null(),
+  reviewStatus: z.enum(REVIEW_STATUSES).nullable(),
+  adminPriority:z.enum(ADMIN_PRIORITIES).optional(),
   contactAllowed: z.boolean(),
   assignee: z.object({
     profileId: z.uuid(),

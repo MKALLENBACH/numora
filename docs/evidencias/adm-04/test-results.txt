@@ -1,0 +1,25 @@
+✔ frontend preserves retries, drafts, refresh, conflicts, and clears identity on logout (1200.8724ms)
+✔ strict command rejects forged actor, arbitrary path, score, and invalid values (3979.821ms)
+✔ new and legacy list contracts, detail, and NOTES read safely (112.5786ms)
+✔ verified override preserves original and creates its own eligible evidence (58.0102ms)
+✔ unverified override suppresses original scoring proof (24.7816ms)
+✔ recalculation and briefing are versioned, atomic, and idempotent (136.2471ms)
+✔ a computed artifact cannot commit after source changes (37.2504ms)
+✔ a valid human qualification has no fixed score threshold (43.8792ms)
+✔ briefing hypotheses support public object and legacy string formats without changing score (56.3109ms)
+✔ notes pagination uses timestamp and UUID without dropping ties (35.5938ms)
+✔ complete histories paginate ties and expose override provenance (94.7911ms)
+✔ long valid overrides generate bounded narrative while preserving full snapshot (21.4939ms)
+✔ privacy restriction removes narrative source and write capabilities (14.5715ms)
+✔ source changes make an existing override inapplicable (30.8772ms)
+✔ evidence from another diagnostic is rejected (33.3798ms)
+✔ no-contact consent remains authoritative through qualification and briefing (53.8253ms)
+✔ retention removes the disposable diagnostic and all append-only children (74.4981ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8503.0131

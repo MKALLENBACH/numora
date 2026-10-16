@@ -1,0 +1,19 @@
+Migration OK: 20260805000100_diagnostic_schema.sql
+Migration OK: 20260805000200_diagnostic_integrity.sql
+Migration OK: 20260805000300_diagnostic_rpcs.sql
+Migration OK: 20260805000400_diagnostic_rls.sql
+Migration OK: 20260805000500_diagnostic_retention.sql
+Migration OK: 20260814000100_fix_diagnostic_answer_persistence.sql
+Migration OK: 20260814000200_harden_diagnostic_completion_enums.sql
+Migration OK: 20260814000300_allow_completing_session_expiration.sql
+Migration OK: 20260814000400_fix_completion_criterion_link.sql
+Migration OK: 20260922000100_admin_foundation.sql
+Migration OK: 20260923000100_admin_audit_identity_retention.sql
+Migration OK: 20260923000200_admin_diagnostics_list.sql
+Migration OK: 20260925000100_admin_diagnostic_detail.sql
+Migration OK: 20261015000100_admin_workflow_schema.sql
+Migration OK: 20261015000200_admin_workflow_commands.sql
+Migration OK: 20261015000300_admin_workflow_read_models.sql
+Migration OK: 20261015000400_admin_workflow_conflict_transport.sql
+Migration OK: 20261015000500_admin_workflow_hypothesis_shapes.sql
+SQL workflow scenarios: passed

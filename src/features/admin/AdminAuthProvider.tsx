@@ -32,11 +32,12 @@ export function AdminAuthProvider({ children }: Readonly<{ children: React.React
   const [session, setSession] = useState<AdminSession | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const operationRef = useRef(0);
+  const identityRef = useRef<string | null>(null);
+  useEffect(() => { identityRef.current = session?.userId ?? null; }, [session]);
 
   const refresh = useCallback(async () => {
     const operation = ++operationRef.current;
-    setSession(null);
-    setStatus("loading");
+    setStatus((current) => current === "authenticated" ? current : "loading");
     try {
       const restored = await adminClient.restore();
       if (operation !== operationRef.current) return null;
@@ -64,12 +65,18 @@ export function AdminAuthProvider({ children }: Readonly<{ children: React.React
     }, 0);
 
     const supabase = getAdminSupabaseBrowserClient();
-    const subscription = supabase?.auth.onAuthStateChange((event) => {
+    const subscription = supabase?.auth.onAuthStateChange((event, authSession) => {
       if (!active) return;
       if (event === "SIGNED_OUT") {
         operationRef.current += 1;
         setSession(null);
         setStatus("anonymous");
+      } else if (event === "SIGNED_IN" && identityRef.current && identityRef.current !== authSession?.user.id) {
+        operationRef.current += 1;
+        identityRef.current = null;
+        setSession(null);
+        setStatus("loading");
+        window.setTimeout(() => { if (active) void refresh(); }, 0);
       } else if (event === "TOKEN_REFRESHED") {
         window.setTimeout(() => {
           if (active) void refresh();

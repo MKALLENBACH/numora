@@ -1,0 +1,35 @@
+[
+  {
+    "schema_checks": {
+      "anonCanCommand": false,
+      "authenticatedCanCommand": false,
+      "fk": {
+        "deferrable": true,
+        "deleteAction": "a",
+        "initiallyDeferred": true
+      },
+      "workflowTables": [
+        {
+          "forceRls": true,
+          "rls": true,
+          "table": "diagnostic_field_overrides"
+        },
+        {
+          "forceRls": true,
+          "rls": true,
+          "table": "diagnostic_hypothesis_reviews"
+        },
+        {
+          "forceRls": true,
+          "rls": true,
+          "table": "diagnostic_internal_notes"
+        },
+        {
+          "forceRls": true,
+          "rls": true,
+          "table": "diagnostic_review_states"
+        }
+      ]
+    }
+  }
+]

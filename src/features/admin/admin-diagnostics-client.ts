@@ -59,7 +59,7 @@ export async function listAdminDiagnostics(
   request: AdminDiagnosticListRequest,
   signal: AbortSignal,
 ) {
-  const validatedRequest = AdminDiagnosticListRequestSchema.parse(request);
+  const validatedRequest = AdminDiagnosticListRequestSchema.parse({...request,workflowVersion:1});
   try {
     const response = await adminFunctionFetch({
       functionName: "admin-diagnostics-list",

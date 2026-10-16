@@ -150,10 +150,9 @@ Deno.serve(async (request) => {
       );
     }
 
-    const { data, error } = await admin.rpc("admin_get_diagnostic_detail", {
-      p_diagnostic_id: body.diagnosticId,
-      p_section: body.section,
-    });
+    const { data, error } = body.workflowVersion===1
+      ? await admin.rpc("admin_get_diagnostic_detail_v4",{p_actor:context.userId,p_id:body.diagnosticId,p_section:body.section,p_before:body.before??null})
+      : await admin.rpc("admin_get_diagnostic_detail",{p_diagnostic_id:body.diagnosticId,p_section:body.section});
     if (error) {
       const timedOut = error.code === "57014" || error.message?.includes("statement timeout");
       throw new AdminDiagnosticDetailError(
@@ -172,6 +171,10 @@ Deno.serve(async (request) => {
       );
     }
 
+    // Older deployed clients only know the three original flag event names.
+    if(body.workflowVersion!==1 && data?.section==="FLAGS"){
+      data.content.history=data.content.history.map((event:Record<string,unknown>)=>event.eventType==="REOPENED"?{...event,eventType:"UPDATED"}:event);
+    }
     const parsed = AdminDiagnosticDetailDataSchema.safeParse(data);
     if (!parsed.success) {
       throw new AdminDiagnosticDetailError(

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { WorkflowSummarySchema,NoteSchema,HistoryCursorSchema } from "./admin-workflow-contract.ts";
 
 const ADMIN_DIAGNOSTIC_STATUSES = [
   "INTRODUCTION", "PRIVACY_CONSENT", "COMMERCIAL_CONSENT", "IDENTIFICATION",
@@ -14,6 +15,7 @@ export const ADMIN_DIAGNOSTIC_DETAIL_SECTIONS = [
   "FLAGS",
   "BRIEFING",
   "AUDIT",
+  "NOTES",
 ] as const;
 
 export const ADMIN_DIAGNOSTIC_TABS = [
@@ -23,6 +25,7 @@ export const ADMIN_DIAGNOSTIC_TABS = [
   "flags",
   "briefing",
   "auditoria",
+  "notas",
 ] as const;
 
 const IsoDateSchema = z.iso.datetime({ offset: true });
@@ -31,9 +34,12 @@ const NullableTextSchema = z.string().nullable();
 export const AdminDiagnosticDetailRequestSchema = z.object({
   diagnosticId: z.uuid(),
   section: z.enum(ADMIN_DIAGNOSTIC_DETAIL_SECTIONS),
+  workflowVersion: z.literal(1).optional(),
+  before: HistoryCursorSchema.optional(),
 }).strict();
 
 const DetailMetaSchema = z.object({
+  workflow: WorkflowSummarySchema.optional(),
   diagnosticId: z.uuid(),
   diagnosticStatus: z.enum(ADMIN_DIAGNOSTIC_STATUSES),
   companyName: z.string().max(200).nullable(),
@@ -253,7 +259,7 @@ const FlagsContentSchema = z.object({
     id: z.uuid(),
     flagId: z.uuid(),
     flagCode: z.string().max(100),
-    eventType: z.enum(["TRIGGERED", "UPDATED", "RESOLVED"]),
+    eventType: z.enum(["TRIGGERED", "UPDATED", "RESOLVED", "REOPENED"]),
     previousStatus: z.enum(["ACTIVE", "RESOLVED"]).nullable(),
     newStatus: z.enum(["ACTIVE", "RESOLVED"]),
     reason: z.string().max(1_000).nullable(),
@@ -291,14 +297,16 @@ const BriefingContentSchema = z.object({
     isCurrent: z.boolean(),
   }).strict()).max(25),
   inconsistentCurrentReference: z.boolean(),
-  originRecorded: z.literal(false),
+  originRecorded: z.boolean(),
+  generationMode: z.enum(["DETERMINISTIC","EXTERNAL"]).nullable().optional(),
+  fallbackUsed: z.boolean().nullable().optional(),
 }).strict();
 
 const AuditContentSchema = z.object({
   events: z.array(z.object({
     id: z.uuid(),
     eventType: z.string().max(100),
-    actorType: z.enum(["ANONYMOUS_USER", "SYSTEM", "SERVICE"]),
+    actorType: z.enum(["ANONYMOUS_USER", "SYSTEM", "SERVICE", "ADMIN"]),
     questionCode: z.string().max(100).nullable(),
     version: z.number().int().nullable(),
     consentType: z.string().max(40).nullable(),
@@ -309,6 +317,7 @@ const AuditContentSchema = z.object({
 }).strict();
 
 export const AdminDiagnosticDetailDataSchema = z.discriminatedUnion("section", [
+  z.object({section:z.literal("NOTES"),meta:DetailMetaSchema,content:z.object({notes:z.array(NoteSchema),nextCursor:HistoryCursorSchema.nullable(),privacyRestricted:z.boolean()}).strict()}).strict(),
   z.object({ section: z.literal("OVERVIEW"), meta: DetailMetaSchema, content: OverviewContentSchema }).strict(),
   z.object({ section: z.literal("INTERVIEW"), meta: DetailMetaSchema, content: InterviewContentSchema }).strict(),
   z.object({ section: z.literal("QUALIFICATION"), meta: DetailMetaSchema, content: QualificationContentSchema }).strict(),

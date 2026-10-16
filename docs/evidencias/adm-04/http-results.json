@@ -1,0 +1,130 @@
+{
+  "projectRef": "tbioidswvkfbnyedulrg",
+  "at": "2026-10-15T19:03:23.441Z",
+  "results": [
+    {
+      "name": "unauthenticated denied",
+      "status": "PASS"
+    },
+    {
+      "name": "visitor denied",
+      "status": "PASS"
+    },
+    {
+      "name": "VIEWER cannot mutate",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrent CLAIM: one winner and one version conflict",
+      "status": "PASS"
+    },
+    {
+      "name": "other consultant denied",
+      "status": "PASS"
+    },
+    {
+      "name": "durable retry returns one note",
+      "status": "PASS"
+    },
+    {
+      "name": "idempotency key rejects changed body",
+      "status": "PASS"
+    },
+    {
+      "name": "forged actor rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "override keeps original response",
+      "status": "PASS"
+    },
+    {
+      "name": "qualification creates versions",
+      "status": "PASS"
+    },
+    {
+      "name": "briefing preserves previous version",
+      "status": "PASS"
+    },
+    {
+      "name": "flag original reason preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "archive preserves public status",
+      "status": "PASS"
+    },
+    {
+      "name": "archived note rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "reopen computes current destination",
+      "status": "PASS"
+    },
+    {
+      "name": "inactive profile denied",
+      "status": "PASS"
+    },
+    {
+      "name": "detail OVERVIEW",
+      "status": "PASS"
+    },
+    {
+      "name": "detail INTERVIEW",
+      "status": "PASS"
+    },
+    {
+      "name": "detail QUALIFICATION",
+      "status": "PASS"
+    },
+    {
+      "name": "detail FLAGS",
+      "status": "PASS"
+    },
+    {
+      "name": "detail BRIEFING",
+      "status": "PASS"
+    },
+    {
+      "name": "detail AUDIT",
+      "status": "PASS"
+    },
+    {
+      "name": "detail NOTES",
+      "status": "PASS"
+    },
+    {
+      "name": "history AUDIT",
+      "status": "PASS"
+    },
+    {
+      "name": "history OVERRIDES",
+      "status": "PASS"
+    },
+    {
+      "name": "history HYPOTHESES",
+      "status": "PASS"
+    },
+    {
+      "name": "history FLAGS",
+      "status": "PASS"
+    },
+    {
+      "name": "history QUALIFICATION",
+      "status": "PASS"
+    },
+    {
+      "name": "history BRIEFING",
+      "status": "PASS"
+    },
+    {
+      "name": "list old and new contract",
+      "status": "PASS"
+    },
+    {
+      "name": "public completion unchanged",
+      "status": "PASS"
+    }
+  ]
+}

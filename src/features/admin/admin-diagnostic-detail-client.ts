@@ -62,7 +62,7 @@ export async function getAdminDiagnosticDetail(
   request: AdminDiagnosticDetailRequest,
   signal: AbortSignal,
 ) {
-  const validatedRequest = AdminDiagnosticDetailRequestSchema.parse(request);
+  const validatedRequest = AdminDiagnosticDetailRequestSchema.parse({...request,workflowVersion:1});
   try {
     const { response, payload: unknownPayload } = await adminFunctionJson({
       functionName: "admin-diagnostic-detail",

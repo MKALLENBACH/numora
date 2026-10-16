@@ -1691,3 +1691,50 @@
     animation: none;
   }
 }
+
+.admin-workflow-summary,.admin-workflow-effective,.admin-workflow-notes,.admin-workflow-hypothesis {
+  min-width:0; margin-block:1.25rem; padding:1rem; border:1px solid var(--admin-line);
+  border-radius:.65rem; background:var(--admin-surface,#fff); overflow-wrap:anywhere;
+}
+.admin-workflow-summary dl {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.admin-workflow-summary dt,.admin-workflow-values dt {font-size:.82rem;color:var(--admin-muted,#526174)}
+.admin-workflow-summary dd,.admin-workflow-values dd {margin:.3rem 0 0}
+.admin-workflow-toolbar {display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin-block:1rem}
+.admin-workflow-summary button,.admin-workflow-notes button,.admin-workflow-effective button,.admin-workflow-toolbar button,
+.admin-workflow-flag-action button,.admin-workflow-dialog button,.admin-workflow-menu summary {min-height:44px;padding:.55rem .8rem;cursor:pointer}
+.admin-workflow-menu {position:relative}
+.admin-workflow-menu > div {position:absolute;right:0;z-index:20;display:grid;min-width:15rem;padding:.5rem;background:var(--admin-surface,#fff);border:1px solid var(--admin-line);box-shadow:0 6px 18px #0002}
+.admin-workflow-dialog {width:min(38rem,calc(100vw - 2rem));max-width:100%;max-height:calc(100dvh - 2rem);padding:0;border:1px solid var(--admin-line);border-radius:.75rem;color:inherit;background:#fff;overflow-y:auto;overscroll-behavior:contain}
+.admin-workflow-dialog::backdrop {background:#10203099}
+.admin-workflow-dialog form {padding:1.25rem;min-width:0}
+.admin-workflow-dialog header {display:flex;align-items:start;justify-content:space-between;gap:1rem}
+.admin-workflow-dialog h2 {font-size:1.25rem;margin:0}
+.admin-workflow-dialog footer {display:flex;justify-content:flex-end;flex-wrap:wrap;gap:.65rem;position:sticky;bottom:0;padding-block:1rem calc(.5rem + env(safe-area-inset-bottom));background:#fff}
+.admin-workflow-fields {display:grid;gap:.65rem;min-width:0;padding:0;border:0}
+.admin-workflow-fields label {font-weight:600}
+.admin-workflow-fields input:not([type=checkbox]),.admin-workflow-fields textarea,.admin-workflow-fields select,
+.admin-workflow-notes textarea,.admin-workflow-notes select,.admin-workflow-effective select {box-sizing:border-box;width:100%;min-width:0;max-width:100%;min-height:44px;padding:.6rem;border:1px solid var(--admin-line);border-radius:.3rem;font:inherit;color:inherit;background:#fff}
+.admin-workflow-fields textarea,.admin-workflow-notes textarea {min-height:7rem;resize:vertical;overflow-wrap:anywhere}
+.admin-workflow-fields input[type=checkbox] {min-width:20px;min-height:20px;vertical-align:middle}
+.admin-workflow-fields [aria-invalid=true] {border:2px solid #a32323}
+.admin-workflow-error {color:#8b1d1d}
+.admin-workflow-error small {display:block}
+.admin-workflow-values {display:grid;gap:.7rem;min-width:0}
+.admin-workflow-values dd {white-space:pre-wrap;overflow-wrap:anywhere}
+.admin-workflow-history {list-style:none;padding:0;display:grid;gap:1rem}
+.admin-workflow-history article {border:1px solid var(--admin-line);border-radius:.5rem;padding:1rem;min-width:0}
+.admin-workflow-history header {display:flex;flex-wrap:wrap;gap:.65rem;font-size:.85rem}
+.admin-preserve-lines {white-space:pre-wrap;overflow-wrap:anywhere}
+.admin-workflow-notes form {display:grid;gap:.65rem}
+.admin-workflow-flag-action {display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-block:.75rem}
+@media(max-width:430px){
+ .admin-workflow-summary dl {grid-template-columns:1fr;gap:.75rem}
+ .admin-workflow-dialog {width:100%;max-height:94dvh;max-width:100vw;margin:auto 0 0;border-radius:.75rem .75rem 0 0}
+ .admin-workflow-dialog form {padding:1rem}
+ .admin-workflow-dialog footer {display:grid;grid-template-columns:1fr}
+ .admin-workflow-toolbar > button {flex:1 1 auto}
+ .admin-workflow-menu > div {right:auto;left:0;min-width:min(15rem,calc(100vw - 4rem))}
+}
+.admin-workflow-history { margin-block: 1.5rem; overflow-wrap: anywhere; }
+.admin-workflow-history summary { cursor: pointer; font-weight: 600; padding-block: .75rem; }
+.admin-workflow-history li { padding-block: .75rem; border-bottom: 1px solid var(--admin-border, #dbe3ed); }
