@@ -1,0 +1,24 @@
+{
+  "basePath": "",
+  "build": "passed",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/diagnostico/",
+      "status": 200
+    },
+    {
+      "path": "/adm/login/",
+      "status": 200
+    },
+    {
+      "path": "/politica-de-privacidade/",
+      "status": 200
+    }
+  ],
+  "cta": "/diagnostico",
+  "localFont": true
+}

@@ -21,8 +21,7 @@
   top: 0;
   min-width: 0;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--white) 94%, transparent);
-  backdrop-filter: blur(0.75rem);
+  background: var(--surface);
 }
 
 .site-header__inner {
@@ -108,7 +107,7 @@
   display: none;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-sm);
   background: var(--white);
   cursor: pointer;
@@ -136,6 +135,7 @@
 }
 
 .site-footer {
+  --focus: var(--focus-inverse);
   padding-top: var(--section-compact);
   border-top: 1px solid color-mix(in srgb, var(--white) 16%, transparent);
   background: var(--midnight);
@@ -185,6 +185,10 @@
 .site-footer__action .button--secondary {
   border-color: color-mix(in srgb, var(--white) 36%, transparent);
   color: var(--white);
+}
+
+.site-footer__action .button--secondary:hover {
+  border-color: var(--cyan);
 }
 
 .site-footer__bottom {

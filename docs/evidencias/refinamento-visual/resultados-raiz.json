@@ -1,0 +1,432 @@
+{
+  "widths": [
+    320,
+    390,
+    768,
+    900,
+    1024,
+    1440
+  ],
+  "screens": [
+    {
+      "name": "depois-login",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-login-320.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "file": "depois-login-390.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 900,
+      "file": "depois-login-768.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 900,
+      "file": "depois-login-900.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-login-1024.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-login-1440.png"
+    },
+    {
+      "name": "depois-login-erro",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-login-erro-320.png"
+    },
+    {
+      "name": "depois-login-erro",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 905,
+      "file": "depois-login-erro-1440.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-adm-entrada-320.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "file": "depois-adm-entrada-390.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 900,
+      "file": "depois-adm-entrada-768.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 900,
+      "file": "depois-adm-entrada-900.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-adm-entrada-1024.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-entrada-1440.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1289,
+      "file": "depois-adm-lista-320.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1241,
+      "file": "depois-adm-lista-390.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 932,
+      "file": "depois-adm-lista-768.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 935,
+      "file": "depois-adm-lista-900.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-adm-lista-1024.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-lista-1440.png"
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1289,
+      "file": "depois-adm-filtros-320.png"
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 935,
+      "file": "depois-adm-filtros-900.png"
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-filtros-1440.png"
+    },
+    {
+      "name": "depois-adm-erro",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 972,
+      "file": "depois-adm-erro-320.png"
+    },
+    {
+      "name": "depois-adm-erro",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-erro-1440.png"
+    },
+    {
+      "name": "depois-adm-visao-geral",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3072,
+      "file": "depois-adm-visao-geral-320.png"
+    },
+    {
+      "name": "depois-adm-visao-geral",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1832,
+      "file": "depois-adm-visao-geral-1440.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3041,
+      "file": "depois-adm-entrevista-320.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 2922,
+      "file": "depois-adm-entrevista-390.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 2302,
+      "file": "depois-adm-entrevista-768.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 2325,
+      "file": "depois-adm-entrevista-900.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 2208,
+      "file": "depois-adm-entrevista-1024.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2198,
+      "file": "depois-adm-entrevista-1440.png"
+    },
+    {
+      "name": "depois-adm-qualificacao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 5121,
+      "file": "depois-adm-qualificacao-320.png"
+    },
+    {
+      "name": "depois-adm-qualificacao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3480,
+      "file": "depois-adm-qualificacao-1440.png"
+    },
+    {
+      "name": "depois-adm-flags",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 7891,
+      "file": "depois-adm-flags-320.png"
+    },
+    {
+      "name": "depois-adm-flags",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 4400,
+      "file": "depois-adm-flags-1440.png"
+    },
+    {
+      "name": "depois-adm-briefing",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3182,
+      "file": "depois-adm-briefing-320.png"
+    },
+    {
+      "name": "depois-adm-briefing",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2402,
+      "file": "depois-adm-briefing-1440.png"
+    },
+    {
+      "name": "depois-adm-notas",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1755,
+      "file": "depois-adm-notas-320.png"
+    },
+    {
+      "name": "depois-adm-notas",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1332,
+      "file": "depois-adm-notas-1440.png"
+    },
+    {
+      "name": "depois-adm-auditoria",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1539,
+      "file": "depois-adm-auditoria-320.png"
+    },
+    {
+      "name": "depois-adm-auditoria",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1256,
+      "file": "depois-adm-auditoria-1440.png"
+    },
+    {
+      "name": "depois-adm-correcao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3041,
+      "file": "depois-adm-correcao-320.png"
+    },
+    {
+      "name": "depois-adm-correcao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2198,
+      "file": "depois-adm-correcao-1440.png"
+    },
+    {
+      "name": "depois-adm-status",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3041,
+      "file": "depois-adm-status-320.png"
+    },
+    {
+      "name": "depois-adm-status",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2198,
+      "file": "depois-adm-status-1440.png"
+    },
+    {
+      "name": "depois-adm-consultant",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 2881,
+      "file": "depois-adm-consultant-320.png"
+    },
+    {
+      "name": "depois-adm-consultant",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2142,
+      "file": "depois-adm-consultant-1440.png"
+    },
+    {
+      "name": "depois-adm-viewer",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 2837,
+      "file": "depois-adm-viewer-320.png"
+    },
+    {
+      "name": "depois-adm-viewer",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2098,
+      "file": "depois-adm-viewer-1440.png"
+    }
+  ],
+  "checks": [
+    "depois-login 320px sem overflow horizontal",
+    "depois-login 390px sem overflow horizontal",
+    "depois-login 768px sem overflow horizontal",
+    "depois-login 900px sem overflow horizontal",
+    "depois-login 1024px sem overflow horizontal",
+    "depois-login 1440px sem overflow horizontal",
+    "depois-login-erro 320px sem overflow horizontal",
+    "depois-login-erro 1440px sem overflow horizontal",
+    "depois-adm-entrada 320px sem overflow horizontal",
+    "depois-adm-entrada 390px sem overflow horizontal",
+    "depois-adm-entrada 768px sem overflow horizontal",
+    "depois-adm-entrada 900px sem overflow horizontal",
+    "depois-adm-entrada 1024px sem overflow horizontal",
+    "depois-adm-entrada 1440px sem overflow horizontal",
+    "depois-adm-lista 320px sem overflow horizontal",
+    "depois-adm-lista 390px sem overflow horizontal",
+    "depois-adm-lista 768px sem overflow horizontal",
+    "depois-adm-lista 900px sem overflow horizontal",
+    "depois-adm-lista 1024px sem overflow horizontal",
+    "depois-adm-lista 1440px sem overflow horizontal",
+    "depois-adm-filtros 320px sem overflow horizontal",
+    "depois-adm-filtros 900px sem overflow horizontal",
+    "depois-adm-filtros 1440px sem overflow horizontal",
+    "depois-adm-erro 320px sem overflow horizontal",
+    "depois-adm-erro 1440px sem overflow horizontal",
+    "depois-adm-visao-geral 320px sem overflow horizontal",
+    "depois-adm-visao-geral 1440px sem overflow horizontal",
+    "depois-adm-entrevista 320px sem overflow horizontal",
+    "depois-adm-entrevista 390px sem overflow horizontal",
+    "depois-adm-entrevista 768px sem overflow horizontal",
+    "depois-adm-entrevista 900px sem overflow horizontal",
+    "depois-adm-entrevista 1024px sem overflow horizontal",
+    "depois-adm-entrevista 1440px sem overflow horizontal",
+    "depois-adm-qualificacao 320px sem overflow horizontal",
+    "depois-adm-qualificacao 1440px sem overflow horizontal",
+    "depois-adm-flags 320px sem overflow horizontal",
+    "depois-adm-flags 1440px sem overflow horizontal",
+    "depois-adm-briefing 320px sem overflow horizontal",
+    "depois-adm-briefing 1440px sem overflow horizontal",
+    "depois-adm-notas 320px sem overflow horizontal",
+    "depois-adm-notas 1440px sem overflow horizontal",
+    "depois-adm-auditoria 320px sem overflow horizontal",
+    "depois-adm-auditoria 1440px sem overflow horizontal",
+    "depois-adm-correcao 320px sem overflow horizontal",
+    "depois-adm-correcao 1440px sem overflow horizontal",
+    "Diálogo administrativo devolve foco",
+    "depois-adm-status 320px sem overflow horizontal",
+    "depois-adm-status 1440px sem overflow horizontal",
+    "Menu ADM abre em 900px",
+    "Menu ADM devolve foco",
+    "Teclado End foca última aba",
+    "Teclado End seleciona última aba",
+    "Consultor mantém ação permitida",
+    "depois-adm-consultant 320px sem overflow horizontal",
+    "depois-adm-consultant 1440px sem overflow horizontal",
+    "Viewer não recebe controles de escrita",
+    "depois-adm-viewer 320px sem overflow horizontal",
+    "depois-adm-viewer 1440px sem overflow horizontal",
+    "Sem erros JavaScript"
+  ],
+  "errors": [],
+  "externalRequestsForwarded": 0
+}

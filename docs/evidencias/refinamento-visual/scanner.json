@@ -1,0 +1,138 @@
+{
+  "tool": "avoid-ai-design",
+  "version": "0.4.0",
+  "scanned": 92,
+  "summary": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 11,
+    "total": 11
+  },
+  "findings": [
+    {
+      "file": "src\\app\\layout.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        44
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\app\\politica-de-privacidade\\page.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        50
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\components\\diagnostic\\DiagnosticShell.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        16
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\components\\layout\\Footer.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        12
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\components\\layout\\Header.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        69
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\config\\site.ts",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        8
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\features\\admin\\AdminDiagnosticDetail.tsx",
+      "id": "SD4d",
+      "severity": "P2",
+      "name": "Template chrome: meta strings joined with middle dots",
+      "why": "'A · B · C' metadata strings are a stock chrome move, not a decision about this content.",
+      "lines": [
+        532,
+        672,
+        707
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\features\\admin\\AdminDiagnostics.tsx",
+      "id": "SD4d",
+      "severity": "P2",
+      "name": "Template chrome: meta strings joined with middle dots",
+      "why": "'A · B · C' metadata strings are a stock chrome move, not a decision about this content.",
+      "lines": [
+        188,
+        203,
+        670
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\features\\admin\\AdminLogin.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        58
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\features\\admin\\AdminRecovery.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        81
+      ],
+      "notes": []
+    },
+    {
+      "file": "src\\features\\admin\\AdminShell.tsx",
+      "id": "SD4w",
+      "severity": "P2",
+      "name": "Template chrome: 'WORD — fragment' labels",
+      "why": "Labels built as an uppercase word + spaced em dash + fragment are a recurring generated pattern.",
+      "lines": [
+        108
+      ],
+      "notes": []
+    }
+  ]
+}

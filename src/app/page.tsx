@@ -26,25 +26,25 @@ import {
 export default function Home() {
   const structuredData = siteConfig.hasConfiguredSiteUrl
     ? {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "Organization",
-            "@id": `${siteConfig.siteUrl}/#organization`,
-            name: siteConfig.name,
-            url: siteConfig.siteUrl,
-            logo: siteConfig.logoUrl,
-          },
-          {
-            "@type": "WebSite",
-            "@id": `${siteConfig.siteUrl}/#website`,
-            url: siteConfig.siteUrl,
-            name: siteConfig.name,
-            inLanguage: siteConfig.language,
-            publisher: { "@id": `${siteConfig.siteUrl}/#organization` },
-          },
-        ],
-      }
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": `${siteConfig.siteUrl}/#organization`,
+          name: siteConfig.name,
+          url: siteConfig.siteUrl,
+          logo: siteConfig.logoUrl,
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${siteConfig.siteUrl}/#website`,
+          url: siteConfig.siteUrl,
+          name: siteConfig.name,
+          inLanguage: siteConfig.language,
+          publisher: { "@id": `${siteConfig.siteUrl}/#organization` },
+        },
+      ],
+    }
     : null;
 
   return (
@@ -59,6 +59,7 @@ export default function Home() {
           <div className="container hero__grid">
             <div className="hero__content">
               <p className="eyebrow">Consultoria de Transformação Operacional</p>
+              {/* avoid-ai-design-ignore: SD5. The span preserves a line break in the same color. */}
               <h1 id="hero-title">
                 Operações melhores.
                 <span>Resultados mensuráveis.</span>
@@ -74,6 +75,7 @@ export default function Home() {
                   Conheça nossa abordagem
                 </a>
               </div>
+              <p className="hero__support">{diagnosticConfig.support}</p>
               <p className="hero__microcopy">
                 {diagnosticConfig.enabled
                   ? diagnosticConfig.microcopy.enabled
@@ -85,36 +87,10 @@ export default function Home() {
             </div>
             <OperationalDiagram />
           </div>
-        </section>
-
-        <section
-          className="section section--default positioning"
-          id="posicionamento"
-          aria-labelledby="positioning-title"
-        >
-          <div className="container positioning__grid">
-            <SectionHeader
-              eyebrow="Transformação antes da tecnologia"
-              id="positioning-title"
-              title={
-                <>
-                  A tecnologia é uma ferramenta.
-                  <span>O resultado é a transformação.</span>
-                </>
-              }
-              description="A NUMORA estuda a operação, identifica gargalos e redesenha processos antes de definir qualquer solução tecnológica. Inteligência Artificial e automação são aplicadas somente quando contribuem para um resultado real, mensurável e sustentável."
-            />
-            <div>
-              <div className="positioning__statement" aria-label="Declaração de posicionamento">
-                <p>Não vendemos software.</p>
-                <p>Não vendemos Inteligência Artificial.</p>
-                <p>Entregamos transformação operacional baseada em resultados.</p>
-              </div>
-              <p className="positioning__complement">
-                A solução só faz sentido quando melhora o processo, reduz desperdícios,
-                aumenta a capacidade operacional ou melhora a tomada de decisão.
-              </p>
-            </div>
+          <div className="container positioning" id="posicionamento">
+            <h2 id="positioning-title">Transformação antes da tecnologia.</h2>
+            <div><p>A NUMORA estuda a operação, identifica gargalos e redesenha processos antes de definir qualquer solução tecnológica. Inteligência Artificial e automação são aplicadas somente quando contribuem para um resultado real, mensurável e sustentável.</p>
+              <p>A solução só faz sentido quando melhora o processo, reduz desperdícios, aumenta a capacidade operacional ou melhora a tomada de decisão.</p></div>
           </div>
         </section>
 
@@ -133,39 +109,10 @@ export default function Home() {
             <div className="challenge-grid">
               {challenges.map((challenge) => (
                 <article className="challenge-item" key={challenge.number}>
-                  <span>{challenge.number}</span>
                   <div>
                     <h3>{challenge.title}</h3>
                     <p>{challenge.description}</p>
                   </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section--default journey" id="jornada" aria-labelledby="journey-title">
-          <div className="container">
-            <SectionHeader
-              eyebrow="Da descoberta à evolução"
-              id="journey-title"
-              title="Uma jornada contínua de transformação."
-              description="A NUMORA atua desde a compreensão do problema até a evolução contínua da operação."
-            />
-            <div className="journey__steps">
-              {journey.map((step, index) => (
-                <article className="journey-step" key={step.number}>
-                  <div className="journey-step__topline">
-                    <span>{step.number}</span>
-                    {index < journey.length - 1 ? <span aria-hidden="true">→</span> : null}
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                  <ul>
-                    {step.details.map((detail) => (
-                      <li key={detail}>{detail}</li>
-                    ))}
-                  </ul>
                 </article>
               ))}
             </div>
@@ -185,9 +132,8 @@ export default function Home() {
               description="Cada iniciativa é estruturada a partir da realidade da operação e dos resultados que precisam ser alcançados."
             />
             <div className="capability-list">
-              {capabilities.map((capability, index) => (
+              {capabilities.map((capability) => (
                 <article className="capability-item" key={capability.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
                   <h3>{capability.title}</h3>
                   <p>{capability.description}</p>
                 </article>
@@ -213,6 +159,32 @@ export default function Home() {
               }
               description="Antes de propor uma solução, precisamos compreender como a empresa opera, quais são os impactos e onde está o maior potencial de transformação."
             />
+            <div className="journey section-group" id="jornada">
+              <SectionHeader
+                eyebrow="Da descoberta à evolução"
+                id="journey-title"
+                title="Uma jornada contínua de transformação."
+                description="A NUMORA atua desde a compreensão do problema até a evolução contínua da operação."
+              />
+              <div className="journey__steps">
+                {journey.map((step, index) => (
+                  <article className="journey-step" key={step.number}>
+                    <div className="journey-step__topline">
+                      <span>{step.number}</span>
+                      {index < journey.length - 1 ? <span aria-hidden="true">→</span> : null}
+                    </div>
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+                    <ul>
+                      {step.details.map((detail) => (
+                        <li key={detail}>{detail}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </div>
+            <h3 className="approach__subtitle">Como estruturamos cada iniciativa</h3>
             <ol className="approach__sequence">
               {approach.map((step) => (
                 <li key={step.number}>
@@ -244,7 +216,6 @@ export default function Home() {
             <div className="deliverable-list">
               {deliverables.map((deliverable) => (
                 <article className="deliverable-item" key={deliverable.number}>
-                  <span>{deliverable.number}</span>
                   <div>
                     <h3>{deliverable.title}</h3>
                     <p>{deliverable.description}</p>
@@ -292,33 +263,25 @@ export default function Home() {
             <p className="criteria__closing">
               Em alguns casos, a melhor decisão é aprofundar o diagnóstico antes de implementar.
             </p>
-          </div>
-        </section>
-
-        <section
-          className="section section--default section--neutral"
-          id="diferenciais"
-          aria-labelledby="differentials-title"
-        >
-          <div className="container">
-            <SectionHeader
-              eyebrow="Por que a NUMORA"
-              id="differentials-title"
-              title={
-                <>
-                  Clareza para decidir.
-                  <span>Capacidade para executar.</span>
-                </>
-              }
-            />
-            <div className="differential-grid">
-              {differentials.map((differential, index) => (
-                <article className="differential-item" key={differential.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{differential.title}</h3>
-                  <p>{differential.description}</p>
-                </article>
-              ))}
+            <div className="section-group differentials" id="diferenciais">
+              <SectionHeader
+                eyebrow="Por que a NUMORA"
+                id="differentials-title"
+                title={
+                  <>
+                    Clareza para decidir.
+                    <span>Capacidade para executar.</span>
+                  </>
+                }
+              />
+              <div className="differential-grid">
+                {differentials.map((differential) => (
+                  <article className="differential-item" key={differential.title}>
+                    <h3>{differential.title}</h3>
+                    <p>{differential.description}</p>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -333,7 +296,6 @@ export default function Home() {
             />
             <div className="clients__grid">
               <article>
-                <p className="clients__index">01</p>
                 <h3>Perfil de operação</h3>
                 <ul className="editorial-list">
                   {clientProfiles.map((profile) => (
@@ -342,7 +304,6 @@ export default function Home() {
                 </ul>
               </article>
               <article>
-                <p className="clients__index">02</p>
                 <h3>Setores prioritários</h3>
                 <ul className="sector-list">
                   {prioritySectors.map((sector) => (
@@ -351,7 +312,6 @@ export default function Home() {
                 </ul>
               </article>
               <article>
-                <p className="clients__index">03</p>
                 <h3>Decisores frequentes</h3>
                 <ul className="editorial-list">
                   {decisionMakers.map((decisionMaker) => (
@@ -359,33 +319,6 @@ export default function Home() {
                   ))}
                 </ul>
               </article>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="section section--highlight manifesto"
-          id="manifesto"
-          aria-labelledby="manifesto-title"
-        >
-          <div className="container manifesto__grid">
-            <p className="eyebrow">Nossa filosofia</p>
-            <div className="manifesto__content">
-              <h2 id="manifesto-title">
-                Empresas não precisam de mais tecnologia.
-                <span>Precisam de operações melhores.</span>
-              </h2>
-              <div className="manifesto__copy">
-                <p>A Inteligência Artificial não é o objetivo.</p>
-                <p className="manifesto__accent">É uma ferramenta.</p>
-                <p>
-                  O verdadeiro valor está na capacidade de transformar processos, reduzir
-                  desperdícios, acelerar decisões e permitir que pessoas concentrem seu tempo
-                  no que realmente gera impacto.
-                </p>
-                <p>Tecnologia muda rapidamente.</p>
-                <p>Princípios permanecem.</p>
-              </div>
             </div>
           </div>
         </section>
@@ -404,6 +337,7 @@ export default function Home() {
             />
             <div className="diagnostic__actions">
               <DiagnosticButton />
+              <p className="diagnostic__support">{diagnosticConfig.support}</p>
               <details className="diagnostic-details">
                 <summary>Entenda como funciona</summary>
                 <ol>
@@ -424,6 +358,27 @@ export default function Home() {
               </p>
             </div>
           </div>
+          <div className="container"><div className="manifesto section-group" id="manifesto">
+
+            <p className="eyebrow">Nossa filosofia</p>
+            <div className="manifesto__content">
+              <h2 id="manifesto-title">
+                Empresas não precisam de mais tecnologia.
+                <span>Precisam de operações melhores.</span>
+              </h2>
+              <div className="manifesto__copy">
+                <p>A Inteligência Artificial não é o objetivo.</p>
+                <p className="manifesto__accent">É uma ferramenta.</p>
+                <p>
+                  O verdadeiro valor está na capacidade de transformar processos, reduzir
+                  desperdícios, acelerar decisões e permitir que pessoas concentrem seu tempo
+                  no que realmente gera impacto.
+                </p>
+                <p>Tecnologia muda rapidamente.</p>
+                <p>Princípios permanecem.</p>
+              </div>
+            </div>
+          </div></div>
         </section>
       </main>
 

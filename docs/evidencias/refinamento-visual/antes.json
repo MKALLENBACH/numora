@@ -1,0 +1,32 @@
+[
+  {
+    "page": "site",
+    "width": 1440,
+    "height": 12282
+  },
+  {
+    "page": "site",
+    "width": 390,
+    "height": 17082
+  },
+  {
+    "page": "diagnostico",
+    "width": 1440,
+    "height": 1020
+  },
+  {
+    "page": "diagnostico",
+    "width": 390,
+    "height": 964
+  },
+  {
+    "page": "login",
+    "width": 1440,
+    "height": 900
+  },
+  {
+    "page": "login",
+    "width": 390,
+    "height": 844
+  }
+]

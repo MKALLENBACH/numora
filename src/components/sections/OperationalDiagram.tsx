@@ -3,12 +3,12 @@ const outcomes = ["Eficiência", "Visibilidade", "Escalabilidade", "Governança"
 
 export function OperationalDiagram() {
   return (
-    <div className="operational-map" aria-hidden="true">
+    <figure className="operational-map" aria-label="Pessoas, processos, dados e tecnologia integrados à operação para gerar eficiência, visibilidade, escalabilidade e governança.">
+      <figcaption>Uma operação conectada</figcaption>
       <div className="operational-map__system">
         <div className="operational-map__inputs">
-          {nodes.map((node, index) => (
+          {nodes.map((node) => (
             <div className="operational-map__node" key={node}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{node}</strong>
             </div>
           ))}
@@ -24,6 +24,6 @@ export function OperationalDiagram() {
           ))}
         </div>
       </div>
-    </div>
+    </figure>
   );
 }

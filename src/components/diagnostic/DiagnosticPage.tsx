@@ -65,6 +65,8 @@ export function DiagnosticPage() {
   const [showPrevious, setShowPrevious] = useState(false);
   const [editingSection, setEditingSection] = useState<ReviewSection | null>(null);
   const questionHeadingRef = useRef<HTMLHeadingElement>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
+  const lastStageFocusRef = useRef<string | null>(null);
   const retryRef = useRef<RetryAction | null>(null);
   const draftRequestIdRef = useRef(createClientRequestId());
   const questionStartedAtRef = useRef(new Date().toISOString());
@@ -498,6 +500,19 @@ export function DiagnosticPage() {
     : null;
   const modalOpen = showResume || showPrevious || Boolean(editingSection);
   const liveStageLabel = state?.progress.currentLabel ?? "Introdução do diagnóstico";
+  const focusKey = `${state?.stage ?? "INTRODUCTION"}:${state?.status ?? ""}:${error?.code ?? ""}`;
+
+  useEffect(() => {
+    if (modalOpen || focusKey === "INTRODUCTION::" || lastStageFocusRef.current === focusKey) return;
+    lastStageFocusRef.current = focusKey;
+    const frame = window.requestAnimationFrame(() => {
+      const heading = viewRef.current?.querySelector<HTMLHeadingElement>("h1");
+      if (!heading) return;
+      heading.tabIndex = -1;
+      heading.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusKey, modalOpen]);
 
   return (
     <DiagnosticShell
@@ -509,7 +524,7 @@ export function DiagnosticPage() {
       ) : undefined}
       modalOpen={modalOpen}
     >
-      <div className="diagnostic-view" inert={modalOpen ? true : undefined} aria-hidden={modalOpen ? true : undefined}>
+      <div ref={viewRef} className="diagnostic-view" inert={modalOpen ? true : undefined} aria-hidden={modalOpen ? true : undefined}>
         <p className="diagnostic-visually-hidden" aria-live="polite">
           {state ? `Etapa atual: ${liveStageLabel}` : liveStageLabel}
         </p>

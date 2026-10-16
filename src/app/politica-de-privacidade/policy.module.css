@@ -1,6 +1,6 @@
 .page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f5fafc 0, #ffffff 28rem);
+  background: var(--surface);
 }
 
 .skipLink {
@@ -39,8 +39,8 @@
   color: var(--text-secondary);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .brand {
@@ -55,7 +55,7 @@
 .main {
   width: min(100%, 76rem);
   margin-inline: auto;
-  padding: clamp(4rem, 8vw, 7rem) var(--gutter) clamp(5rem, 9vw, 8rem);
+  padding: var(--section-default) var(--gutter);
 }
 
 .hero {
@@ -66,9 +66,9 @@
 .eyebrow {
   color: #147c8a;
   font-size: var(--eyebrow);
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .heroTopline {
@@ -83,15 +83,15 @@
   border-radius: 999px;
   background: rgba(20, 124, 138, 0.08);
   color: #116b77;
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.04em;
+  font-size: var(--caption);
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .hero h1 {
-  max-width: 14ch;
+  max-width: 25ch;
   margin-top: 1.1rem;
-  font-size: clamp(3rem, 7vw, 5.6rem);
+  font-size: var(--title-interview);
 }
 
 .lead {
@@ -114,10 +114,10 @@
 
 .metadata dt {
   color: var(--text-secondary);
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: var(--caption);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .metadata dd {
@@ -151,10 +151,10 @@
 
 .index > p {
   color: var(--midnight);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: var(--caption);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .index ol {
@@ -165,6 +165,8 @@
 }
 
 .index a {
+  display:inline-block;
+  padding-block:.25rem;
   color: var(--text-secondary);
   font-size: 0.85rem;
   text-decoration: none;
@@ -219,6 +221,7 @@
 }
 
 .returnNotice {
+  --focus: var(--focus-inverse);
   display: flex;
   margin-top: clamp(4rem, 8vw, 7rem);
   padding: clamp(2rem, 5vw, 3.5rem);
@@ -242,13 +245,16 @@
 }
 
 .returnNotice a {
+  display:inline-flex;
+  min-height:2.75rem;
+  align-items:center;
   flex: 0 0 auto;
   padding: 0.85rem 1.2rem;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-sm);
   color: var(--white);
   font-size: 0.9rem;
-  font-weight: 750;
+  font-weight: 600;
   text-decoration: none;
 }
 

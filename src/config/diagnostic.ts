@@ -3,7 +3,8 @@ import { siteConfig } from "@/config/site";
 export const diagnosticConfig = {
   enabled: true,
   href: `${siteConfig.basePath}/diagnostico`,
-  label: "Comece seu diagnóstico",
+  label: "Resolva o seu problema agora!",
+  support: "Comece pelo diagnóstico inicial da sua operação.",
   microcopy: {
     enabled: "Diagnóstico inicial guiado · Aproximadamente 5 a 8 minutos",
     disabled: "Experiência de diagnóstico digital em preparação",

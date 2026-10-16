@@ -643,7 +643,7 @@ export function AdminDiagnostics() {
         </div>
       ) : data ? (
         <>
-          <div className="admin-diagnostics-table-wrap">
+          <div className="admin-diagnostics-table-wrap" role="region" aria-label="Tabela de diagnósticos — role horizontalmente para consultar todas as colunas" tabIndex={0}>
             <table className="admin-diagnostics-table">
               <caption>Diagnósticos recebidos pela NUMORA</caption>
               <thead>

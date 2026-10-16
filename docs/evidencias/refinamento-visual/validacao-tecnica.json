@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-16",
+  "baseCommit": "4ca701e",
+  "lint": {
+    "exitCode": 0,
+    "errors": 0,
+    "warnings": 5,
+    "warningSource": ".agents/skills/avoid-ai-design/scripts/detect.mjs"
+  },
+  "applicationTypecheck": {
+    "exitCode": 0
+  },
+  "edgeTypecheck": {
+    "exitCode": 0
+  },
+  "existingTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "environmentValidation": {
+    "exitCode": 0
+  },
+  "staticBuilds": {
+    "root": {
+      "exitCode": 0
+    },
+    "numora": {
+      "exitCode": 0
+    }
+  },
+  "diffWhitespaceCheck": {
+    "exitCode": 0
+  },
+  "visual": {
+    "checks": 161,
+    "screenshots": 115,
+    "javascriptErrors": 0,
+    "forwardedExternalRequests": 0
+  },
+  "scanner": {
+    "files": 92,
+    "P0": 0,
+    "P1": 0,
+    "P2": 11
+  }
+}

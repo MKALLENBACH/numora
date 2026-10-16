@@ -1,0 +1,22 @@
+{
+  "basePath": "/numora",
+  "build": "passed",
+  "pages": [
+    {
+      "path": "/numora/",
+      "status": 200
+    },
+    {
+      "path": "/numora/diagnostico/",
+      "status": 200
+    },
+    {
+      "path": "/numora/adm/login/",
+      "status": 200
+    },
+    {
+      "path": "/numora/politica-de-privacidade/",
+      "status": 200
+    }
+  ]
+}

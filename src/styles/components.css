@@ -7,30 +7,34 @@
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   font-size: var(--small);
-  font-weight: 720;
+  font-weight: 600;
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color var(--transition), border-color var(--transition),
-    color var(--transition), transform var(--transition);
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
 }
 
-.button:hover {
-  transform: translateY(-0.0625rem);
+.button:active {
+  filter: brightness(0.92);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .button--primary {
-  background: var(--midnight);
-  color: var(--white);
+  background: var(--action);
+  color: var(--action-text);
 }
 
 .button--primary:hover {
-  background: color-mix(in srgb, var(--midnight) 88%, var(--white));
+  background: var(--action-hover);
 }
 
 .button--secondary {
-  border-color: color-mix(in srgb, var(--midnight) 20%, transparent);
+  border-color: var(--control-border);
   background: transparent;
   color: var(--midnight);
 }
@@ -41,26 +45,25 @@
 
 .section-header {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--space-4);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: var(--space-3) var(--space-6);
   align-items: start;
-  margin-bottom: clamp(3rem, 5vw, 4.75rem);
+  margin-bottom: clamp(2rem, 3vw, 3rem);
 }
 
 .section-header .eyebrow {
-  grid-column: 1 / 4;
-  padding-top: 0.55rem;
+  grid-column: 1 / -1;
 }
 
 .section-header h2 {
-  grid-column: 4 / -1;
-  max-width: 17ch;
+  grid-column: 1;
+  max-width: 25ch;
 }
 
 .section-header__description {
-  grid-column: 7 / -1;
-  max-width: 42rem;
-  margin-top: var(--space-5);
+  grid-column: 2;
+  max-width: 60ch;
+  margin-top: 0;
   color: var(--text-secondary);
   font-size: var(--lead);
   line-height: 1.55;
@@ -86,8 +89,8 @@
 }
 
 .diagnostic-dialog h2 {
-  max-width: 11ch;
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  max-width: 25ch;
+  font-size: var(--title-interview);
 }
 
 .diagnostic-dialog p {

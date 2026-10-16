@@ -76,9 +76,9 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
       <nav className="admin-nav" aria-label="Navegação do ADM">
         {navigation.map((item) => {
           const href = withBasePath(item.href);
-          const normalizedHref = href.replace(/\/$/, "");
-          const aliases = "aliases" in item ? item.aliases.map(withBasePath) : [];
-          const current = pathname === href || pathname === normalizedHref || aliases.some((alias) => (
+          const normalizedHref = item.href.replace(/\/$/, "");
+          const aliases = "aliases" in item ? item.aliases : [];
+          const current = pathname === item.href || pathname === normalizedHref || aliases.some((alias) => (
             pathname === alias || pathname === alias.replace(/\/$/, "")
           )) || (
             item.href !== "/adm/" && pathname.startsWith(`${normalizedHref}/`)

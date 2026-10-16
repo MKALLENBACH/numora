@@ -2,6 +2,7 @@
 
 import { useAdminAuth } from "./AdminAuthProvider";
 import { adminRoleLabels } from "./types";
+import { withBasePath } from "@/config/runtime";
 
 export function AdminOverview() {
   const { session } = useAdminAuth();
@@ -11,7 +12,7 @@ export function AdminOverview() {
       <p className="admin-eyebrow">Área interna</p>
       <h1 id="admin-overview-title">ADM NUMORA</h1>
       <p className="admin-page__lead">
-        A estrutura interna está pronta para receber os módulos de análise dos diagnósticos.
+        Consulte os diagnósticos recebidos e acompanhe a análise da equipe.
       </p>
       <div className="admin-status-card">
         <div>
@@ -27,6 +28,9 @@ export function AdminOverview() {
           <strong className="admin-active-status"><i aria-hidden="true" /> Ativa e validada</strong>
         </div>
       </div>
+      <a className="admin-primary-button admin-overview-action" href={withBasePath("/adm/diagnosticos/")}>
+        Acessar diagnósticos
+      </a>
     </section>
   );
 }

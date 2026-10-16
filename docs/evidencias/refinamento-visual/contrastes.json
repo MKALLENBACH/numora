@@ -1,0 +1,66 @@
+[
+  {
+    "role": "Texto e foco claro",
+    "fg": "#0b1f33",
+    "bg": "#ffffff",
+    "ratio": 16.69,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "role": "Texto secundário",
+    "fg": "#5b6570",
+    "bg": "#ffffff",
+    "ratio": 5.93,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "role": "Links",
+    "fg": "#087f92",
+    "bg": "#ffffff",
+    "ratio": 4.71,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "role": "Contornos funcionais",
+    "fg": "#7c8995",
+    "bg": "#ffffff",
+    "ratio": 3.58,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "role": "Foco em superfície escura",
+    "fg": "#3dd9eb",
+    "bg": "#0b1f33",
+    "ratio": 9.8,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "role": "Sucesso",
+    "fg": "#206746",
+    "bg": "#edf7f1",
+    "ratio": 6.21,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "role": "Atenção",
+    "fg": "#775212",
+    "bg": "#fff8e8",
+    "ratio": 6.61,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "role": "Erro",
+    "fg": "#9d3029",
+    "bg": "#fff4f2",
+    "ratio": 6.74,
+    "minimum": 4.5,
+    "pass": true
+  }
+]
