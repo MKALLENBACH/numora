@@ -182,6 +182,18 @@ function DiagnosticCard({ item }: Readonly<{ item: AdminDiagnosticListItem }>) {
       </header>
       <dl>
         <div>
+          <dt>Setor</dt>
+          <dd>{item.industry ? industryLabels[item.industry] : "Setor não informado"}</dd>
+        </div>
+        <div>
+          <dt>Porte</dt>
+          <dd>{item.employeeRange ? employeeRangeLabels[item.employeeRange] : "Porte não informado"}</dd>
+        </div>
+        <div>
+          <dt>Cargo</dt>
+          <dd>{item.contactRole ?? "Cargo não informado"}</dd>
+        </div>
+        <div>
           <dt>Avaliação</dt>
           <dd>
             {item.finalScore === null ? "Ainda não avaliado" : `${item.finalScore} pontos`}

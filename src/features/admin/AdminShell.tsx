@@ -22,7 +22,18 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
   const [leaving, setLeaving] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
   const drawerWasOpenRef = useRef(false);
+
+  useEffect(() => {
+    // Keep the drawer state aligned with the breakpoint in admin.css.
+    const mobileLayout = window.matchMedia("(max-width: 900px)");
+    const closeOnDesktop = () => {
+      if (!mobileLayout.matches) setMenuOpen(false);
+    };
+    mobileLayout.addEventListener("change", closeOnDesktop);
+    return () => mobileLayout.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   useEffect(() => {
     if (menuOpen) {
@@ -36,7 +47,12 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
     }
     if (drawerWasOpenRef.current) {
       drawerWasOpenRef.current = false;
-      menuButtonRef.current?.focus();
+      const focusTarget = window.matchMedia("(max-width: 900px)").matches
+        ? menuButtonRef.current
+        : sidebarRef.current?.querySelector<HTMLAnchorElement>(
+          '.admin-nav a[aria-current="page"]',
+        ) ?? sidebarRef.current?.querySelector<HTMLAnchorElement>(".admin-nav a");
+      focusTarget?.focus();
     }
   }, [menuOpen]);
 
@@ -104,7 +120,7 @@ export function AdminShell({ children }: Readonly<{ children: React.ReactNode }>
   return (
     <div className="admin-app">
       <a className="admin-skip-link" href="#admin-content">Ir para o conteúdo</a>
-      <aside className="admin-sidebar">
+      <aside ref={sidebarRef} className="admin-sidebar">
         <a className="admin-brand" href={withBasePath("/adm/")} aria-label="NUMORA ADM — início">
           <BrandLogo priority />
         </a>
