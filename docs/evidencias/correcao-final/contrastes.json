@@ -1,0 +1,39 @@
+[
+  {
+    "foreground": "#087589",
+    "background": "#ffffff",
+    "before": 4.707318971204728,
+    "after": 5.362520097834036
+  },
+  {
+    "foreground": "#087589",
+    "background": "#f7f9fb",
+    "before": 4.46032168874243,
+    "after": 5.081143819868432
+  },
+  {
+    "foreground": "#087589",
+    "background": "#e5fbfe",
+    "before": 4.38489591214511,
+    "after": 4.995219699286827
+  },
+  {
+    "foreground": "#087589",
+    "background": "#e7fafc",
+    "before": 4.366079296385343,
+    "after": 4.973784041154839
+  },
+  {
+    "foreground": "#087589",
+    "background": "#f0fcfd",
+    "before": 4.493827310603809,
+    "after": 5.119313013781392
+  },
+  {
+    "consumer": "Retorno privacidade",
+    "foreground": "#3dd9eb",
+    "background": "#0b1f33",
+    "before": 3.4019934195632406,
+    "after": 9.795648189536548
+  }
+]

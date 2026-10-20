@@ -1,0 +1,10 @@
+
+C:\Users\kalle\OneDrive\Área de Trabalho\numora\numora-main\numora-main\.agents\skills\avoid-ai-design\scripts\detect.mjs
+   84:53  warning  '_' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  128:7   warning  'T1_SET' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  129:7   warning  'TASTEFUL' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  137:10  warning  'cssRuleHits' is defined but never used        @typescript-eslint/no-unused-vars
+  512:48  warning  'e' is defined but never used                  @typescript-eslint/no-unused-vars
+
+✖ 5 problems (0 errors, 5 warnings)
+

@@ -8,7 +8,7 @@ colors:
   ink: "#0B1F33"
   muted: "#5B6570"
   signal: "#3DD9EB"
-  link: "#087F92"
+  link: "#087589"
   control: "#7C8995"
 typography:
   display:
@@ -48,7 +48,7 @@ A direção aprovada é **Precisão operacional — clareza para decidir**. A as
 - **Ink — #0B1F33:** cor oficial; títulos, texto de destaque, ações principais e foco em superfícies claras.
 - **Muted — #5B6570:** texto secundário legível sobre branco.
 - **Signal — #3DD9EB:** ciano oficial; relações no mapa, indicadores e detalhes da identidade. Texto pequeno sobre branco usa o token `link`.
-- **Link — #087F92:** links e indicações textuais em ciano escuro.
+- **Link — #087589:** links e indicações textuais em ciano escuro, com contraste mínimo de 4,97:1 nas superfícies claras utilizadas.
 - **Control — #7C8995:** limites funcionais dos campos e botões secundários. Bordas decorativas usam `line`.
 
 Os estados semânticos estão em `src/styles/tokens.css`: sucesso, atenção e erro têm texto e superfície próprios. Um estado sempre recebe uma descrição textual. Em superfícies escuras, o foco usa o ciano oficial.

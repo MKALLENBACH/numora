@@ -9,14 +9,16 @@ import { resolveAdminEffectiveData } from "../supabase/functions/_shared/admin-e
 import { buildAdminArtifact } from "../supabase/functions/_shared/admin-workflow-artifacts.ts";
 import { GENERATED_INTERVIEW_CATALOG } from "../supabase/functions/_shared/generated/question-catalog.ts";
 import { PublicDiagnosticStateSchema } from "../src/features/diagnostic/contracts/public.ts";
+import { AdminWorkflowCommandSchema } from "../supabase/functions/_shared/admin-workflow-contract.ts";
+import { runFinalCorrections, runNativeZoom } from "./check-final-corrections.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
 const origin = "http://127.0.0.1:3000";
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "/numora";
-const evidence = resolve("docs/evidencias/refinamento-visual");
+const evidence = resolve(process.env.VISUAL_EVIDENCE_DIR || "docs/evidencias/refinamento-visual");
 await mkdir(evidence, { recursive: true });
-const results = { widths: [320, 390, 768, 900, 1024, 1440], screens: [], checks: [], errors: [], externalRequestsForwarded: 0 };
+const results = { widths: [320, 390, 768, 900, 901, 1024, 1440], screens: [], checks: [], errors: [], externalRequestsForwarded: 0, accessibility: [], commands: [] };
 const db = await createWorkflowDb();
 const f = await workflowFixture(db);
 const query = async (sql, args) => (await db.query(sql, args)).rows[0].value;
@@ -35,6 +37,7 @@ let publicState;
 let publicFailure = false;
 let failNextAnswer = false;
 let adminFailure = false;
+const controls = { commandMode: "conflict", releaseCommand: null, publicHandler: null, listTransform: null };
 const now = new Date().toISOString();
 const stages = ["IDENTIFICATION", "CHALLENGE", "CURRENT_PROCESS", "IMPACT", "BUYING_CONTEXT", "REVIEW"];
 const stageLabels = ["Identificação", "Desafio", "Processo", "Impacto", "Contexto", "Revisão"];
@@ -44,7 +47,7 @@ await context.addInitScript(({ session }) => {
   localStorage.setItem("numora.admin.auth.v1", JSON.stringify(session));
   localStorage.setItem("sb-tbioidswvkfbnyedulrg-auth-token", JSON.stringify({ ...session, user: { ...session.user, is_anonymous: true } }));
 }, { session });
-await context.route("**/*", async route => {
+const routeHandler = async route => {
   const url = new URL(route.request().url());
   if (url.origin === origin) return route.continue();
   const body = route.request().postDataJSON() ?? {};
@@ -62,6 +65,7 @@ await context.route("**/*", async route => {
     else if (endpoint === "admin-diagnostics-list") {
       if (adminFailure) throw new Error("Falha de consulta simulada");
       data = await query("select public.admin_list_diagnostics($1::jsonb) value", [JSON.stringify(body)]);
+      if (controls.listTransform) data = controls.listTransform(data);
     } else if (endpoint === "admin-diagnostic-detail") data = await query("select public.admin_get_diagnostic_detail_v4($1,$2,$3) value", [actor, f.diagnosticId, body.section]);
     else if (endpoint === "admin-diagnostic-workflow") {
       if (body.operation === "READ") {
@@ -70,15 +74,32 @@ await context.route("**/*", async route => {
         data = { ...safe, fields: raw.workflow.privacyRestricted ? [] : resolveAdminEffectiveData(source).fields };
       } else if (body.operation === "HISTORY") data = await query("select public.admin_read_workflow_history($1,$2,$3) value", [actor, f.diagnosticId, body.kind]);
       else if (body.operation === "LIST_ASSIGNEES") data = [{ id: f.ap, display_name: "Admin fixture", role: "ADMIN", is_active: true }];
-      else { status = 409; error = { code: "STATE_CONFLICT", message: "Conflito simulado: recarregue os dados." }; }
+      else if (controls.commandMode === "conflict") { status = 409; error = { code: "STATE_CONFLICT", message: "Conflito simulado: recarregue os dados." }; }
+      else {
+        const command = AdminWorkflowCommandSchema.parse(body);
+        results.commands.push({ role, command: command.command, clientRequestId: command.clientRequestId });
+        if (controls.commandMode === "held") await new Promise(resolve => { controls.releaseCommand = resolve; });
+        if (controls.commandMode === "failure") throw new Error("Falha de operação simulada");
+        let artifact = null;
+        if (["RECALCULATE_QUALIFICATION", "REGENERATE_BRIEFING"].includes(command.command)) {
+          const prepared = (await db.query("select s source,public.admin_workflow_request_hash(s) fingerprint from (select public.admin_workflow_source($1) s) x", [f.diagnosticId])).rows[0];
+          artifact = await buildAdminArtifact(prepared.source, prepared.fingerprint, command.command);
+        }
+        data = await query("select public.admin_apply_diagnostic_command($1,$2::jsonb,$3::jsonb) value", [actor, JSON.stringify(command), JSON.stringify(artifact)]);
+      }
     } else if (endpoint === "diagnostic-state" && !publicState) { status = 404; error = { code: "SESSION_NOT_FOUND" }; }
     else if (endpoint.startsWith("diagnostic-")) {
       if (publicFailure || (endpoint === "diagnostic-submit-answer" && failNextAnswer)) { failNextAnswer = false; status = 503; error = { code: "PERSISTENCE_UNAVAILABLE" }; }
-      else data = publicState;
+      else if (controls.publicHandler) {
+        const response = await controls.publicHandler(endpoint, body, publicState);
+        if (response.error) { status = response.status; error = response.error; }
+        else { publicState = response.state; data = publicState; }
+      } else data = publicState;
     } else { status = 403; error = { code: "ACCESS_DENIED", message: "External request blocked by visual test." }; }
-  } catch (failure) { status = 503; error = { code: "BACKEND_FAILURE", message: failure.message }; }
+  } catch (failure) { status = 503; error = { code: "BACKEND_FAILURE", message: failure.message }; console.log(`Fixture ${endpoint}: ${failure.message}`); }
   await route.fulfill({ status, json: { data, error, meta: { rowVersion: 1 } } });
-});
+};
+await context.route("**/*", routeHandler);
 const page = await context.newPage();
 page.on("pageerror", error => results.errors.push(error.message));
 const check = (name, value) => { assert.ok(value, name); results.checks.push(name); };
@@ -95,6 +116,15 @@ async function capture(name, widths = results.widths, target = page) {
     const file = `${name}-${width}.png`;
     await target.screenshot({ path: resolve(evidence, file), fullPage: true });
     results.screens.push({ name, ...dimensions, file });
+    if (process.env.AXE_PATH && [320, 1440].includes(width)) {
+      await target.addScriptTag({ path: process.env.AXE_PATH });
+      const audit = await target.evaluate(async () => {
+        const result = await window.axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"] } });
+        return { violations: result.violations, incomplete: result.incomplete.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) })) };
+      });
+      results.accessibility.push({ name, width, ...audit });
+      check(`${name} ${width}px sem violações axe AA detectadas`, audit.violations.length === 0);
+    }
   }
   console.log(`${name}: ${widths.length} larguras verificadas`);
 }
@@ -112,6 +142,7 @@ async function showPublic(next) {
   await page.waitForFunction(() => document.activeElement?.tagName === "H1");
 }
 try {
+  if (!process.env.CORRECTIONS_ONLY) {
   if (!process.env.VISUAL_ADMIN_ONLY) {
   await page.goto(`${origin}${base}/`);
   check("Oito seções principais", await page.locator("main > section").count() === 8);
@@ -246,7 +277,19 @@ try {
     else check("Consultor mantém ação permitida", await page.getByRole("button", { name: "Assumir diagnóstico", exact: true }).count() === 1);
     await capture(`depois-adm-${role.toLowerCase()}`, [320, 1440]);
   }
+  }
+  if (process.env.FINAL_CORRECTION_QA) await runFinalCorrections({ page, context, db, f, query, check, capture, results, controls, showPublic, state, origin, base, setRole: next => { role = next; } });
+  if (process.env.FINAL_CORRECTION_QA) {
+    role = "ADMIN";
+    await showPublic(state("IDENTIFICATION"));
+    await runNativeZoom({ chromium, routeHandler, session, origin, base, f, evidence, results, check });
+  }
   check("Sem erros JavaScript", results.errors.length === 0);
+} catch (failure) {
+  results.failure = failure.message;
+  await page.screenshot({ path: resolve(evidence, "failure.png"), fullPage: true });
+  await writeFile(resolve(evidence, "failure.txt"), await page.locator("body").innerText());
+  throw failure;
 } finally {
   await writeFile(resolve(evidence, "resultados.json"), JSON.stringify(results, null, 2));
   await browser.close();

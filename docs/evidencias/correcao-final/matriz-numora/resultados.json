@@ -1,0 +1,2100 @@
+{
+  "widths": [
+    320,
+    390,
+    768,
+    900,
+    901,
+    1024,
+    1440
+  ],
+  "screens": [
+    {
+      "name": "depois-site",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 14813,
+      "file": "depois-site-320.png"
+    },
+    {
+      "name": "depois-site",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 13388,
+      "file": "depois-site-390.png"
+    },
+    {
+      "name": "depois-site",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 10795,
+      "file": "depois-site-768.png"
+    },
+    {
+      "name": "depois-site",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 8460,
+      "file": "depois-site-900.png"
+    },
+    {
+      "name": "depois-site",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 8460,
+      "file": "depois-site-901.png"
+    },
+    {
+      "name": "depois-site",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 7588,
+      "file": "depois-site-1024.png"
+    },
+    {
+      "name": "depois-site",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 8143,
+      "file": "depois-site-1440.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1081,
+      "file": "depois-diagnostico-intro-320.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 915,
+      "file": "depois-diagnostico-intro-390.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 900,
+      "file": "depois-diagnostico-intro-768.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 900,
+      "file": "depois-diagnostico-intro-900.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 900,
+      "file": "depois-diagnostico-intro-901.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-diagnostico-intro-1024.png"
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-diagnostico-intro-1440.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 7973,
+      "file": "depois-privacidade-320.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 6995,
+      "file": "depois-privacidade-390.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 5145,
+      "file": "depois-privacidade-768.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 5193,
+      "file": "depois-privacidade-900.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 5168,
+      "file": "depois-privacidade-901.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 4922,
+      "file": "depois-privacidade-1024.png"
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 4768,
+      "file": "depois-privacidade-1440.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-recuperacao-320.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "file": "depois-recuperacao-390.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 900,
+      "file": "depois-recuperacao-768.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 900,
+      "file": "depois-recuperacao-900.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 900,
+      "file": "depois-recuperacao-901.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-recuperacao-1024.png"
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-recuperacao-1440.png"
+    },
+    {
+      "name": "depois-consentimento",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 881,
+      "file": "depois-consentimento-320.png"
+    },
+    {
+      "name": "depois-consentimento",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-consentimento-1440.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1325,
+      "file": "depois-identificacao-320.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1274,
+      "file": "depois-identificacao-390.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 1217,
+      "file": "depois-identificacao-768.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 978,
+      "file": "depois-identificacao-900.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 978,
+      "file": "depois-identificacao-901.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 978,
+      "file": "depois-identificacao-1024.png"
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 997,
+      "file": "depois-identificacao-1440.png"
+    },
+    {
+      "name": "depois-pergunta-long_text",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 886,
+      "file": "depois-pergunta-long_text-320.png"
+    },
+    {
+      "name": "depois-pergunta-long_text",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 972,
+      "file": "depois-pergunta-long_text-1440.png"
+    },
+    {
+      "name": "depois-pergunta-single_choice",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1092,
+      "file": "depois-pergunta-single_choice-320.png"
+    },
+    {
+      "name": "depois-pergunta-single_choice",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1068,
+      "file": "depois-pergunta-single_choice-1440.png"
+    },
+    {
+      "name": "depois-pergunta-yes_no",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-pergunta-yes_no-320.png"
+    },
+    {
+      "name": "depois-pergunta-yes_no",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 972,
+      "file": "depois-pergunta-yes_no-1440.png"
+    },
+    {
+      "name": "depois-pergunta-multiple_choice",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1547,
+      "file": "depois-pergunta-multiple_choice-320.png"
+    },
+    {
+      "name": "depois-pergunta-multiple_choice",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1560,
+      "file": "depois-pergunta-multiple_choice-1440.png"
+    },
+    {
+      "name": "depois-pergunta-short_text",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-pergunta-short_text-320.png"
+    },
+    {
+      "name": "depois-pergunta-short_text",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 972,
+      "file": "depois-pergunta-short_text-1440.png"
+    },
+    {
+      "name": "depois-pergunta-number",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 970,
+      "file": "depois-pergunta-number-320.png"
+    },
+    {
+      "name": "depois-pergunta-number",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 972,
+      "file": "depois-pergunta-number-1440.png"
+    },
+    {
+      "name": "depois-pergunta-number_with_unit",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 933,
+      "file": "depois-pergunta-number_with_unit-320.png"
+    },
+    {
+      "name": "depois-pergunta-number_with_unit",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 972,
+      "file": "depois-pergunta-number_with_unit-1440.png"
+    },
+    {
+      "name": "depois-pergunta-currency_range",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1327,
+      "file": "depois-pergunta-currency_range-320.png"
+    },
+    {
+      "name": "depois-pergunta-currency_range",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1227,
+      "file": "depois-pergunta-currency_range-1440.png"
+    },
+    {
+      "name": "depois-pergunta-scale",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1075,
+      "file": "depois-pergunta-scale-320.png"
+    },
+    {
+      "name": "depois-pergunta-scale",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1042,
+      "file": "depois-pergunta-scale-1440.png"
+    },
+    {
+      "name": "depois-erro-diagnostico",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-erro-diagnostico-320.png"
+    },
+    {
+      "name": "depois-erro-diagnostico",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 972,
+      "file": "depois-erro-diagnostico-1440.png"
+    },
+    {
+      "name": "depois-revisao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1961,
+      "file": "depois-revisao-320.png"
+    },
+    {
+      "name": "depois-revisao",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1851,
+      "file": "depois-revisao-390.png"
+    },
+    {
+      "name": "depois-revisao",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 1724,
+      "file": "depois-revisao-768.png"
+    },
+    {
+      "name": "depois-revisao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1285,
+      "file": "depois-revisao-1440.png"
+    },
+    {
+      "name": "depois-dialogo-revisao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1961,
+      "file": "depois-dialogo-revisao-320.png"
+    },
+    {
+      "name": "depois-dialogo-revisao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1285,
+      "file": "depois-dialogo-revisao-1440.png"
+    },
+    {
+      "name": "depois-completed",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-completed-320.png"
+    },
+    {
+      "name": "depois-completed",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-completed-1440.png"
+    },
+    {
+      "name": "depois-completed_no_contact",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-completed_no_contact-320.png"
+    },
+    {
+      "name": "depois-completed_no_contact",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-completed_no_contact-1440.png"
+    },
+    {
+      "name": "depois-blocked",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-blocked-320.png"
+    },
+    {
+      "name": "depois-blocked",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-blocked-1440.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-login-320.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "file": "depois-login-390.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 900,
+      "file": "depois-login-768.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 900,
+      "file": "depois-login-900.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 900,
+      "file": "depois-login-901.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-login-1024.png"
+    },
+    {
+      "name": "depois-login",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-login-1440.png"
+    },
+    {
+      "name": "depois-login-erro",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-login-erro-320.png"
+    },
+    {
+      "name": "depois-login-erro",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 905,
+      "file": "depois-login-erro-1440.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "depois-adm-entrada-320.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 844,
+      "file": "depois-adm-entrada-390.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 900,
+      "file": "depois-adm-entrada-768.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 900,
+      "file": "depois-adm-entrada-900.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 900,
+      "file": "depois-adm-entrada-901.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-adm-entrada-1024.png"
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-entrada-1440.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1465,
+      "file": "depois-adm-lista-320.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1417,
+      "file": "depois-adm-lista-390.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 991,
+      "file": "depois-adm-lista-768.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 994,
+      "file": "depois-adm-lista-900.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 900,
+      "file": "depois-adm-lista-901.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 900,
+      "file": "depois-adm-lista-1024.png"
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-lista-1440.png"
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1465,
+      "file": "depois-adm-filtros-320.png"
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 994,
+      "file": "depois-adm-filtros-900.png"
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-filtros-1440.png"
+    },
+    {
+      "name": "depois-adm-erro",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 972,
+      "file": "depois-adm-erro-320.png"
+    },
+    {
+      "name": "depois-adm-erro",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "depois-adm-erro-1440.png"
+    },
+    {
+      "name": "depois-adm-visao-geral",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3074,
+      "file": "depois-adm-visao-geral-320.png"
+    },
+    {
+      "name": "depois-adm-visao-geral",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1834,
+      "file": "depois-adm-visao-geral-1440.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3050,
+      "file": "depois-adm-entrevista-320.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 2950,
+      "file": "depois-adm-entrevista-390.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 768,
+      "scrollWidth": 768,
+      "height": 2329,
+      "file": "depois-adm-entrevista-768.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 2331,
+      "file": "depois-adm-entrevista-900.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 901,
+      "scrollWidth": 901,
+      "height": 2256,
+      "file": "depois-adm-entrevista-901.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 1024,
+      "scrollWidth": 1024,
+      "height": 2235,
+      "file": "depois-adm-entrevista-1024.png"
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2204,
+      "file": "depois-adm-entrevista-1440.png"
+    },
+    {
+      "name": "depois-adm-qualificacao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 5124,
+      "file": "depois-adm-qualificacao-320.png"
+    },
+    {
+      "name": "depois-adm-qualificacao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3483,
+      "file": "depois-adm-qualificacao-1440.png"
+    },
+    {
+      "name": "depois-adm-flags",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 7903,
+      "file": "depois-adm-flags-320.png"
+    },
+    {
+      "name": "depois-adm-flags",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 4412,
+      "file": "depois-adm-flags-1440.png"
+    },
+    {
+      "name": "depois-adm-briefing",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3185,
+      "file": "depois-adm-briefing-320.png"
+    },
+    {
+      "name": "depois-adm-briefing",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2405,
+      "file": "depois-adm-briefing-1440.png"
+    },
+    {
+      "name": "depois-adm-notas",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1756,
+      "file": "depois-adm-notas-320.png"
+    },
+    {
+      "name": "depois-adm-notas",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1333,
+      "file": "depois-adm-notas-1440.png"
+    },
+    {
+      "name": "depois-adm-auditoria",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1541,
+      "file": "depois-adm-auditoria-320.png"
+    },
+    {
+      "name": "depois-adm-auditoria",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1257,
+      "file": "depois-adm-auditoria-1440.png"
+    },
+    {
+      "name": "depois-adm-correcao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3050,
+      "file": "depois-adm-correcao-320.png"
+    },
+    {
+      "name": "depois-adm-correcao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2204,
+      "file": "depois-adm-correcao-1440.png"
+    },
+    {
+      "name": "depois-adm-status",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3050,
+      "file": "depois-adm-status-320.png"
+    },
+    {
+      "name": "depois-adm-status",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2204,
+      "file": "depois-adm-status-1440.png"
+    },
+    {
+      "name": "depois-adm-consultant",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 2887,
+      "file": "depois-adm-consultant-320.png"
+    },
+    {
+      "name": "depois-adm-consultant",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2145,
+      "file": "depois-adm-consultant-1440.png"
+    },
+    {
+      "name": "depois-adm-viewer",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 2843,
+      "file": "depois-adm-viewer-320.png"
+    },
+    {
+      "name": "depois-adm-viewer",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2101,
+      "file": "depois-adm-viewer-1440.png"
+    }
+  ],
+  "checks": [
+    "Oito seções principais",
+    "Âncora inicio",
+    "Âncora posicionamento",
+    "Âncora desafios",
+    "Âncora jornada",
+    "Âncora atuacao",
+    "Âncora como-trabalhamos",
+    "Âncora entregaveis",
+    "Âncora criterios",
+    "Âncora diferenciais",
+    "Âncora clientes",
+    "Âncora manifesto",
+    "Âncora diagnostico",
+    "CTA preserva destino com basePath",
+    "Fonte local Inter carregada",
+    "Foco visível do CTA",
+    "depois-site 320px sem overflow horizontal",
+    "depois-site 320px sem violações axe AA detectadas",
+    "depois-site 390px sem overflow horizontal",
+    "depois-site 768px sem overflow horizontal",
+    "depois-site 900px sem overflow horizontal",
+    "depois-site 901px sem overflow horizontal",
+    "depois-site 1024px sem overflow horizontal",
+    "depois-site 1440px sem overflow horizontal",
+    "depois-site 1440px sem violações axe AA detectadas",
+    "CTA visível no primeiro viewport móvel",
+    "Menu público abre",
+    "Escape fecha menu público",
+    "Reduced motion remove rolagem suave",
+    "depois-diagnostico-intro 320px sem overflow horizontal",
+    "depois-diagnostico-intro 320px sem violações axe AA detectadas",
+    "depois-diagnostico-intro 390px sem overflow horizontal",
+    "depois-diagnostico-intro 768px sem overflow horizontal",
+    "depois-diagnostico-intro 900px sem overflow horizontal",
+    "depois-diagnostico-intro 901px sem overflow horizontal",
+    "depois-diagnostico-intro 1024px sem overflow horizontal",
+    "depois-diagnostico-intro 1440px sem overflow horizontal",
+    "depois-diagnostico-intro 1440px sem violações axe AA detectadas",
+    "depois-privacidade 320px sem overflow horizontal",
+    "depois-privacidade 320px sem violações axe AA detectadas",
+    "depois-privacidade 390px sem overflow horizontal",
+    "depois-privacidade 768px sem overflow horizontal",
+    "depois-privacidade 900px sem overflow horizontal",
+    "depois-privacidade 901px sem overflow horizontal",
+    "depois-privacidade 1024px sem overflow horizontal",
+    "depois-privacidade 1440px sem overflow horizontal",
+    "depois-privacidade 1440px sem violações axe AA detectadas",
+    "depois-recuperacao 320px sem overflow horizontal",
+    "depois-recuperacao 320px sem violações axe AA detectadas",
+    "depois-recuperacao 390px sem overflow horizontal",
+    "depois-recuperacao 768px sem overflow horizontal",
+    "depois-recuperacao 900px sem overflow horizontal",
+    "depois-recuperacao 901px sem overflow horizontal",
+    "depois-recuperacao 1024px sem overflow horizontal",
+    "depois-recuperacao 1440px sem overflow horizontal",
+    "depois-recuperacao 1440px sem violações axe AA detectadas",
+    "Consentimento sem pré-seleção",
+    "Continuar depende do consentimento",
+    "depois-consentimento 320px sem overflow horizontal",
+    "depois-consentimento 320px sem violações axe AA detectadas",
+    "depois-consentimento 1440px sem overflow horizontal",
+    "depois-consentimento 1440px sem violações axe AA detectadas",
+    "Contato sem pré-seleção",
+    "Conclusão sem contato continua disponível",
+    "depois-identificacao 320px sem overflow horizontal",
+    "depois-identificacao 320px sem violações axe AA detectadas",
+    "depois-identificacao 390px sem overflow horizontal",
+    "depois-identificacao 768px sem overflow horizontal",
+    "depois-identificacao 900px sem overflow horizontal",
+    "depois-identificacao 901px sem overflow horizontal",
+    "depois-identificacao 1024px sem overflow horizontal",
+    "depois-identificacao 1440px sem overflow horizontal",
+    "depois-identificacao 1440px sem violações axe AA detectadas",
+    "Validação foca primeiro campo obrigatório",
+    "Rascunho da identificação preservado",
+    "depois-pergunta-long_text 320px sem overflow horizontal",
+    "depois-pergunta-long_text 320px sem violações axe AA detectadas",
+    "depois-pergunta-long_text 1440px sem overflow horizontal",
+    "depois-pergunta-long_text 1440px sem violações axe AA detectadas",
+    "Foco na pergunta LONG_TEXT",
+    "depois-pergunta-single_choice 320px sem overflow horizontal",
+    "depois-pergunta-single_choice 320px sem violações axe AA detectadas",
+    "depois-pergunta-single_choice 1440px sem overflow horizontal",
+    "depois-pergunta-single_choice 1440px sem violações axe AA detectadas",
+    "Foco na pergunta SINGLE_CHOICE",
+    "depois-pergunta-yes_no 320px sem overflow horizontal",
+    "depois-pergunta-yes_no 320px sem violações axe AA detectadas",
+    "depois-pergunta-yes_no 1440px sem overflow horizontal",
+    "depois-pergunta-yes_no 1440px sem violações axe AA detectadas",
+    "Foco na pergunta YES_NO",
+    "depois-pergunta-multiple_choice 320px sem overflow horizontal",
+    "depois-pergunta-multiple_choice 320px sem violações axe AA detectadas",
+    "depois-pergunta-multiple_choice 1440px sem overflow horizontal",
+    "depois-pergunta-multiple_choice 1440px sem violações axe AA detectadas",
+    "Foco na pergunta MULTIPLE_CHOICE",
+    "depois-pergunta-short_text 320px sem overflow horizontal",
+    "depois-pergunta-short_text 320px sem violações axe AA detectadas",
+    "depois-pergunta-short_text 1440px sem overflow horizontal",
+    "depois-pergunta-short_text 1440px sem violações axe AA detectadas",
+    "Foco na pergunta SHORT_TEXT",
+    "depois-pergunta-number 320px sem overflow horizontal",
+    "depois-pergunta-number 320px sem violações axe AA detectadas",
+    "depois-pergunta-number 1440px sem overflow horizontal",
+    "depois-pergunta-number 1440px sem violações axe AA detectadas",
+    "Foco na pergunta NUMBER",
+    "depois-pergunta-number_with_unit 320px sem overflow horizontal",
+    "depois-pergunta-number_with_unit 320px sem violações axe AA detectadas",
+    "depois-pergunta-number_with_unit 1440px sem overflow horizontal",
+    "depois-pergunta-number_with_unit 1440px sem violações axe AA detectadas",
+    "Foco na pergunta NUMBER_WITH_UNIT",
+    "depois-pergunta-currency_range 320px sem overflow horizontal",
+    "depois-pergunta-currency_range 320px sem violações axe AA detectadas",
+    "depois-pergunta-currency_range 1440px sem overflow horizontal",
+    "depois-pergunta-currency_range 1440px sem violações axe AA detectadas",
+    "Foco na pergunta CURRENCY_RANGE",
+    "depois-pergunta-scale 320px sem overflow horizontal",
+    "depois-pergunta-scale 320px sem violações axe AA detectadas",
+    "depois-pergunta-scale 1440px sem overflow horizontal",
+    "depois-pergunta-scale 1440px sem violações axe AA detectadas",
+    "Foco na pergunta SCALE",
+    "depois-erro-diagnostico 320px sem overflow horizontal",
+    "depois-erro-diagnostico 320px sem violações axe AA detectadas",
+    "depois-erro-diagnostico 1440px sem overflow horizontal",
+    "depois-erro-diagnostico 1440px sem violações axe AA detectadas",
+    "Rascunho mantido após falha",
+    "depois-revisao 320px sem overflow horizontal",
+    "depois-revisao 320px sem violações axe AA detectadas",
+    "depois-revisao 390px sem overflow horizontal",
+    "depois-revisao 768px sem overflow horizontal",
+    "depois-revisao 1440px sem overflow horizontal",
+    "depois-revisao 1440px sem violações axe AA detectadas",
+    "depois-dialogo-revisao 320px sem overflow horizontal",
+    "depois-dialogo-revisao 320px sem violações axe AA detectadas",
+    "depois-dialogo-revisao 1440px sem overflow horizontal",
+    "depois-dialogo-revisao 1440px sem violações axe AA detectadas",
+    "Diálogo de revisão devolve foco ao botão Editar",
+    "depois-completed 320px sem overflow horizontal",
+    "depois-completed 320px sem violações axe AA detectadas",
+    "depois-completed 1440px sem overflow horizontal",
+    "depois-completed 1440px sem violações axe AA detectadas",
+    "depois-completed_no_contact 320px sem overflow horizontal",
+    "depois-completed_no_contact 320px sem violações axe AA detectadas",
+    "depois-completed_no_contact 1440px sem overflow horizontal",
+    "depois-completed_no_contact 1440px sem violações axe AA detectadas",
+    "depois-blocked 320px sem overflow horizontal",
+    "depois-blocked 320px sem violações axe AA detectadas",
+    "depois-blocked 1440px sem overflow horizontal",
+    "depois-blocked 1440px sem violações axe AA detectadas",
+    "depois-login 320px sem overflow horizontal",
+    "depois-login 320px sem violações axe AA detectadas",
+    "depois-login 390px sem overflow horizontal",
+    "depois-login 768px sem overflow horizontal",
+    "depois-login 900px sem overflow horizontal",
+    "depois-login 901px sem overflow horizontal",
+    "depois-login 1024px sem overflow horizontal",
+    "depois-login 1440px sem overflow horizontal",
+    "depois-login 1440px sem violações axe AA detectadas",
+    "depois-login-erro 320px sem overflow horizontal",
+    "depois-login-erro 320px sem violações axe AA detectadas",
+    "depois-login-erro 1440px sem overflow horizontal",
+    "depois-login-erro 1440px sem violações axe AA detectadas",
+    "depois-adm-entrada 320px sem overflow horizontal",
+    "depois-adm-entrada 320px sem violações axe AA detectadas",
+    "depois-adm-entrada 390px sem overflow horizontal",
+    "depois-adm-entrada 768px sem overflow horizontal",
+    "depois-adm-entrada 900px sem overflow horizontal",
+    "depois-adm-entrada 901px sem overflow horizontal",
+    "depois-adm-entrada 1024px sem overflow horizontal",
+    "depois-adm-entrada 1440px sem overflow horizontal",
+    "depois-adm-entrada 1440px sem violações axe AA detectadas",
+    "depois-adm-lista 320px sem overflow horizontal",
+    "depois-adm-lista 320px sem violações axe AA detectadas",
+    "depois-adm-lista 390px sem overflow horizontal",
+    "depois-adm-lista 768px sem overflow horizontal",
+    "depois-adm-lista 900px sem overflow horizontal",
+    "depois-adm-lista 901px sem overflow horizontal",
+    "depois-adm-lista 1024px sem overflow horizontal",
+    "depois-adm-lista 1440px sem overflow horizontal",
+    "depois-adm-lista 1440px sem violações axe AA detectadas",
+    "Navegação indica o módulo atual",
+    "depois-adm-filtros 320px sem overflow horizontal",
+    "depois-adm-filtros 320px sem violações axe AA detectadas",
+    "depois-adm-filtros 900px sem overflow horizontal",
+    "depois-adm-filtros 1440px sem overflow horizontal",
+    "depois-adm-filtros 1440px sem violações axe AA detectadas",
+    "depois-adm-erro 320px sem overflow horizontal",
+    "depois-adm-erro 320px sem violações axe AA detectadas",
+    "depois-adm-erro 1440px sem overflow horizontal",
+    "depois-adm-erro 1440px sem violações axe AA detectadas",
+    "depois-adm-visao-geral 320px sem overflow horizontal",
+    "depois-adm-visao-geral 320px sem violações axe AA detectadas",
+    "depois-adm-visao-geral 1440px sem overflow horizontal",
+    "depois-adm-visao-geral 1440px sem violações axe AA detectadas",
+    "depois-adm-entrevista 320px sem overflow horizontal",
+    "depois-adm-entrevista 320px sem violações axe AA detectadas",
+    "depois-adm-entrevista 390px sem overflow horizontal",
+    "depois-adm-entrevista 768px sem overflow horizontal",
+    "depois-adm-entrevista 900px sem overflow horizontal",
+    "depois-adm-entrevista 901px sem overflow horizontal",
+    "depois-adm-entrevista 1024px sem overflow horizontal",
+    "depois-adm-entrevista 1440px sem overflow horizontal",
+    "depois-adm-entrevista 1440px sem violações axe AA detectadas",
+    "depois-adm-qualificacao 320px sem overflow horizontal",
+    "depois-adm-qualificacao 320px sem violações axe AA detectadas",
+    "depois-adm-qualificacao 1440px sem overflow horizontal",
+    "depois-adm-qualificacao 1440px sem violações axe AA detectadas",
+    "depois-adm-flags 320px sem overflow horizontal",
+    "depois-adm-flags 320px sem violações axe AA detectadas",
+    "depois-adm-flags 1440px sem overflow horizontal",
+    "depois-adm-flags 1440px sem violações axe AA detectadas",
+    "depois-adm-briefing 320px sem overflow horizontal",
+    "depois-adm-briefing 320px sem violações axe AA detectadas",
+    "depois-adm-briefing 1440px sem overflow horizontal",
+    "depois-adm-briefing 1440px sem violações axe AA detectadas",
+    "depois-adm-notas 320px sem overflow horizontal",
+    "depois-adm-notas 320px sem violações axe AA detectadas",
+    "depois-adm-notas 1440px sem overflow horizontal",
+    "depois-adm-notas 1440px sem violações axe AA detectadas",
+    "depois-adm-auditoria 320px sem overflow horizontal",
+    "depois-adm-auditoria 320px sem violações axe AA detectadas",
+    "depois-adm-auditoria 1440px sem overflow horizontal",
+    "depois-adm-auditoria 1440px sem violações axe AA detectadas",
+    "depois-adm-correcao 320px sem overflow horizontal",
+    "depois-adm-correcao 320px sem violações axe AA detectadas",
+    "depois-adm-correcao 1440px sem overflow horizontal",
+    "depois-adm-correcao 1440px sem violações axe AA detectadas",
+    "Diálogo administrativo devolve foco",
+    "depois-adm-status 320px sem overflow horizontal",
+    "depois-adm-status 320px sem violações axe AA detectadas",
+    "depois-adm-status 1440px sem overflow horizontal",
+    "depois-adm-status 1440px sem violações axe AA detectadas",
+    "Menu ADM abre em 900px",
+    "Menu ADM devolve foco",
+    "Teclado End foca última aba",
+    "Teclado End seleciona última aba",
+    "Consultor mantém ação permitida",
+    "depois-adm-consultant 320px sem overflow horizontal",
+    "depois-adm-consultant 320px sem violações axe AA detectadas",
+    "depois-adm-consultant 1440px sem overflow horizontal",
+    "depois-adm-consultant 1440px sem violações axe AA detectadas",
+    "Viewer não recebe controles de escrita",
+    "depois-adm-viewer 320px sem overflow horizontal",
+    "depois-adm-viewer 320px sem violações axe AA detectadas",
+    "depois-adm-viewer 1440px sem overflow horizontal",
+    "depois-adm-viewer 1440px sem violações axe AA detectadas",
+    "Sem erros JavaScript"
+  ],
+  "errors": [],
+  "externalRequestsForwarded": 0,
+  "accessibility": [
+    {
+      "name": "depois-site",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".journey-step:nth-child(1) > .journey-step__topline > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".journey-step:nth-child(2) > .journey-step__topline > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-site",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".journey-step:nth-child(1) > .journey-step__topline > span[aria-hidden=\"true\"]"
+            ],
+            [
+              ".journey-step:nth-child(2) > .journey-step__topline > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              "li:nth-child(1) > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "li:nth-child(2) > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "li:nth-child(3) > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "li:nth-child(4) > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-diagnostico-intro",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              "li:nth-child(1) > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "li:nth-child(2) > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "li:nth-child(3) > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "li:nth-child(4) > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-privacidade",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-recuperacao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-consentimento",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-consentimento",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-identificacao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-long_text",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-long_text",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-single_choice",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-single_choice",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-yes_no",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-yes_no",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-multiple_choice",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-multiple_choice",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-short_text",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-short_text",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-number",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-number",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-number_with_unit",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-number_with_unit",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-currency_range",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-currency_range",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(3) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-pergunta-scale",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-pergunta-scale",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(3) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(4) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-erro-diagnostico",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-erro-diagnostico",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-revisao",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-revisao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(3) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(4) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(5) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-dialogo-revisao",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-dialogo-revisao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(3) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(4) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(5) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-completed",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".diagnostic-completion-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-completed",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".diagnostic-completion-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-completed_no_contact",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".diagnostic-completion-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-completed_no_contact",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".diagnostic-completion-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-blocked",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-blocked",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-login",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-login",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-login-erro",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-login-erro",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              "span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-entrada",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "article > .admin-detail-link > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-lista",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-detail-link--table > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-primary-button"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-filtros",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-erro",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-erro",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-visao-geral",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-visao-geral",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ],
+            [
+              ".admin-answer-value > p"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-entrevista",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-qualificacao",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-qualificacao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-flags",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-flags",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-briefing",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-briefing",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-notas",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-notas",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-auditoria",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-auditoria",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-correcao",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-correcao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-status",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              "#workflow-reason-help"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-status",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-consultant",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ],
+            [
+              ".admin-answer-value > p"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-consultant",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "depois-adm-viewer",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ],
+            [
+              ".admin-answer-value > p"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "depois-adm-viewer",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "commands": []
+}

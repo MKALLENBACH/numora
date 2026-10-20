@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "typecheck:edge": "tsc -p supabase/functions/tsconfig.check.json",
-    "test": "tsx --test tests/admin-workflow/workflow.test.ts tests/admin-workflow/frontend.test.tsx",
+    "test": "tsx --test tests/admin-workflow/workflow.test.ts tests/admin-workflow/frontend.test.tsx tests/final-corrections/*.test.mjs",
     "test:sql": "node scripts/test-admin-workflow-sql.mjs",
     "preview:dev": "node scripts/serve-static-dev.mjs",
     "admin:create-dev": "node --env-file-if-exists=.env.local scripts/create-dev-admin.ts",

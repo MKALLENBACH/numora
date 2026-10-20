@@ -1,0 +1,11 @@
+correcao-cards-presentes: 3 larguras verificadas
+correcao-cards-ausentes: 3 larguras verificadas
+correcao-cards-longos: 3 larguras verificadas
+correcao-contraste-revisao: 2 larguras verificadas
+Fixture admin-diagnostic-workflow: Falha de operação simulada
+correcao-workflow-sucesso: 2 larguras verificadas
+correcao-revisao-editada: 2 larguras verificadas
+correcao-conflito-publico: 2 larguras verificadas
+correcao-conclusao-sem-contato: 2 larguras verificadas
+Correções: contraste, drawer, cards, comandos e transições públicas verificados.
+174 verificações passaram; 19 screenshots. Nenhuma chamada externa encaminhada.

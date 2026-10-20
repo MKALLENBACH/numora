@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-19",
+  "baseCommit": "ae965f1010f5521e5e5af8fb57b2e9b714e453b5",
+  "environment": {
+    "os": "Windows",
+    "node": "24.19.0",
+    "next": "16.3.0",
+    "chrome": "155.0.8059.80",
+    "npmOnPath": false
+  },
+  "checks": [
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "log": "lint-final.log",
+      "errors": 0,
+      "preexistingWarnings": 5
+    },
+    {
+      "name": "lint-changed-files",
+      "exitCode": 0,
+      "log": "lint-correcao.log",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "log": "typecheck.log"
+    },
+    {
+      "name": "typecheck:edge",
+      "exitCode": 0,
+      "log": "typecheck-edge.log"
+    },
+    {
+      "name": "test",
+      "exitCode": 0,
+      "log": "tests-final.log",
+      "passed": 19,
+      "failed": 0
+    },
+    {
+      "name": "prebuild",
+      "exitCode": 0,
+      "log": "prebuild.log"
+    },
+    {
+      "name": "build:/numora",
+      "exitCode": 0,
+      "log": "build-numora.log"
+    },
+    {
+      "name": "build:root",
+      "exitCode": 0,
+      "log": "build-raiz.log"
+    },
+    {
+      "name": "static:/numora",
+      "exitCode": 0,
+      "json": "exportacao-numora.json"
+    },
+    {
+      "name": "static:root",
+      "exitCode": 0,
+      "json": "exportacao-raiz.json"
+    },
+    {
+      "name": "browser-matrix:/numora",
+      "exitCode": 0,
+      "json": "matriz-numora/resultados.json"
+    },
+    {
+      "name": "browser-corrections:/numora",
+      "exitCode": 0,
+      "json": "direcionados-final/resultados.json"
+    },
+    {
+      "name": "browser-corrections:root",
+      "exitCode": 0,
+      "json": "raiz/resultados.json"
+    }
+  ],
+  "status": {
+    "NC01": "CORRIGIDO E VALIDADO",
+    "NC02": "CORRIGIDO E VALIDADO",
+    "NC03": "CORRIGIDO E VALIDADO",
+    "QA01": "CORRIGIDO, MAS NÃO TOTALMENTE VALIDADO"
+  },
+  "limits": [
+    "Integração pública remota não executada",
+    "Leitor de tela não executado"
+  ],
+  "browserSummary": {
+    "assertions": 592,
+    "axeRuns": 102,
+    "axeViolations": 0,
+    "jsErrors": 0,
+    "forwardedExternalRequests": 0
+  }
+}

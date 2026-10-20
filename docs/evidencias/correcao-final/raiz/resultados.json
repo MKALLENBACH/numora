@@ -1,0 +1,794 @@
+{
+  "widths": [
+    320,
+    390,
+    768,
+    900,
+    901,
+    1024,
+    1440
+  ],
+  "screens": [
+    {
+      "name": "correcao-cards-presentes",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1465,
+      "file": "correcao-cards-presentes-320.png"
+    },
+    {
+      "name": "correcao-cards-presentes",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1417,
+      "file": "correcao-cards-presentes-390.png"
+    },
+    {
+      "name": "correcao-cards-presentes",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 994,
+      "file": "correcao-cards-presentes-900.png"
+    },
+    {
+      "name": "correcao-cards-ausentes",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1465,
+      "file": "correcao-cards-ausentes-320.png"
+    },
+    {
+      "name": "correcao-cards-ausentes",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1417,
+      "file": "correcao-cards-ausentes-390.png"
+    },
+    {
+      "name": "correcao-cards-ausentes",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 994,
+      "file": "correcao-cards-ausentes-900.png"
+    },
+    {
+      "name": "correcao-cards-longos",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1528,
+      "file": "correcao-cards-longos-320.png"
+    },
+    {
+      "name": "correcao-cards-longos",
+      "width": 390,
+      "scrollWidth": 390,
+      "height": 1459,
+      "file": "correcao-cards-longos-390.png"
+    },
+    {
+      "name": "correcao-cards-longos",
+      "width": 900,
+      "scrollWidth": 900,
+      "height": 1015,
+      "file": "correcao-cards-longos-900.png"
+    },
+    {
+      "name": "correcao-contraste-revisao",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1961,
+      "file": "correcao-contraste-revisao-320.png"
+    },
+    {
+      "name": "correcao-contraste-revisao",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1285,
+      "file": "correcao-contraste-revisao-1440.png"
+    },
+    {
+      "name": "correcao-workflow-sucesso",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 3455,
+      "file": "correcao-workflow-sucesso-320.png"
+    },
+    {
+      "name": "correcao-workflow-sucesso",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2647,
+      "file": "correcao-workflow-sucesso-1440.png"
+    },
+    {
+      "name": "correcao-revisao-editada",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 1984,
+      "file": "correcao-revisao-editada-320.png"
+    },
+    {
+      "name": "correcao-revisao-editada",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 1285,
+      "file": "correcao-revisao-editada-1440.png"
+    },
+    {
+      "name": "correcao-conflito-publico",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 999,
+      "file": "correcao-conflito-publico-320.png"
+    },
+    {
+      "name": "correcao-conflito-publico",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 999,
+      "file": "correcao-conflito-publico-1440.png"
+    },
+    {
+      "name": "correcao-conclusao-sem-contato",
+      "width": 320,
+      "scrollWidth": 320,
+      "height": 844,
+      "file": "correcao-conclusao-sem-contato-320.png"
+    },
+    {
+      "name": "correcao-conclusao-sem-contato",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "file": "correcao-conclusao-sem-contato-1440.png"
+    }
+  ],
+  "checks": [
+    "Exportação /: Inter local carregada",
+    "Exportação /: CTA abre diagnóstico",
+    "Drawer 900: bloqueia rolagem enquanto aberto",
+    "Drawer: Shift+Tab mantém foco no último controle",
+    "Drawer: Tab retorna ao primeiro controle",
+    "Drawer 900→901: restaura overflow anterior e remove diálogo",
+    "Drawer 900→901: foco visível na navegação atual",
+    "Drawer 900→901: documento rola",
+    "Drawer 901→900: volta fechado",
+    "Drawer 899: bloqueia rolagem enquanto aberto",
+    "Drawer: Shift+Tab mantém foco no último controle",
+    "Drawer: Tab retorna ao primeiro controle",
+    "Drawer 899→1024: restaura overflow anterior e remove diálogo",
+    "Drawer 899→1024: foco visível na navegação atual",
+    "Drawer 899→1024: documento rola",
+    "Drawer 1024→899: volta fechado",
+    "Drawer fecha por Escape e devolve foco",
+    "Drawer fecha por backdrop e devolve foco",
+    "Drawer fecha por button e devolve foco",
+    "Drawer fecha por Escape e devolve foco",
+    "Drawer: navegação fecha e libera rolagem",
+    "Metadados presentes 320: Tecnologia",
+    "Metadados presentes 320: 51 a 100 pessoas",
+    "Metadados presentes 320: Diretor",
+    "Card/tabela presentes 320: sem overflow",
+    "Metadados presentes 390: Tecnologia",
+    "Metadados presentes 390: 51 a 100 pessoas",
+    "Metadados presentes 390: Diretor",
+    "Card/tabela presentes 390: sem overflow",
+    "Metadados presentes 768: Tecnologia",
+    "Metadados presentes 768: 51 a 100 pessoas",
+    "Metadados presentes 768: Diretor",
+    "Card/tabela presentes 768: sem overflow",
+    "Metadados presentes 900: Tecnologia",
+    "Metadados presentes 900: 51 a 100 pessoas",
+    "Metadados presentes 900: Diretor",
+    "Card/tabela presentes 900: sem overflow",
+    "Metadados presentes 901: Tecnologia",
+    "Metadados presentes 901: 51 a 100 pessoas",
+    "Metadados presentes 901: Diretor",
+    "Card/tabela presentes 901: sem overflow",
+    "Metadados presentes 1024: Tecnologia",
+    "Metadados presentes 1024: 51 a 100 pessoas",
+    "Metadados presentes 1024: Diretor",
+    "Card/tabela presentes 1024: sem overflow",
+    "Metadados presentes 1440: Tecnologia",
+    "Metadados presentes 1440: 51 a 100 pessoas",
+    "Metadados presentes 1440: Diretor",
+    "Card/tabela presentes 1440: sem overflow",
+    "correcao-cards-presentes 320px sem overflow horizontal",
+    "correcao-cards-presentes 320px sem violações axe AA detectadas",
+    "correcao-cards-presentes 390px sem overflow horizontal",
+    "correcao-cards-presentes 900px sem overflow horizontal",
+    "Metadados ausentes 320: Setor não informado",
+    "Metadados ausentes 320: Porte não informado",
+    "Metadados ausentes 320: Cargo não informado",
+    "Card/tabela ausentes 320: sem overflow",
+    "Metadados ausentes 390: Setor não informado",
+    "Metadados ausentes 390: Porte não informado",
+    "Metadados ausentes 390: Cargo não informado",
+    "Card/tabela ausentes 390: sem overflow",
+    "Metadados ausentes 768: Setor não informado",
+    "Metadados ausentes 768: Porte não informado",
+    "Metadados ausentes 768: Cargo não informado",
+    "Card/tabela ausentes 768: sem overflow",
+    "Metadados ausentes 900: Setor não informado",
+    "Metadados ausentes 900: Porte não informado",
+    "Metadados ausentes 900: Cargo não informado",
+    "Card/tabela ausentes 900: sem overflow",
+    "Metadados ausentes 901: Setor não informado",
+    "Metadados ausentes 901: Cargo não informado",
+    "Card/tabela ausentes 901: sem overflow",
+    "Metadados ausentes 1024: Setor não informado",
+    "Metadados ausentes 1024: Cargo não informado",
+    "Card/tabela ausentes 1024: sem overflow",
+    "Metadados ausentes 1440: Setor não informado",
+    "Metadados ausentes 1440: Cargo não informado",
+    "Card/tabela ausentes 1440: sem overflow",
+    "correcao-cards-ausentes 320px sem overflow horizontal",
+    "correcao-cards-ausentes 320px sem violações axe AA detectadas",
+    "correcao-cards-ausentes 390px sem overflow horizontal",
+    "correcao-cards-ausentes 900px sem overflow horizontal",
+    "Metadados longos 320: Serviços financeiros",
+    "Metadados longos 320: Mais de 1.000 pessoas",
+    "Metadados longos 320: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 320: sem overflow",
+    "Metadados longos 390: Serviços financeiros",
+    "Metadados longos 390: Mais de 1.000 pessoas",
+    "Metadados longos 390: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 390: sem overflow",
+    "Metadados longos 768: Serviços financeiros",
+    "Metadados longos 768: Mais de 1.000 pessoas",
+    "Metadados longos 768: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 768: sem overflow",
+    "Metadados longos 900: Serviços financeiros",
+    "Metadados longos 900: Mais de 1.000 pessoas",
+    "Metadados longos 900: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 900: sem overflow",
+    "Metadados longos 901: Serviços financeiros",
+    "Metadados longos 901: Mais de 1.000 pessoas",
+    "Metadados longos 901: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 901: sem overflow",
+    "Metadados longos 1024: Serviços financeiros",
+    "Metadados longos 1024: Mais de 1.000 pessoas",
+    "Metadados longos 1024: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 1024: sem overflow",
+    "Metadados longos 1440: Serviços financeiros",
+    "Metadados longos 1440: Mais de 1.000 pessoas",
+    "Metadados longos 1440: Diretora de operações e transformação de processos interdepartamentais em unidades internacionais",
+    "Card/tabela longos 1440: sem overflow",
+    "correcao-cards-longos 320px sem overflow horizontal",
+    "correcao-cards-longos 320px sem violações axe AA detectadas",
+    "correcao-cards-longos 390px sem overflow horizontal",
+    "correcao-cards-longos 900px sem overflow horizontal",
+    "Editar normal: contraste AA calculado do CSS renderizado",
+    "Editar hover: contraste AA calculado do CSS renderizado",
+    "Editar focus: contraste AA calculado do CSS renderizado",
+    "Editar: foco visível",
+    "Editar active: contraste AA calculado do CSS renderizado",
+    "correcao-contraste-revisao 320px sem overflow horizontal",
+    "correcao-contraste-revisao 320px sem violações axe AA detectadas",
+    "correcao-contraste-revisao 1440px sem overflow horizontal",
+    "correcao-contraste-revisao 1440px sem violações axe AA detectadas",
+    "ADMIN: busy desabilita envio e edição",
+    "ADMIN: um único envio persistido e rascunho limpo",
+    "ADMIN: nota permanece após recarga",
+    "CONSULTANT sem atribuição não recebe formulário de notas",
+    "CONSULTANT: busy desabilita envio e edição",
+    "CONSULTANT: um único envio persistido e rascunho limpo",
+    "CONSULTANT: nota permanece após recarga",
+    "VIEWER lê notas sem formulário de escrita",
+    "VIEWER: SQL rejeita tentativa de escrita",
+    "Motivo obrigatório impede envio vazio",
+    "Conflito bloqueia reenvio até recarga",
+    "Falha preserva motivo",
+    "Prioridade aplicada após retry",
+    "Recalcular qualificação: versão nova e anterior preservadas",
+    "Regenerar briefing: versão nova e anterior preservadas",
+    "correcao-workflow-sucesso 320px sem overflow horizontal",
+    "correcao-workflow-sucesso 320px sem violações axe AA detectadas",
+    "correcao-workflow-sucesso 1440px sem overflow horizontal",
+    "correcao-workflow-sucesso 1440px sem violações axe AA detectadas",
+    "Identificação aceita opcionais vazios e chega à pergunta",
+    "Pergunta obrigatória vazia não envia",
+    "Edição da revisão enviada e refletida",
+    "correcao-revisao-editada 320px sem overflow horizontal",
+    "correcao-revisao-editada 320px sem violações axe AA detectadas",
+    "correcao-revisao-editada 1440px sem overflow horizontal",
+    "correcao-revisao-editada 1440px sem violações axe AA detectadas",
+    "Confirmação e conclusão: uma solicitação de cada",
+    "Conflito público preserva rascunho",
+    "correcao-conflito-publico 320px sem overflow horizontal",
+    "correcao-conflito-publico 320px sem violações axe AA detectadas",
+    "correcao-conflito-publico 1440px sem overflow horizontal",
+    "correcao-conflito-publico 1440px sem violações axe AA detectadas",
+    "Conflito público: atualização e nova tentativa chegam à revisão",
+    "Pergunta opcional envia SKIPPED",
+    "Recusa de contato enviada explicitamente",
+    "correcao-conclusao-sem-contato 320px sem overflow horizontal",
+    "correcao-conclusao-sem-contato 320px sem violações axe AA detectadas",
+    "correcao-conclusao-sem-contato 1440px sem overflow horizontal",
+    "correcao-conclusao-sem-contato 1440px sem violações axe AA detectadas",
+    "Conclusão sem contato exibida após confirmação",
+    "Zoom nativo 200% site: confirmado e sem overflow",
+    "Zoom nativo 200% identificacao: confirmado e sem overflow",
+    "Zoom nativo 200% lista: confirmado e sem overflow",
+    "Zoom nativo 200% workflow: confirmado e sem overflow",
+    "Zoom 200%: campo focado visível no diálogo",
+    "Zoom nativo 400% site: confirmado e sem overflow",
+    "Zoom nativo 400% identificacao: confirmado e sem overflow",
+    "Zoom nativo 400% lista: confirmado e sem overflow",
+    "Zoom nativo 400% workflow: confirmado e sem overflow",
+    "Zoom 400%: campo focado visível no diálogo",
+    "Sem erros JavaScript"
+  ],
+  "errors": [],
+  "externalRequestsForwarded": 0,
+  "accessibility": [
+    {
+      "name": "correcao-cards-presentes",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "article > .admin-detail-link > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-cards-ausentes",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "article > .admin-detail-link > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-cards-longos",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "article > .admin-detail-link > span[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-contraste-revisao",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "correcao-contraste-revisao",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(3) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(4) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(5) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-workflow-sucesso",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".admin-menu-button > span[aria-hidden=\"true\"]"
+            ],
+            [
+              "#admin-tab-flags"
+            ],
+            [
+              "#admin-tab-briefing"
+            ],
+            [
+              "#admin-tab-auditoria"
+            ],
+            [
+              "#admin-tab-notas"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-workflow-sucesso",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "correcao-revisao-editada",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "correcao-revisao-editada",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete:nth-child(1) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(2) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(3) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(4) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ],
+            [
+              ".is-complete:nth-child(5) > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-conflito-publico",
+      "width": 320,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "correcao-conflito-publico",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".is-complete > .diagnostic-progress__marker[aria-hidden=\"true\"]"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-conclusao-sem-contato",
+      "width": 320,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".diagnostic-completion-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "correcao-conclusao-sem-contato",
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".diagnostic-completion-mark"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "role": "ADMIN",
+      "command": "ADD_NOTE",
+      "clientRequestId": "4a690d7a-cd85-49fd-8add-0fa84eb726a2"
+    },
+    {
+      "role": "CONSULTANT",
+      "command": "CLAIM",
+      "clientRequestId": "a2cae101-128c-47a3-afc6-c55132db11eb"
+    },
+    {
+      "role": "CONSULTANT",
+      "command": "ADD_NOTE",
+      "clientRequestId": "3d50a735-6edf-41df-978e-fffecf858ffc"
+    },
+    {
+      "role": "ADMIN",
+      "command": "SET_PRIORITY",
+      "clientRequestId": "e3873807-97e1-410c-b0d1-58ec58c77ba2"
+    },
+    {
+      "role": "ADMIN",
+      "command": "SET_PRIORITY",
+      "clientRequestId": "e3873807-97e1-410c-b0d1-58ec58c77ba2"
+    },
+    {
+      "role": "ADMIN",
+      "command": "RECALCULATE_QUALIFICATION",
+      "clientRequestId": "e0bd1091-8051-4753-ba7b-26e0268d3863"
+    },
+    {
+      "role": "ADMIN",
+      "command": "REGENERATE_BRIEFING",
+      "clientRequestId": "db7156bd-c774-4c0f-8122-a4e0cd174553"
+    }
+  ],
+  "contrast": [
+    {
+      "interaction": "normal",
+      "color": "rgb(8, 117, 137)",
+      "background": "rgb(247, 249, 251)",
+      "outline": "3px",
+      "ratio": 5.081143819868432
+    },
+    {
+      "interaction": "hover",
+      "color": "rgb(8, 117, 137)",
+      "background": "rgb(247, 249, 251)",
+      "outline": "3px",
+      "ratio": 5.081143819868432
+    },
+    {
+      "interaction": "focus",
+      "color": "rgb(8, 117, 137)",
+      "background": "rgb(247, 249, 251)",
+      "outline": "3px",
+      "ratio": 5.081143819868432
+    },
+    {
+      "interaction": "active",
+      "color": "rgb(8, 117, 137)",
+      "background": "rgb(247, 249, 251)",
+      "outline": "3px",
+      "ratio": 5.081143819868432
+    }
+  ],
+  "publicRequests": [
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-start",
+      "requestId": "22b4bd64-c7da-4c8a-a9e7-034d46cd64a6"
+    },
+    {
+      "endpoint": "diagnostic-consent",
+      "requestId": "17058688-3ea0-4ca7-a564-46804f8909ee",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-consent",
+      "requestId": "c21e776c-1f29-4b69-b207-9e71f7362f36",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-identification",
+      "requestId": "6b96ddeb-c65c-4620-bcdf-fa143bdec5fc",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-submit-answer",
+      "requestId": "dcdd35b8-a9b3-4408-bd0c-597f74db38b8",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-update-review",
+      "requestId": "f6480d2a-b220-4b85-af8f-877c387c13c4"
+    },
+    {
+      "endpoint": "diagnostic-confirm-review",
+      "requestId": "a85af01b-6da6-4b2f-8ae4-3e4f091939d7"
+    },
+    {
+      "endpoint": "diagnostic-complete",
+      "requestId": "bce67172-77e2-4927-9eb2-6e81c07b7e32"
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-start",
+      "requestId": "8523ac2e-c20e-4ee7-a6f3-a2dcc1629fbd"
+    },
+    {
+      "endpoint": "diagnostic-submit-answer",
+      "requestId": "0f971cfb-c68e-45db-8dd2-58dc41d343f0",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-submit-answer",
+      "requestId": "0f971cfb-c68e-45db-8dd2-58dc41d343f0",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-start",
+      "requestId": "34b21af0-e00c-455f-a131-3201696356e3"
+    },
+    {
+      "endpoint": "diagnostic-submit-answer",
+      "requestId": "669a0569-8158-4de5-9e1d-95619b6a42e2",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-start",
+      "requestId": "613c4b47-7940-4cdf-bbc1-e8123c7d3e8d"
+    },
+    {
+      "endpoint": "diagnostic-consent",
+      "requestId": "dbaa81bb-a338-42b1-ac75-a12715154849",
+      "rowVersion": 1
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-state"
+    },
+    {
+      "endpoint": "diagnostic-start",
+      "requestId": "885a6753-14c0-43a0-bbae-7d7063b1dbb7"
+    },
+    {
+      "endpoint": "diagnostic-confirm-review",
+      "requestId": "53f8f3c8-5868-4038-ae41-c3abfcf9b419"
+    },
+    {
+      "endpoint": "diagnostic-complete",
+      "requestId": "50a68523-632a-494b-b72f-1b3a211d33fa"
+    }
+  ],
+  "zoom": [
+    {
+      "name": "site",
+      "factor": 2,
+      "inner": 640,
+      "outer": 1296,
+      "dpr": 2,
+      "scale": 1,
+      "scroll": 640,
+      "file": "zoom-200-site.png"
+    },
+    {
+      "name": "identificacao",
+      "factor": 2,
+      "inner": 640,
+      "outer": 1296,
+      "dpr": 2,
+      "scale": 1,
+      "scroll": 640,
+      "file": "zoom-200-identificacao.png"
+    },
+    {
+      "name": "lista",
+      "factor": 2,
+      "inner": 640,
+      "outer": 1296,
+      "dpr": 2,
+      "scale": 1,
+      "scroll": 640,
+      "file": "zoom-200-lista.png"
+    },
+    {
+      "name": "workflow",
+      "factor": 2,
+      "inner": 640,
+      "outer": 1296,
+      "dpr": 2,
+      "scale": 1,
+      "scroll": 640,
+      "file": "zoom-200-workflow.png"
+    },
+    {
+      "name": "site",
+      "factor": 4,
+      "inner": 320,
+      "outer": 1296,
+      "dpr": 4,
+      "scale": 1,
+      "scroll": 320,
+      "file": "zoom-400-site.png"
+    },
+    {
+      "name": "identificacao",
+      "factor": 4,
+      "inner": 320,
+      "outer": 1296,
+      "dpr": 4,
+      "scale": 1,
+      "scroll": 320,
+      "file": "zoom-400-identificacao.png"
+    },
+    {
+      "name": "lista",
+      "factor": 4,
+      "inner": 320,
+      "outer": 1296,
+      "dpr": 4,
+      "scale": 1,
+      "scroll": 320,
+      "file": "zoom-400-lista.png"
+    },
+    {
+      "name": "workflow",
+      "factor": 4,
+      "inner": 320,
+      "outer": 1296,
+      "dpr": 4,
+      "scale": 1,
+      "scroll": 320,
+      "file": "zoom-400-workflow.png"
+    }
+  ]
+}

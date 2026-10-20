@@ -64,7 +64,7 @@
 }
 
 .eyebrow {
-  color: #147c8a;
+  color: var(--eyebrow-color, var(--link));
   font-size: var(--eyebrow);
   font-weight: 600;
   letter-spacing: 0;
@@ -222,6 +222,7 @@
 
 .returnNotice {
   --focus: var(--focus-inverse);
+  --eyebrow-color: var(--cyan);
   display: flex;
   margin-top: clamp(4rem, 8vw, 7rem);
   padding: clamp(2rem, 5vw, 3.5rem);
